@@ -14,8 +14,27 @@ In this section, we describe related work on security vulnerabilities in differe
 
 #### Web Crawlers
 
-Write me
-{:.todo}
+[Web crawling](cite:cites crawling) is a process that involves collecting information on the Web by following links between pages.
+Web crawlers are typically used for Web indexing to aid search engines.
+[Focused crawling](cite:cites focusedcrawling) is a special form of Web crawling that prioritizes certain Web pages,
+such as Web pages about a certain topic, or domains for a certain country.
+LTQP can therefore be considered as an area of focused crawling that where the priority lies in achieving query results.
+
+Web crawlers are often used for discovering vulnerable Web sites,
+for example through [_Google Dorking_](cite:cites googledorks),
+which involves using Google Search to find Web sites that are misconfigured or use vulnerable software.
+Furthermore, crawlers are often used to find private information on Web sites.
+Such issues are however not the focus of this work.
+Instead, we are interested in the security of the crawling process itself,
+for which little research has been done to the best of our knowledge.
+
+One related work in this area involves [abusing crawlers to initiate attacks on other Web sites](cite:cites crawlerattacks).
+This may cause performance degradation on the attacked Web site,
+or could even cause the crawling agent to be blocked by the server.
+These attacks involve convincing the crawler to follow a link to a third-party Web site
+that exploits a certain vulnerability, such as an SQL injection.
+Additionally, this work describes a type of attack that allows vulnerable Web sites to be used
+for improving the [PageRank](cite:cites pagerank) of an attacker-owned Web site via forged backlinks.
 
 #### Web Browsers
 
