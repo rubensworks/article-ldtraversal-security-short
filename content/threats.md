@@ -82,3 +82,6 @@ Crash due to syntax errors in documents
 Potentially malicious interactions between parallel query executions.
 For example, corruption or exploitation of shared caches.
 {:.todo}
+
+Discuss the isolation model from [3] in [](cite:cites securitymodernwebbrowserarchitecture) that can be adapted to querying?
+{:.todo}
