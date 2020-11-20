@@ -56,6 +56,12 @@ Silic et al. list the following main threats for Web browsers:
 2. **Reducing window of vulnerability**: If an exploit has been discovered, it should be patched as soon as possible. Google Chrome follows automated testing to ship security patches as soon as possible. All existing Chrome installations check for updates every five hours, and update in the background without disrupting the user experience.
 3. **Reducing frequency of exposure**: In order to avoid people from visiting malicious Web sites for which the browser has not been patched yet, Google Chrome makes use of a continuously updating database of such Web sites. This will show a warning to the user before visiting such a site.
 
+**SQL Injection**
+
+[SQL injection attacks](cite:cites sqlinjection) are one of the most common vulnerabilities on Web sites
+where (direct or indirect) user input is not properly handled, and may lead to the attacker performing unintended SQL statements on databases.
+These types of attacks are typically mitigated through strong input validation, which are typically available in reusable libraries.
+
 **Techniques for mitigating browser vulnerabilities:**
 
 [Browser Hardening](cite:cites hardening) is based on the concept of reducing privileges of browsers to increase security.
