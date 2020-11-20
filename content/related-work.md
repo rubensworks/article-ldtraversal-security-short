@@ -56,6 +56,14 @@ Silic et al. list the following main threats for Web browsers:
 2. **Reducing window of vulnerability**: If an exploit has been discovered, it should be patched as soon as possible. Google Chrome follows automated testing to ship security patches as soon as possible. All existing Chrome installations check for updates every five hours, and update in the background without disrupting the user experience.
 3. **Reducing frequency of exposure**: In order to avoid people from visiting malicious Web sites for which the browser has not been patched yet, Google Chrome makes use of a continuously updating database of such Web sites. This will show a warning to the user before visiting such a site.
 
+**Techniques for mitigating browser vulnerabilities:**
+
+[Browser Hardening](cite:cites hardening) is based on the concept of reducing privileges of browsers to increase security.
+For example, browsers can be configured to disabled JavaScript and Adobe Flash, or whitelisted to trusted Web sites.
+
+[Fuzzing](cite:cites fuzzing) is a technique that involves generating random data as input to software.
+Major Web browsers such as Google Chrom and Microsoft Edge perform extensive fuzzed testing by generating random Web pages and running them through the browser to detect crashes and other vulnerabilities.
+
 #### RDF Query Processing 
 
 Write me
