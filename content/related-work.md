@@ -91,5 +91,29 @@ Major Web browsers such as Google Chrom and Microsoft Edge perform extensive fuz
 
 #### RDF Query Processing 
 
-Write me
-{:.todo}
+Research involving the security vulnerabilities of RDF query processing
+has been primarily focused on injection attacks within Web applications
+that internally send SPARQL queries to a SPARQL endpoint.
+So far, no research has been done on vulnerabilities specific to RDF federated querying or link traversal.
+As such, we list the relevant work on single-source SPARQL querying hereafter.
+
+The most significant type of security vulnerability in Web applications is _Injection through User Input_,
+of which [SQL injection attacks](cite:cites sqlinjection) are a primary example.
+[Orduna et al.](cite:cites sparqlinjectionattacks) investigate this type of attack in the context of SPARQL queries,
+and show that parameterized queries can help avoid this type of attacks.
+The authors implemented parameterized queries in the [Jena framework](cite:cites jena) as a mitigation example.
+
+[SemGuard](cite:cites semguard) is a system that aims to detect injection attacks in both SPARQL and SQL queries for query engines that support both.
+A motivation of this work is that the use of parameterized queries is not always possible,
+as systems may already have been implemented without them,
+and updating them would be too expensive.
+This approach is based on the automatic analysis of the incoming query's parse tree.
+It will check if the parse tree only has a leaf node for the expected user input, compared to the original template query's parse tree.
+If it does not have a leaf node, this means that the user is attempting to execute queries that were not intended by the application developer.
+
+[Asdhar et al.](cite:cites insecurysemwebframework) analyzed injection attacks to Web applications
+via the [SPARQL query language](cite:cites spec:sparqllang) and the [SPARQL update language](cite:cites spec:sparqlupdate).
+Furthermore, they provide _SemWebGoat_, a deliberately insecure RDF-based Web application for educational purposes around security.
+All of the discussed attacks involve some form of injection,
+leading to retrieval or modification of unwanted data,
+or denial-of-service by for example injecting the `?s ?p ?o` pattern.
