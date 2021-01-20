@@ -8,6 +8,40 @@ This section lists relevant related work in the topics of LTQP and security.
 Write me
 {:.todo}
 
+### Linked Data Access Control
+
+[Kirrane et al.](cite:cites rdfaccesscontrol) surveyed the existing approaches for achieving access control in RDF,
+for both authentication and authorization.
+The authors mention that only a minority of those works apply specifically to the document-oriented nature of Linked Data.
+They do however mention that non-Linked-Data-specific approaches could potentially be applied to Linked Data in future work.
+Hereafter, we briefly discuss the relevant aspects of access control research that applies to Linked Data.
+To the best of our knowledge, no security vulnerabilities have yet been identified for any of these.
+
+**Authentication:**
+
+Authentication involves verifying an agent's identity through certain credentials.
+A [WebID](https://www.w3.org/wiki/WebID){:.mandatory} (Web Identity and Discovery)
+is a URL through which agents can be identified on the Web.
+[WebID-TLS](cite:cites spec:webidtls) is a protocol that allows authentication of WebID agents via TLS certificates.
+However, due to the limited support of such certificates in Web browsers, its usage is hindered.
+[WebID-OIDC](cite:cites spec:webidoidc) is a more recent protocol is based
+on the [OpenID Connect](cite:cites spec:oidc) protocol for authenticating WebID agents.
+Due to its compability with modern Web browsers, WebID-OIDC is frequently used inside the Solid ecosystem.
+
+**Authorization:**
+
+Authorization involves determining who can read or write what kind of data.
+[Web Access Control](cite:cites spec:wac) is an RDF-based access control system that works in a decentralized fashion.
+It enables declarative access control policies for documents to be assigned to users and groups.
+Due to its properties, it is being used as default access control mechanism in the Solid ecosystem.
+[Sacco et al.](cite:cites accesscontrolwebofdata) extend Web Access Control to not only declare document-level access,
+but also on resource, statement and graph level.
+[Costabello et al.](cite:cites accesscontrolhttp) introduce the Shi3ld framework that enables access control for [Linked Data Platform](cite:cites spec:ldp).
+Both SPARQL-based and a SPARQL-less variants of the framework are proposed.
+[Kirrane et al.](cite:cites securemanipulationlinkeddata) introduce a framework
+for enabling query-based access control via query rewriting of simple graph pattern queries.
+Finally, [Steyskal et al.](cite:cites accesscontrollinkeddataodrl) provide an approach that is based on the Open Digital Rights Language.
+
 ### Security Vulnerabilities
 
 In this section, we describe related work on security vulnerabilities in different areas related to LTQP.
