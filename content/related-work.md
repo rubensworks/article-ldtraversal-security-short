@@ -5,8 +5,27 @@ This section lists relevant related work in the topics of LTQP and security.
 
 ### Link-Traversal-based Query Processing
 
-Write me
-{:.todo}
+More than a decade ago, [Link-Traversal-based Query Processing (LTQP)](cite:cites sparqllinktraversal, linktraversal)
+has been introduced as an alternative query paradigm for enabling query execution over document-oriented interfaces.
+LTQP executes queries over live data, and discover links to other documents during query execution.
+This is in contrast to the typical query execution over database-oriented interfaces such as [SPARQL endpoints](cite:cites spec:sparqlprot),
+where data is assumed to be loaded into the endpoint beforehand,
+and no additional data is discovered during query execution.
+
+Concretely, LTQP typically starts off with an input query and a set of seed documents.
+The query engine then dereferences all seed documents,
+discovers links to other documents inside those documents,
+and recursively dereferences those discovered documents.
+Based on all the RDF triples that have been discovered from the discovered documents, query execution can be performed.
+Since document discovery can be a very long (or infinite) process,
+an [iterative approach](cite:cites Squin) was introduced that allows query execution during the discovery process.
+Furthermore, since this discovery approach can lead to a huge amount of discovered documents,
+different [reachability criteria](cite:cites reachability_semantics) have been introduced
+as a way to restrict what links are to be followed for a given query.
+
+So far, most research into LTQP has been in the areas of [formalization](cite:cites reachability_semantics,linktraversalfoundations), [performance improvements](cite:cites WalkingWithoutMap,linktraversalstrategies,linktraversalhybrid), and [query syntax](cite:cites LDQL).
+However, no works have looked into the security implications of LTQP in general,
+which is what we aim to tackle in this work.
 
 ### Linked Data Access Control
 
