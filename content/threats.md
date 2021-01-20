@@ -1,11 +1,24 @@
 ## Data-driven Threats
 {:#threats}
 
-We list several security threats related to LTQP in the following categories:
+We consider two main types of security threats to LTQP:
 
-* **Result Compromise**: Threats that lead to incorrect query results.
-* **Malicious Linking**: Threats that cause links to be followed that cause unintended actions to be performed.
-* **System Compromise**: Threats that cause the query engine to perform undesired operations.
+1. **Data-driven**: attacks are targeted at the data that is being processed during query execution.
+1. **Query-driven**: attacks are targeted at the query that will be used as input to the engine before query execution.
+
+We consider the query-driven threats to LTQP similar to existing RDF query processing as discussed in [](#related-work-rdf-query-processing),
+and we therefore purely focus on data-driven threats for the remainder of this work.
+
+{:.todo}
+We could still have a separate section of query-driven threats,
+but I suspect it to be much shorter and less interesting than this one.
+
+Inspired by security vulnerabilities of [Web browsers](#related-work-security-vulnerabilities),
+we decompose data-driven security threats into the following categories:
+
+1. **Result Compromise**: Threats that lead to incorrect query results.
+2. **Malicious Linking**: Threats that cause links to be followed that cause unintended actions to be performed.
+3. **System Compromise**: Threats that cause the query engine to perform undesired operations.
 
 ### Result Compromise
 

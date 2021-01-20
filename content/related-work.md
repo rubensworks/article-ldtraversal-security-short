@@ -62,6 +62,7 @@ for enabling query-based access control via query rewriting of simple graph patt
 Finally, [Steyskal et al.](cite:cites accesscontrollinkeddataodrl) provide an approach that is based on the Open Digital Rights Language.
 
 ### Security Vulnerabilities
+{:#related-work-security-vulnerabilities}
 
 In this section, we describe related work on security vulnerabilities in different areas related to LTQP.
 
@@ -143,6 +144,7 @@ For example, browsers can be configured to disabled JavaScript and Adobe Flash, 
 Major Web browsers such as Google Chrom and Microsoft Edge perform extensive fuzzed testing by generating random Web pages and running them through the browser to detect crashes and other vulnerabilities.
 
 #### RDF Query Processing 
+{:#related-work-rdf-query-processing}
 
 Research involving the security vulnerabilities of RDF query processing
 has been primarily focused on injection attacks within Web applications
