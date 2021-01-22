@@ -61,6 +61,34 @@ so no concrete mitigation to this threat exist yet.
 
 #### Intermediate Result and Query Leakage
 
+This threat assumes the existence of a _hybrid_ LTQP query engine that primarily traverses links,
+but can exploit database-oriented interfaces such as SPARQL endpoints if they are detected.
+Query engines typically decompose queries into smaller sub-queries,
+and join these intermediate results together afterwards.
+In the case of a hybrid LTQP engine,
+intermediate results that are obtained from the traversal process
+could be joined with data from a discovered SPARQL endpoint.
+An attacker could therefore setup an interface that acts as a SPARQL endpoint,
+but is in fact a malicious interface that intercepts intermediate results from LTQP engines.
+
+Based on our use case, Carol could include a triple with a link to a SPARQL endpoint `http://attacker.com/sparql`.
+If Alice makes use of a hybrid LTQP engine, the internal query planner could decide to make use of this malicious endpoint
+once it has been discovered.
+Depending on the query planner, this could mean that intermediate results from the traversal process such as Bob's telephone 
+are used as input to the malicious SPARQL endpoint.
+Other query planning algorithms could even decide to send the full original SPARQL query into the malicious endpoint.
+This could give the attacker knowledge of intermediate results, or even the full query.
+This threat enables attackers to do obtain insights to user behaviour, which is a privacy concern.
+A more critical problem is when private data is being leaked that normally exists behind access control, such as bank account numbers.
+
+As this threat is similar to the _Cross domain compromise_ threat in Web browsers,
+a possible solution to it would be in the form of the _same-origin policy_ that is being employed in most of today's Web browsers.
+In essence, this would mean that intermediate results can not be used across different Fully Qualified Domain Names (FQDN).
+Such a solution would have to be carefully designed as to not lead to significant querying restrictions that would lead to fewer results.
+A mechanism in the form of [Cross-Origin Resource Sharing (CORS)](https://fetch.spec.whatwg.org/#http-cors-protocol){:.mandatory}
+could be used as a workaround to explicitly allow intermediate result sharing from one a domain to another,
+which could be called Cross-Origin Intermediate Result Sharing (COIRS).
+
 #### Session Hijacking
 
 Link to `http://my-sparql-endpoint?query=DELETE * WHERE { ?s ?p ?o }`, assuming that the user is actively authenticated for that endpoint during query execution.
