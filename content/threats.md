@@ -80,14 +80,18 @@ Other query planning algorithms could even decide to send the full original SPAR
 This could give the attacker knowledge of intermediate results, or even the full query.
 This threat enables attackers to do obtain insights to user behaviour, which is a privacy concern.
 A more critical problem is when private data is being leaked that normally exists behind access control, such as bank account numbers.
+Furthermore, local files could be accessed via the `file://` scheme,
+which may also include sensitive data.
 
-As this threat is similar to the _cross domain compromise_ threat in Web browsers,
-a possible solution to it would be in the form of the **_same-origin policy_** that is being employed in most of today's Web browsers.
+As this threat is similar to the _cross domain compromise_ and _data theft_ threats in Web browsers.
+A possible solution to it would be in the form of the **_same-origin policy_** that is being employed in most of today's Web browsers.
 In essence, this would mean that intermediate results can not be used across different Fully Qualified Domain Names (FQDN).
 Such a solution would have to be carefully designed as to not lead to significant querying restrictions that would lead to fewer results.
 A mechanism in the form of [Cross-Origin Resource Sharing (CORS)](https://fetch.spec.whatwg.org/#http-cors-protocol){:.mandatory}
 could be used as a workaround to explicitly allow intermediate result sharing from one a domain to another,
 which could be called **Cross-Origin Intermediate Result Sharing (COIRS)**.
+Another low-hanging fruit solution would be to block all requests to URLs with the `file://` scheme,
+unless explicitly enabled by the user, which is the approach followed by the [Comunica query engine](cite:cites comunica).
 
 #### Session Hijacking
 
@@ -120,17 +124,6 @@ Third, **Web APIs must strictly follow the read-only semantics of HTTP GET**,
 which is [not always followed by many Web APIs](cite:cites restful),
 either intentional or due to software bugs.
 
-#### Local Linking
-
-Links to URLs on localhost, such as `http://localhost:1234/changePassword=123&callback=http://attacker.com/`.
-{:.todo}
-
-Links to URLs on LAN, such as `http://192.168.0.1/router/open-port=*`.
-{:.todo}
-
-Links to URLs using the file scheme, such as `file:///etc/passwd`.
-{:.todo}
-
 #### Cross-Site Data Injection
 
 Assuming a compromised API (`http://trusted.org/`) that is trusted by the user, but dynamically creates RDF responses based on URL parameters.
@@ -156,7 +149,7 @@ Links that cause a traversal cycle.
 
 #### System hogging
 
-CPU/memory hogging, for example due to specifics of RDF serializations (long URLs, flaws in parsers, ...).
+CPU/memory hogging, for example due to specifics of RDF serializations (long URLs, flaws in parsers, jsonld contexts, ...).
 Or infinitely long documents
 {:.todo}
 
