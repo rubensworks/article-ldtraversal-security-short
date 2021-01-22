@@ -24,7 +24,10 @@ different [reachability criteria](cite:cites reachability_semantics) have been i
 as a way to restrict what links are to be followed for a given query.
 
 So far, most research into LTQP has been in the areas of [formalization](cite:cites reachability_semantics,linktraversalfoundations), [performance improvements](cite:cites WalkingWithoutMap,linktraversalstrategies,linktraversalhybrid), and [query syntax](cite:cites LDQL).
-However, no works have looked into the security implications of LTQP in general,
+[One work has indicated the importance of _trustworthiness_](cite:cites guidedlinktraversal)
+during link traversal, as people may publish false or contradicting information,
+which would need to be avoided or filtered out during query execution.
+Other than this single work, no works have looked into the security implications of LTQP in general,
 which is what we aim to tackle in this work.
 
 ### Linked Data Access Control

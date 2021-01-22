@@ -20,19 +20,53 @@ we decompose data-driven security threats into the following categories:
 2. **Malicious Linking**: Threats that cause links to be followed that cause unintended actions to be performed.
 3. **System Compromise**: Threats that cause the query engine to perform undesired operations.
 
+Hereafter, we list several security threats across each of these categories.
+For each threat, we first describe the _issue_,
+then we illustrate it with an _example_,
+after which we sketch possibly solutions for _mitigation_.
+
+In these listings, we do not make any assumptions about specific forms or semantics of LTQP, unless otherwise mentioned.
+The only general assumption we make is that we have an LTQP query engine that follows links in any way,
+and executes queries over the union of the discovered documents.
+
 ### Result Compromise
 
-#### Unauthorized statements
+#### Unauthorized Statements
 
-Carol defines a wrong name or bank account number for Alice
-{:.todo}
+A consequence of the [open world assumption](cite:cites owa) where anyone can say anything about anything,
+is that both valid and invalid (and possibly malicious) things can be said.
+When a query engine is traversing over the Web,
+it is therefore possible that it can encounter information negatively impacts the query results.
+This information could be [_untrusted_](cite:cites guidedlinktraversal), _contradicting_, or _incorrect_.
+
+Given our use case, Carol could for instance decide to add one additional triple to her profile,
+such as: `<https://bob.pods.org/profile#me> :name "Dave"`.
+She would therefore indicate that Bob's name is "Dave".
+This is obviously false, but she is "allowed" to state this under the open world assumption.
+However, this means that if Alice would naively query for all her friend's names via LTQP,
+she would have two names for Bob appear in her results,
+namely "Bob" and "Dave", where this second result may be undesired.
+
+One solution to this threat [has already been proposed](cite:cites guidedlinktraversal),
+whereby the concept of _Content Policies_ are introduced.
+These policies can capture the notion of what one considers authoritative,
+which can vary between different people or agents.
+In our example, Alice could for example decide to only trust her contacts to make statements about themselves,
+and exclude all other information they express during query processing.
+Such a policy would enable Alice's query for contact names to not produce Carol's false name for Bob.
+This concept of Content Policies does however only exist in theory,
+so no concrete mitigation to this threat exist yet.
 
 ### Malicious Linking
 
-#### Local Linking
+#### Intermediate Result and Query Leakage
 
-Links to URLs using the file scheme, such as `file:///etc/passwd`.
+#### Session Hijacking
+
+Link to `http://my-sparql-endpoint?query=DELETE * WHERE { ?s ?p ?o }`, assuming that the user is actively authenticated for that endpoint during query execution.
 {:.todo}
+
+#### Local Linking
 
 Links to URLs on localhost, such as `http://localhost:1234/changePassword=123&callback=http://attacker.com/`.
 {:.todo}
@@ -40,15 +74,7 @@ Links to URLs on localhost, such as `http://localhost:1234/changePassword=123&ca
 Links to URLs on LAN, such as `http://192.168.0.1/router/open-port=*`.
 {:.todo}
 
-#### Intermediate Result Leakage
-
-**Depends on hybrid query execution**
-
-Attacks in this category depend on the query engine to interpret certain URLs as queryable APIs,
-which allows these APIs to collect intermediary query results.
-The attacker in this case must have knowledge of the engine's query planner to intercept intermediary bindings.
-
-Query over `http://my-private-data.org/passwords.ttl` and compromised TPF endpoint `http://attacker.com/?password=` (possible discovered via a link).
+Links to URLs using the file scheme, such as `file:///etc/passwd`.
 {:.todo}
 
 #### Cross-Site Data Injection
@@ -60,11 +86,6 @@ which may allow the attacker to steal the user's session id's.
 {:.todo}
 
 This is related to CORS
-{:.todo}
-
-#### Session Hijacking
-
-Link to `http://my-sparql-endpoint?query=DELETE * WHERE { ?s ?p ?o }`, assuming that the user is actively authenticated for that endpoint during query execution.
 {:.todo}
 
 ### System Compromise
