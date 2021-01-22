@@ -34,9 +34,9 @@ and executes queries over the union of the discovered documents.
 #### Unauthorized Statements
 
 A consequence of the [open world assumption](cite:cites owa) where anyone can say anything about anything,
-is that both valid and invalid (and possibly malicious) things can be said.
+is that **both valid and invalid (and possibly malicious) things can be said**.
 When a query engine is traversing over the Web,
-it is therefore possible that it can encounter information negatively impacts the query results.
+it is therefore possible that it can encounter information **impacts the query results in an undesired manner**.
 This information could be [_untrusted_](cite:cites guidedlinktraversal), _contradicting_, or _incorrect_.
 
 Given our use case, Carol could for instance decide to add one additional triple to her profile,
@@ -49,7 +49,7 @@ namely "Bob" and "Dave", where this second result may be undesired.
 
 One solution to this threat [has already been proposed](cite:cites guidedlinktraversal),
 whereby the concept of _Content Policies_ are introduced.
-These policies can capture the notion of what one considers authoritative,
+These **policies can capture the notion of what one considers authoritative**,
 which can vary between different people or agents.
 In our example, Alice could for example decide to only trust her contacts to make statements about themselves,
 and exclude all other information they express during query processing.
@@ -61,7 +61,7 @@ so no concrete mitigation to this threat exist yet.
 
 #### Intermediate Result and Query Leakage
 
-This threat assumes the existence of a _hybrid_ LTQP query engine that primarily traverses links,
+This threat assumes the existence of a **_hybrid_ LTQP query engine** that primarily traverses links,
 but can exploit database-oriented interfaces such as SPARQL endpoints if they are detected.
 Query engines typically decompose queries into smaller sub-queries,
 and join these intermediate results together afterwards.
@@ -69,7 +69,7 @@ In the case of a hybrid LTQP engine,
 intermediate results that are obtained from the traversal process
 could be joined with data from a discovered SPARQL endpoint.
 An attacker could therefore setup an interface that acts as a SPARQL endpoint,
-but is in fact a malicious interface that intercepts intermediate results from LTQP engines.
+but is in fact a **malicious interface that intercepts intermediate results** from LTQP engines.
 
 Based on our use case, Carol could include a triple with a link to a SPARQL endpoint `http://attacker.com/sparql`.
 If Alice makes use of a hybrid LTQP engine, the internal query planner could decide to make use of this malicious endpoint
@@ -81,13 +81,13 @@ This could give the attacker knowledge of intermediate results, or even the full
 This threat enables attackers to do obtain insights to user behaviour, which is a privacy concern.
 A more critical problem is when private data is being leaked that normally exists behind access control, such as bank account numbers.
 
-As this threat is similar to the _Cross domain compromise_ threat in Web browsers,
-a possible solution to it would be in the form of the _same-origin policy_ that is being employed in most of today's Web browsers.
+As this threat is similar to the _cross domain compromise_ threat in Web browsers,
+a possible solution to it would be in the form of the **_same-origin policy_** that is being employed in most of today's Web browsers.
 In essence, this would mean that intermediate results can not be used across different Fully Qualified Domain Names (FQDN).
 Such a solution would have to be carefully designed as to not lead to significant querying restrictions that would lead to fewer results.
 A mechanism in the form of [Cross-Origin Resource Sharing (CORS)](https://fetch.spec.whatwg.org/#http-cors-protocol){:.mandatory}
 could be used as a workaround to explicitly allow intermediate result sharing from one a domain to another,
-which could be called Cross-Origin Intermediate Result Sharing (COIRS).
+which could be called **Cross-Origin Intermediate Result Sharing (COIRS)**.
 
 #### Session Hijacking
 
