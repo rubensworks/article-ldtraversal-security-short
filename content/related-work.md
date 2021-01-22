@@ -13,7 +13,7 @@ where data is assumed to be loaded into the endpoint beforehand,
 and no additional data is discovered during query execution.
 
 Concretely, LTQP typically starts off with an input query and a set of seed documents.
-The query engine then dereferences all seed documents,
+The query engine then dereferences all seed documents via an HTTP GET request,
 discovers links to other documents inside those documents,
 and recursively dereferences those discovered documents.
 Based on all the RDF triples that have been discovered from the discovered documents, query execution can be performed.

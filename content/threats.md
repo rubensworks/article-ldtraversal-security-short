@@ -91,8 +91,34 @@ which could be called **Cross-Origin Intermediate Result Sharing (COIRS)**.
 
 #### Session Hijacking
 
-Link to `http://my-sparql-endpoint?query=DELETE * WHERE { ?s ?p ?o }`, assuming that the user is actively authenticated for that endpoint during query execution.
-{:.todo}
+In this threat, we assume the pressence of some form of authentication,
+–such as [WebID-OIDC](cite:cites spec:webidoidc)– that leads to an active authenticated session.
+This threat is identical to that of Web browsers,
+where the session token can be compromised through theft or session token prediction.
+Such a treat could lead to [cross-domain request forgery (CSRF)](cite:cites csrf) attacks,
+where an **attacker forces the user to perform an action while authenticated** without the user's consent.
+
+For example, we assume that Alice has a naive SPARQL endpoint running at `http://my-sparql-endpoint/`,
+which requires Alice's session for accepting read and write queries.
+Alice's query engine may have Alice's session stored by default for when she wants to query against her own endpoint.
+If Carol knows this, she could a malicious triple with a link to `http://my-sparql-endpoint?query=DELETE * WHERE { ?s ?p ?o }` in her profile.
+While the [SPARQL protocol](cite:cites spec:sparqlprot) only allows update queries via HTTP POST,
+Alice's naive implementation could implement this incorrectly so that update queries are also accepted via HTTP GET.
+If Alice executes a query over her address book, the query engine could dereference this link
+with her session enabled, which would cause her endpoint to be cleared.
+This threat is however not specific to SPARQL endpoints,
+but may occur on any type of Web API that allows modifying data via HTTP GET requests.
+
+This threat should be tackled on different fronts, and primarily requires secure and correct software implementations.
+First, it is important that authentication-enabled **query engines do not leak sessions across different domains**.
+Second, **traversal should only be allowed using the HTTP GET method**.
+This may not always be straightfoward,
+as hypermedia vocabularies such as [Hydra](cite:cites hydracore)
+allow specifying the HTTP method that is to be used when accessing a Web API (e.g. `hydra:method`).
+Given an unsecure query engine implementation, such HTTP method declarations could be exploited.
+Third, **Web APIs must strictly follow the read-only semantics of HTTP GET**,
+which is [not always followed by many Web APIs](cite:cites restful),
+either intentional or due to software bugs.
 
 #### Local Linking
 
