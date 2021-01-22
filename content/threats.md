@@ -98,3 +98,9 @@ For example, corruption or exploitation of shared caches.
 
 Discuss the isolation model from [3] in [](cite:cites securitymodernwebbrowserarchitecture) that can be adapted to querying?
 {:.todo}
+
+#### Lookup Priority Modification
+
+Attacks that change scores like pagerank (impact on walking without a map)
+Like [here](cite:cites crawlerattacks).
+{:.todo}
