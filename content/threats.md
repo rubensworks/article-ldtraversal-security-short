@@ -166,8 +166,34 @@ then the _same-origin policy_ should also be employed to mitigate the risk of cr
 
 #### Link Cycles
 
-Links that cause a traversal cycle.
-{:.todo}
+LTQP by nature depends on the ability of iteratively following links between documents.
+It is however possible that such **link structures form cycles**, either intentional or unintentional.
+Given this reality, LTQP query engines must be able to detect such cycles.
+Otherwise, the query engine could keep following the same links,
+and **result in an infinite loop**.
+This could cause the query engine to never terminate,
+and possibly even produce infinite results.
+
+Link cycles could be formed in different ways.
+First, at **application-level**, a document A could contain a link path to document B,
+and document B could contain a link path back to document A.
+Second, at **HTTP protocol-level,** a server could return for URL A an (HTTP 3xx) redirect chain to URL B,
+and document B could contain a redirect chain back to URL A.
+Third, at application level, a cycle structure could be **simulated via virtual pages** that always link back to similar pages, but with a different URL.
+For example, the [Linked Open Numbers](cite:cites linkedopennumbers) project generates an infinite virtual sequence of natural numbers,
+which could produce in an infinite loop when traversed by an LTQP query engine.
+
+Problems with first and second form of link cycles could be mitigated by letting the query engine **keep a history of all followed URLs**,
+and ignore dereferencing a URL that has already been passed before.
+The third form of link cycle makes use of distinct URLs,
+so this first mitigation would not be effective.
+An alternative approach that would mitigate this third form –and also the first two forms at a reduced level of efficiency–,
+is to **place a limit on the link path length from a given seed document**.
+For example, querying from page 0 in the Linked Open Number project with a link path limit of 100 would cause the query engine not to go past page 100.
+This is the approach that is employed by the recommended [JSON-LD 1.1 processing algorithm](cite:cites spec:jsonldapi)
+for handling recursive `@context` references.
+Different link path limit values could be applicable for different use cases,
+so query engines could consider making this value configurable for the user.
 
 #### System hogging
 
