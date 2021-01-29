@@ -116,7 +116,7 @@ but may occur on any type of Web API that allows modifying data via HTTP GET req
 This threat should be tackled on different fronts, and primarily requires secure and correct software implementations.
 First, it is important that authentication-enabled **query engines do not leak sessions across different domains**.
 Second, **traversal should only be allowed using the HTTP GET method**.
-This may not always be straightfoward,
+This may not always be straightforward,
 as hypermedia vocabularies such as [Hydra](cite:cites hydracore)
 allow specifying the HTTP method that is to be used when accessing a Web API (e.g. `hydra:method`).
 Given an unsecure query engine implementation, such HTTP method declarations could be exploited.
@@ -139,8 +139,30 @@ This is related to CORS
 
 #### Arbitrary Code Execution
 
-e.g. JavaScript, which would be needed for dynamic HTML pages that inject JSON-LD, also leads to XSS
-{:.todo}
+Advanced crawlers such as the [Googlebot](cite:cites googlebot) allow JavaScript logic to be executed for a limit duration,
+since certain HTML pages are built dynamically via JavaScript at the client-side.
+In this threat, we assume a similar situation for LTQP,
+where Linked Data pages may also be built client-side via a programming language such as JavaScript.
+This may in fact already occur on **HTML pages that dynamically produce JSON-LD script tags or RDFa in HTML via JavaScript**.
+In order to query over such dynamic Linked Data pages,
+a query engine must initiate a process similar to Googlebot's JavaScript execution phase.
+Such a process does however open the door to potentially major security vulnerabilities
+if **malicious code** is being traversed and **executed by the query engine**.
+
+For example, we assume a LTQP query engine that executed JavaScript on HTML pages before extracting its RDFa and JSON-LD.
+Furthermore, this LTQP engine has a security flaw that allows executed JavaScript code to access and manipulate the local file system.
+A malicious publisher could execute JavaScript logic that makes use of this flaw to upload all files on the local file system
+to the attacker, and deletes all files afterwards so that it can hold the data for ransom.
+
+One of the problems Google Chrome developers focus on is *reducing vulnerability severity*,
+which involves running logic inside one or more sandboxes to reduce the chance of software bugs
+to lead to access to more critical higher-level software APIs.
+While software bugs are nearly impossible to avoid in real-world software,
+a similar sandboxing approach should help mitigating the severity of attacks involving arbitrary code execution.
+Such a **sandbox would only allow certain operations to be performed**,
+which would not include access to the local file system.
+If this sandbox would also supports performing HTTP requests,
+then the _same-origin policy_ should also be employed to mitigate the risk of cross-site scripting (XSS) attacks.
 
 #### Link Cycles
 
