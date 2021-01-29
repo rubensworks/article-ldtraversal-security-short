@@ -214,13 +214,37 @@ Even though this is typically omitted from RDF format specifications,
 implementations often **place certain limits** on maximum document, IRI and literal lengths.
 For instance, [SAX parsers](cite:cites sax) typically put a limit of 1 megabyte on IRIs and literals,
 and provide the option to increase this limit when certain documents would exceed this threshold.
-Applying the approach of ***sandboxing*** on RDF parsers would also help mitigating such attacks,
+Applying the approach of **sandboxing** on RDF parsers would also help mitigating such attacks,
 but for example placing a time and memory limit on the parsing of a document.
 
 #### Data Corruption
 
-Crash due to syntax errors in documents
-{:.todo}
+Since the Web is not a centrally controlled system,
+it is possible that documents are **incorrectly formatted**,
+either intentional or unintentional.
+RDF formats typically prescribe a restrictive syntax,
+which require parsers to emit an error when it encounters illegal syntax.
+When an LTQP engine discovers and parses a large number of RDF documents,
+possibly in an uncontrolled manner,
+it is undesired that a syntax error in just a single RDF document can cause
+the whole **query process to terminate with an error**.
+Furthermore, **links may go dead** (HTTP 404) at any point in time,
+while finding a link to a URL that produces a 404 response should also not cause the query engine to terminate.
+
+For example, if a malicious publisher is aware that one of its (valid) documents is typically
+traversed by LTQP engines, it could decide to introduce a syntax error in this document,
+or it could simply remove it to produce a 404 response.
+This would could all LTQP errors from that point on to fail all queries that include this document.
+
+The **sandbox** approach is well-suited for handling these types of attacks.
+RDF parsing for each document can run in a sandbox,
+where errors in this document would simply cause parsing of this document to end without crashing the query engine.
+Optionally, a **warning** could be emitted to the user.
+The same approach could be followed for HTTP errors on the protocol level, such as HTTP 404's.
+This approach is followed by the [Comunica query engine](cite:cites comunica) via its [lenient execution mode](https://comunica.dev/docs/query/advanced/context/#4--lenient-execution).
+An alternative would be to create more **lenient RDF parsers** that accept syntax errors and attempts to derive the intended meaning,
+similar as to how (non-XHTML) HTML parsers are created.
+The downside of this is that such parsers would not strictly adhere to their specifications.
 
 #### Cross-query execution interaction
 
