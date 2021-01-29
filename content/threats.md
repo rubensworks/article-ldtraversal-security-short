@@ -197,9 +197,25 @@ so query engines could consider making this value configurable for the user.
 
 #### System hogging
 
-CPU/memory hogging, for example due to specifics of RDF serializations (long URLs, flaws in parsers, jsonld contexts, ...).
-Or infinitely long documents
-{:.todo}
+The _user interface compromise_ treat for Web browsers includes attacks involving **CPU and memory hogging**
+through (direct or indirect) **malicious code execution** or by **exploiting software flaws**.
+Such threats also exist for LTQP query engines,
+especially regarding the use of different **RDF serializations**,
+and their particularities with respect to parsing.
+
+For example, RDF serializations such as [Turtle](cite:cites spec:turtle) and [JSON-LD](cite:cites spec:jsonld) place **no limits on their document sizes**.
+JSON-LD even explicitly allows this through its [Streaming JSON-LD note](cite:cites spec:jsonldstreaming).
+This allows malicious publishers to create infinitely long documents that are streamed to query engines,
+and can lead to CPU and memory issues.
+Furthermore, similar issues can occur due to very long or **infinite IRIs or literals** inside documents.
+Other attacks could exist that specifically target known **flaws in RDF parsers** that cause CPU or memory issues.
+
+Even though this is typically omitted from RDF format specifications,
+implementations often **place certain limits** on maximum document, IRI and literal lengths.
+For instance, [SAX parsers](cite:cites sax) typically put a limit of 1 megabyte on IRIs and literals,
+and provide the option to increase this limit when certain documents would exceed this threshold.
+Applying the approach of ***sandboxing*** on RDF parsers would also help mitigating such attacks,
+but for example placing a time and memory limit on the parsing of a document.
 
 #### Data Corruption
 
