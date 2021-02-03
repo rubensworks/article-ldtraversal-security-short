@@ -286,6 +286,27 @@ In order to mitigate this drawback, solutions may be possible to **allow "relate
 
 #### Lookup Priority Modification
 
-Attacks that change scores like pagerank (impact on walking without a map)
-Like [here](cite:cites crawlerattacks).
-{:.todo}
+Different techniques are possible to [determine the priority of documents](cite:cites WalkingWithoutMap) during query processing.
+If queries don't specify a custom ordering, this **prioritization will impact the ordering of query results**.
+Some of these techniques are purely graph-based, such as [PageRank](cite:cites pagerank), and can therefore suffer from purely data-driven attacks.
+This threat involves **attacks that can influence the priority of documents**,
+and thereby maliciously influence what query **results come in earlier or later**.
+
+One example of such an attack is similar to [the attack to modify priorities within crawlers](cite:cites crawlerattacks).
+We assume a query that returns grocery stores in the local area,
+which executed via a LTQP query engine that makes use of PageRank to prioritize documents.
+Furthermore, we assume a highly-scoring, but vulnerable API that accepts HTTP GET parameters
+that can be abused to inject custom URLs inside the API responses.
+If a malicious grocery store aims to increase their ranking within our query,
+then it could exploit this vulnerable API.
+Concretely, the malicious grocery store could add links to this vulnerable API
+using GET parameters that would cause it to link back to the malicious grocery store.
+Such an attack would lead to a higher PageRank, and therefore an earlier handling and result representation
+of the malicious grocery store's documents.
+
+Several mitigations have been [proposed for these types of attacks](cite:cites crawlerattacks).
+A first solution is to place **responsibility at the API**, and expecting it to patch the exploit.
+A second solution involves publishers to expose **policies that explicitly authorize what links should be considered legitimate**,
+and LTQP query engines inspecting these policies when determining document priorities.
+A third solution is to use **machine-learning to distinguishing non-legitimate from legitimate links**.
+A combination of the three approaches can be used to mitigate this threat.
