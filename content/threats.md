@@ -126,14 +126,28 @@ either intentional or due to software bugs.
 
 #### Cross-Site Data Injection
 
-Assuming a compromised API (`http://trusted.org/`) that is trusted by the user, but dynamically creates RDF responses based on URL parameters.
-A malicious link to `http://trusted.org/?name=Bob". <> rdfs:seeAlso <http://hacker.com/getSessionIds>. <> foaf:name "abc`
-could result in data injection and the query engine to follow a link to `http://hacker.com/getSessionIds`,
-which may allow the attacker to steal the user's session id's.
-{:.todo}
+This threat concerns ways by which **attackers can inject data or links into documents**.
+For instance, **HTTP GET parameters** are often used to **parameterize the contents of documents**.
+If such parameters are not properly validated or escaped,
+they can be used by attackers to include malicious data or links.
 
-This is related to CORS
-{:.todo}
+For example, assuming Alice executes a query over a page from Carol,
+and a compromised API `http://trusted.org/?name` that dynamically creates RDF responses based on the `?name` HTTP GET parameters.
+In this case, the API simply has a Turtle document template into which the name is filled in as a literal value,
+but it does not do any escaping.
+We assume Alice decides to fully trust all links from `http://trusted.org/` to other pages,
+but only trust information directly on Carol's page or links to other trusted domains.
+If Carol includes a link to `<http://trusted.org/?name=Bob". <> rdfs:seeAlso <http://hacker.com/invalid-data>. <> foaf:name "abc>`,
+then this would cause the API to produce a Turtle document that contains a link to `http://hacker.com/invalid-data`,
+which would lead to unwanted data to be included in the query results.
+
+No single technique can fully mitigate this threat.
+Just like [SQL injection attacks](cite:cites sqlinjection) on Web sites,
+**Web APIs should take care of input validation**, preferably via reusable and rigorously tested software libraries.
+On the side of query engines, this threat may partially mitigated by **carefully designing trust policies**.
+In the case of our example, defining a policy that enables the full range of (direct and indirect) links
+to be followed from a single domain can be considered unsafe.
+Instead, more restrictive policies may be enforced, at the cost of expressivity and flexibility.
 
 ### System Compromise
 
