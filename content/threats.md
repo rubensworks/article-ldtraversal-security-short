@@ -246,14 +246,43 @@ An alternative would be to create more **lenient RDF parsers** that accept synta
 similar as to how (non-XHTML) HTML parsers are created.
 The downside of this is that such parsers would not strictly adhere to their specifications.
 
-#### Cross-query execution interaction
+#### Cross-query Execution Interaction
 
-Potentially malicious interactions between parallel query executions.
-For example, corruption or exploitation of shared caches.
-{:.todo}
+Query engines of all forms typically make use of **caching techniques** to improve performance of query execution.
+LTQP query engines can leverage caching techniques for document retrieval.
+Within a single query execution, or across multiple query executions,
+the documents may be reused, which could reduce the overall number of HTTP requests.
+Such forms of caching can lead to threats based on **information leaking across different query executions**.
 
-Discuss the isolation model from [3] in [](cite:cites securitymodernwebbrowserarchitecture) that can be adapted to querying?
-{:.todo}
+A first example of this threat is an attack that enables an attacker to gain knowledge about
+whether or not a document X has been requested before by the user.
+We assume that the user's query engine somehow queries over a document A that is in control of the attacker,
+and that document X links to document B, which is also in control of the attacker.
+If the attacker includes a link from A to X, and X already links to B,
+then the query engine could fetch the documents in sequence A, X, B.
+Since documents A and B are in control of the attacker,
+it could perform a [**timing attack**](cite:cites timingattack) to derive how long the user's query engine took to process document X.
+Since HTTP delays typically form the bottleneck in LTQP,
+the attacker could thereby derive if document X was fetched from a cache or not.
+The attacker could there gain knowledge about prior document lookups,
+which could for example lead to privacy issues with respect to the user's interests.
+
+A second example assumes the presence of a **software bug** inside the LTQP query engine
+that makes document caches ignore authorization information.
+This example is also a form of the *Intermediate Result and Query Leakage* threat that was explained before.
+If a user queries a private file from a server using its authentication key, this can cause this private file to be cached.
+If an attacker's query endpoint is being queried by the user,
+then it could maliciously introduce a link to the private file.
+Even if the query was not executed with the user's authentication key,
+the bug in the query engine would cause the private file to be fetched in full from the cache,
+which could cause parts of it to be leaked to the attacker's query endpoint.
+
+In order to mitigate this threat, the [**isolation model** that is used in Web browsers](cite:cites securitymodernwebbrowserarchitecture) could be reused.
+When applied to LTQP query engines, this could mean that **each query would be executed in a separate sandbox**,
+so that information can not leak across different query executions.
+A downside of this approach is that this may cause a significant **performance impact**
+when similar queries are executed in sequence, and would cause identical documents to not be reused from the cache anymore.
+In order to mitigate this drawback, solutions may be possible to **allow "related queries" to be executed inside the same sandbox**.
 
 #### Lookup Priority Modification
 
