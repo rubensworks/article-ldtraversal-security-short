@@ -22,6 +22,8 @@ If Alice for instance would like to obtain the names of all her contacts,
 she could initiate a query starting from her address book as seed document,
 and the query engine would follow the links to her contacts,
 and obtain the names from their respective profiles.
+In all threats throughout this article,
+we assume that Carol has malicious intentions that Alice is unaware of.
 
 <figure id="figure-use-case">
 <img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
