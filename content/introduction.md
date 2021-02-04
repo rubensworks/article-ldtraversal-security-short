@@ -22,6 +22,9 @@ related to [result completeness and query termination](cite:cites linktraversal)
 Aside from these known issues, **we investigate in this article security issues related to LTQP**.
 Specifically, we focus on security issues that are inherent to LTQP due to the fact that it requires a query engine to follow links on the Web,
 which is an uncontrolled, unpredictable and potentially unsafe environment.
+Instead of analyzing a single security threat in-depth,
+we perform a more high-level analysis of multiple security threats.
+This high-level analysis may serve as a basis for more in-depth research on LTQP security threats in the future.
 
 Since LTQP is still mostly an academic topic, and is not being used in real-world applications,
 we can not learn from security issues that arose in existing systems.
