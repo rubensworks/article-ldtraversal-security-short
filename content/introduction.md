@@ -25,5 +25,10 @@ which is an uncontrolled, unpredictable and potentially unsafe environment.
 
 Since LTQP is still mostly an academic topic, and is not being used in real-world applications,
 we can not learn from security issues that arose in existing systems.
-Instead, we draw inspiration from the domains of crawling and Web browsers,
+Instead, we draw inspiration from the domains of crawling and Web browsers in [](#related-work),
 and draw links to what impact these known security issues will have on LTQP query engines.
+In [](#use-case), we introduce a guiding use case that will be used to illustrate different threats with.
+Next, we list 10 data-driven security vulnerabilities related to LTQP in [](#threats),
+which are derived from known vulnerabilities in similar domains.
+For each vulnerability, we provide examples, and sketch possible high-level mitigations.
+Finally, we discuss the future of LTQP security and conclude in [](#conclusions).
