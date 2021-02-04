@@ -5,8 +5,8 @@ Semantic Web technologies enable Knowledge Graphs to be exposed on the Web,
 which is typically done using [SPARQL endpoints](cite:cites spec:sparqlprot).
 Such endpoints act as *centralized* repositories for Knowledge Graphs,
 which can lead to scalability issues, or even privacy and legal issues when they capture personal data.
-Initiatives such as [Solid](cite:cites solid) propose a radical *decentralization* of Knowledge Graphs across *personal data pods*.
-Such data pods are built upon the concepts of [Linked Data](cite:cites linkeddata),
+Initiatives such as [Solid](cite:cites solid) propose a radical *decentralization* of Knowledge Graphs across *personal data vaults*.
+Such data vaults are built upon the concepts of [Linked Data](cite:cites linkeddata),
 where documents are linked to each other, and more information about certain things can be found by dereferencing links via the *follow-your-nose principle*.
 This decentralization of information leads to difficulties for query execution,
 since no single endpoint can be consulted for resolving queries.

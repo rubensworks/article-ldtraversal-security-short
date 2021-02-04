@@ -2,7 +2,7 @@
 {:#use-case}
 
 In this section, we introduce a use case
-that will be used to illustrate the security threats discussed next sections.
+that will be used to illustrate the security threats discussed throughout this article.
 
 We assume a Web where people can have their own personal data vault,
 following the principles of the [Solid ecosystem](cite:cites solid).
