@@ -120,6 +120,7 @@ Such a solution would have to be carefully designed as to not lead to significan
 A mechanism in the form of [Cross-Origin Resource Sharing (CORS)](https://fetch.spec.whatwg.org/#http-cors-protocol){:.mandatory}
 could be used as a workaround to explicitly allow intermediate result sharing from one a domain to another,
 which could be called **Cross-Origin Intermediate Result Sharing (COIRS)**.
+Such a workaround should be designed carefully, as not to suffer from the same [issues as CORS](cite:cites studyofcors).
 Related to this, just like Web browsers, query engines may provide queryable access to local files using the `file://` scheme.
 Web browsers typically block requests to these from remote locations due to their sensitive nature.
 Similarly, query engines may decide to also block requests to URLs using the `file://` scheme,
