@@ -30,6 +30,36 @@ which would need to be avoided or filtered out during query execution.
 Other than this single work, no works have looked into the security implications of LTQP in general,
 which is what we aim to tackle in this work.
 
+### Vulnerabilities of RDF Query Processing 
+{:#related-work-rdf-query-processing}
+
+Research involving the security vulnerabilities of RDF query processing
+has been primarily focused on injection attacks within Web applications
+that internally send SPARQL queries to a SPARQL endpoint.
+So far, no research has been done on vulnerabilities specific to RDF federated querying or link traversal.
+As such, we list the relevant work on single-source SPARQL querying hereafter.
+
+The most significant type of security vulnerability in Web applications is _Injection through User Input_,
+of which [SQL injection attacks](cite:cites sqlinjection) are a primary example.
+[Orduna et al.](cite:cites sparqlinjectionattacks) investigate this type of attack in the context of SPARQL queries,
+and show that parameterized queries can help avoid this type of attacks.
+The authors implemented parameterized queries in the [Jena framework](cite:cites jena) as a mitigation example.
+
+[SemGuard](cite:cites semguard) is a system that aims to detect injection attacks in both SPARQL and SQL queries for query engines that support both.
+A motivation of this work is that the use of parameterized queries is not always possible,
+as systems may already have been implemented without them,
+and updating them would be too expensive.
+This approach is based on the automatic analysis of the incoming query's parse tree.
+It will check if the parse tree only has a leaf node for the expected user input, compared to the original template query's parse tree.
+If it does not have a leaf node, this means that the user is attempting to execute queries that were not intended by the application developer.
+
+[Asdhar et al.](cite:cites insecurysemwebframework) analyzed injection attacks to Web applications
+via the [SPARQL query language](cite:cites spec:sparqllang) and the [SPARQL update language](cite:cites spec:sparqlupdate).
+Furthermore, they provide _SemWebGoat_, a deliberately insecure RDF-based Web application for educational purposes around security.
+All of the discussed attacks involve some form of injection,
+leading to retrieval or modification of unwanted data,
+or denial-of-service by for example injecting the `?s ?p ?o` pattern.
+
 ### Linked Data Access Control
 
 [Kirrane et al.](cite:cites rdfaccesscontrol) surveyed the existing approaches for achieving access control in RDF,
@@ -64,12 +94,7 @@ Both SPARQL-based and a SPARQL-less variants of the framework are proposed.
 for enabling query-based access control via query rewriting of simple graph pattern queries.
 Finally, [Steyskal et al.](cite:cites accesscontrollinkeddataodrl) provide an approach that is based on the Open Digital Rights Language.
 
-### Security Vulnerabilities
-{:#related-work-security-vulnerabilities}
-
-In this section, we describe related work on security vulnerabilities in different areas related to LTQP.
-
-#### Web Crawlers
+### Web Crawlers
 
 [Web crawling](cite:cites crawling) is a process that involves collecting information on the Web by following links between pages.
 Web crawlers are typically used for Web indexing to aid search engines.
@@ -93,7 +118,7 @@ that exploits a certain vulnerability, such as an SQL injection.
 Additionally, this work describes a type of attack that allows vulnerable Web sites to be used
 for improving the [PageRank](cite:cites pagerank) of an attacker-owned Web site via forged backlinks.
 
-#### Web Browsers
+### Web Browsers
 
 Web browsers enable users to visualize and interact with Web pages.
 This interaction is closely related to LTQP,
@@ -145,33 +170,3 @@ For example, browsers can be configured to disabled JavaScript and Adobe Flash, 
 
 [Fuzzing](cite:cites fuzzing) is a technique that involves generating random data as input to software.
 Major Web browsers such as Google Chrom and Microsoft Edge perform extensive fuzzed testing by generating random Web pages and running them through the browser to detect crashes and other vulnerabilities.
-
-#### RDF Query Processing 
-{:#related-work-rdf-query-processing}
-
-Research involving the security vulnerabilities of RDF query processing
-has been primarily focused on injection attacks within Web applications
-that internally send SPARQL queries to a SPARQL endpoint.
-So far, no research has been done on vulnerabilities specific to RDF federated querying or link traversal.
-As such, we list the relevant work on single-source SPARQL querying hereafter.
-
-The most significant type of security vulnerability in Web applications is _Injection through User Input_,
-of which [SQL injection attacks](cite:cites sqlinjection) are a primary example.
-[Orduna et al.](cite:cites sparqlinjectionattacks) investigate this type of attack in the context of SPARQL queries,
-and show that parameterized queries can help avoid this type of attacks.
-The authors implemented parameterized queries in the [Jena framework](cite:cites jena) as a mitigation example.
-
-[SemGuard](cite:cites semguard) is a system that aims to detect injection attacks in both SPARQL and SQL queries for query engines that support both.
-A motivation of this work is that the use of parameterized queries is not always possible,
-as systems may already have been implemented without them,
-and updating them would be too expensive.
-This approach is based on the automatic analysis of the incoming query's parse tree.
-It will check if the parse tree only has a leaf node for the expected user input, compared to the original template query's parse tree.
-If it does not have a leaf node, this means that the user is attempting to execute queries that were not intended by the application developer.
-
-[Asdhar et al.](cite:cites insecurysemwebframework) analyzed injection attacks to Web applications
-via the [SPARQL query language](cite:cites spec:sparqllang) and the [SPARQL update language](cite:cites spec:sparqlupdate).
-Furthermore, they provide _SemWebGoat_, a deliberately insecure RDF-based Web application for educational purposes around security.
-All of the discussed attacks involve some form of injection,
-leading to retrieval or modification of unwanted data,
-or denial-of-service by for example injecting the `?s ?p ?o` pattern.

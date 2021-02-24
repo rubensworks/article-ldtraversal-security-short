@@ -13,7 +13,7 @@ and we therefore purely focus on data-driven threats for the remainder of this w
 We could still have a separate section of query-driven threats,
 but I suspect it to be much shorter and less interesting than this one.
 
-Inspired by known security vulnerabilities of [Web browsers and crawlers](#related-work-security-vulnerabilities),
+Inspired by known security vulnerabilities of [Web browsers and crawlers](#related-work),
 we decompose data-driven security threats into the following axes:
 
 1. **Result Compromise**: attacks that lead to incorrect query results.
