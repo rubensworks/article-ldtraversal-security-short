@@ -54,6 +54,7 @@ The only general assumption we make is that we have an LTQP query engine that fo
 and executes queries over the union of the discovered documents.
 
 ### Unauthorized Statements
+{:#threat-unauthorized-statements}
 
 A consequence of the [open world assumption](cite:cites owa) where anyone can say anything about anything,
 is that **both valid and invalid (and possibly malicious) things can be said**.
@@ -84,6 +85,7 @@ This concept of Content Policies does however only exist in theory,
 so no concrete mitigation to this threat exist yet.
 
 ### Intermediate Result and Query Leakage
+{:#threat-intermediate-leakage}
 
 This threat assumes the existence of a **_hybrid_ LTQP query engine** that primarily traverses links,
 but can exploit database-oriented interfaces such as SPARQL endpoints if they are detected in favour of a range of documents.
@@ -125,6 +127,7 @@ unless explicitly enabled by the user.
 This approach is for example followed by the [Comunica query engine](cite:cites comunica).
 
 ### Session Hijacking
+{:#threat-session-hijacking}
 
 In this threat, we assume the pressence of some form of authentication,
 –such as [WebID-OIDC](cite:cites spec:webidoidc)– that leads to an active authenticated session.
@@ -160,6 +163,7 @@ which is [not always followed by many Web APIs](cite:cites restful),
 either intentional or due to software bugs.
 
 ### Cross-site Data Injection
+{:#threat-cross-site-injection}
 
 This threat concerns ways by which **attackers can inject data or links into documents**.
 For instance, **HTTP GET parameters** are often used to **parameterize the contents of documents**.
@@ -189,6 +193,7 @@ to be followed from a single domain can be considered unsafe.
 Instead, more restrictive policies may be enforced, at the cost of expressivity and flexibility.
 
 ### Arbitrary Code Execution
+{:#threat-arbitrary-code-exec}
 
 Advanced crawlers such as the [Googlebot](cite:cites googlebot) allow JavaScript logic to be executed for a limit duration,
 since certain HTML pages are built dynamically via JavaScript at the client-side.
@@ -220,6 +225,7 @@ If this sandbox would also support performing HTTP requests,
 then the _same-origin policy_ should also be employed to mitigate the risk of cross-site scripting (XSS) attacks.
 
 ### Link Cycles
+{:#threat-link-cycles}
 
 LTQP by nature depends on the ability of iteratively following links between documents.
 It is however possible that such **link structures form cycles**, either intentional or unintentional.
@@ -255,6 +261,7 @@ Different link path limit values could be applicable for different use cases,
 so query engines could consider making this value configurable for the user.
 
 ### System hogging
+{:#threat-system-hogging}
 
 The _user interface compromise_ treat for Web browsers includes attacks involving **CPU and memory hogging**
 through (direct or indirect) **malicious code execution** or by **exploiting software flaws**.
@@ -283,6 +290,7 @@ If LTQP engines would allow arbitrary code execution, then more extensive system
 would be needed just like in [Web browsers](cite:cites securitymodernwebbrowserarchitecture).
 
 ### Document Corruption
+{:#threat-document-corruption}
 
 Since the Web is not a centrally controlled system,
 it is possible that documents are **incorrectly formatted**,
@@ -315,6 +323,7 @@ similar as to how (non-XHTML) HTML parsers are created.
 The downside of this is that such parsers would not strictly adhere to their specifications.
 
 ### Cross-query Execution Interaction
+{:#threat-cross-query-interaction}
 
 Query engines of all forms typically make use of **caching techniques** to improve performance of query execution.
 LTQP query engines can leverage caching techniques for document retrieval.
@@ -361,6 +370,7 @@ when similar queries are executed in sequence, and would cause identical documen
 In order to mitigate this drawback, solutions may be possible to **allow "related queries" to be executed inside the same sandbox**.
 
 ### Document Priority Modification
+{:#threat-doc-priority-modification}
 
 Different techniques are possible to [determine the priority of documents](cite:cites WalkingWithoutMap) during query processing.
 If queries don't specify a custom ordering, this **prioritization will impact the ordering of query results**.
