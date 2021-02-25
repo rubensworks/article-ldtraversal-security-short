@@ -1,7 +1,7 @@
 ## Data-driven Threats
 {:#threats}
 
-We consider two main types of security threats to LTQP:
+We consider two main types of security threats to LTQP engines:
 
 1. **Data-driven**: attacks are targeted at the data that is being processed during query execution.
 1. **Query-driven**: attacks are targeted at the query that will be used as input to the engine before query execution.

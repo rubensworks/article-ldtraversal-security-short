@@ -27,8 +27,11 @@ So far, most research into LTQP has been in the areas of [formalization](cite:ci
 [One work has indicated the importance of _trustworthiness_](cite:cites guidedlinktraversal)
 during link traversal, as people may publish false or contradicting information,
 which would need to be avoided or filtered out during query execution.
-Other than this single work, no works have looked into the security implications of LTQP in general,
-which is what we aim to tackle in this work.
+[Another work mentioned the need for LTQP engines to adhere to `robots.txt` files](cite:cites datasummaries)
+in order to not lead to unintentional denial of service attacks of data publishers.
+Given our focus on data-driven security vulnerabilities related to the LTQP engine of our work,
+we only consider this issue of _trustworthiness_ further in this work,
+and omit the security vulnerabilities from a data publisher's perspective.
 
 ### Vulnerabilities of RDF Query Processing 
 {:#related-work-rdf-query-processing}
