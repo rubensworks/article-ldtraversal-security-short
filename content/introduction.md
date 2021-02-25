@@ -2,7 +2,7 @@
 {:#introduction}
 
 Semantic Web technologies enable Knowledge Graphs to be exposed on the Web,
-which is typically done using [SPARQL endpoints](cite:cites spec:sparqlprot).
+which is often done using [SPARQL endpoints](cite:cites spec:sparqlprot).
 Such endpoints act as *centralized* repositories for Knowledge Graphs,
 which can lead to scalability issues, or even privacy and legal issues when they capture personal data.
 Initiatives such as [Solid](cite:cites solid) propose a radical *decentralization* of Knowledge Graphs across *personal data vaults*.
@@ -19,8 +19,9 @@ and continuously follows links to other documents.
 Since LTQP is still a relative young area of research,
 there are still a number of open problems that need to be tackled
 related to [result completeness and query termination](cite:cites linktraversal).
-Aside from these known issues, **we investigate in this article security issues related to LTQP**.
-Specifically, we focus on security issues that are inherent to LTQP due to the fact that it requires a query engine to follow links on the Web,
+Aside from these known issues, **we investigate in this article security issues related to LTQP engines**,
+which may threat the integrity of the user's data, machine, and user experience.
+Specifically, we focus on data-driven security issues that are inherent to LTQP due to the fact that it requires a query engine to follow links on the Web,
 which is an uncontrolled, unpredictable and potentially unsafe environment.
 Instead of analyzing a single security threat in-depth,
 we perform a more high-level analysis of multiple security threats.
