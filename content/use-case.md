@@ -5,6 +5,7 @@ In this section, we introduce a use case
 that will be used to illustrate the security threats discussed throughout this article.
 
 We assume a Web where people can have their own personal data vault,
+<span class="comment" data-author="RV">More general: web with public and private information? (Example does not need to change, just description)</span>
 following the principles of the [Solid ecosystem](cite:cites solid).
 This data vault is in full control of the owner,
 and they can host any kind of file in here, such as Linked Data files.
@@ -18,7 +19,7 @@ Bob and Carol can then self-define their own contact details.
 [](#figure-use-case) shows an illustration of this setup.
 
 The LTQP paradigm is well-suited to handle query execution over such setups.
-If Alice for instance would like to obtain the names of all her contacts,
+If Alice for instance would like to obtain the names <span class="comment" data-author="RV">Current e-mail / postal addresses (a little more interesting and potential non-constant)?</span> of all her contacts,
 she could initiate a query starting from her address book as seed document,
 and the query engine would follow the links to her contacts,
 and obtain the names from their respective profiles.
@@ -29,7 +30,8 @@ we assume that Carol has malicious intentions that Alice is unaware of.
 <img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
 <figcaption markdown="block">
 Overview of the address book use case
-in which Alice has an address book with links to the profiles of Carol and Bob.
+in which Alice has an address book with links to the profiles of Carol and Bob,
+which contain further details.
 </figcaption>
 </figure>
 
