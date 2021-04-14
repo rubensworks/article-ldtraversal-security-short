@@ -3,6 +3,8 @@
 
 This section lists relevant related work in the topics of LTQP and security.
 
+<span class="comment" data-author="RV">General thought: to what extent applicable to KG in general or just RDF? Justification: RDF has global semantics and hence decentralizes better in non-controled environments, which are also a prime target for security analysis.</span>
+
 ### Link-Traversal-based Query Processing
 
 More than a decade ago, [Link-Traversal-based Query Processing (LTQP)](cite:cites sparqllinktraversal, linktraversal)
@@ -13,23 +15,24 @@ where data is assumed to be loaded into the endpoint beforehand,
 and no additional data is discovered during query execution.
 
 Concretely, LTQP typically starts off with an input query and a set of seed documents.
-The query engine then dereferences all seed documents via an HTTP GET request,
+The query engine then dereferences all seed documents via an HTTP `GET` request,
 discovers links to other documents inside those documents,
 and recursively dereferences those discovered documents.
-Based on all the RDF triples that have been discovered from the discovered documents, query execution can be performed.
+Based on all the RDF triples that it extracts from the discovered documents, <span class="rephrase" data-author="RV">query execution</span> can be performed.
+<span class="comment" data-author="RV">discovery is part of execution</span>
 Since document discovery can be a very long (or infinite) process,
 an [iterative approach](cite:cites Squin) was introduced that allows query execution during the discovery process.
-Furthermore, since this discovery approach can lead to a huge amount of discovered documents,
+Furthermore, since this discovery approach can lead to a large number of discovered documents,
 different [reachability criteria](cite:cites reachability_semantics) have been introduced
 as a way to restrict what links are to be followed for a given query.
 
-So far, most research into LTQP has been in the areas of [formalization](cite:cites reachability_semantics,linktraversalfoundations), [performance improvements](cite:cites WalkingWithoutMap,linktraversalstrategies,linktraversalhybrid), and [query syntax](cite:cites LDQL).
+So far, most research into LTQP has happened in the areas of [formalization](cite:cites reachability_semantics,linktraversalfoundations), [performance improvements](cite:cites WalkingWithoutMap,linktraversalstrategies,linktraversalhybrid), and [query syntax](cite:cites LDQL).
 [One work has indicated the importance of _trustworthiness_](cite:cites guidedlinktraversal)
 during link traversal, as people may publish false or contradicting information,
 which would need to be avoided or filtered out during query execution.
 [Another work mentioned the need for LTQP engines to adhere to `robots.txt` files](cite:cites datasummaries)
 in order to not lead to unintentional denial of service attacks of data publishers.
-Given our focus on data-driven security vulnerabilities related to the LTQP engine of our work,
+Given the focus of our work on data-driven security vulnerabilities related to LTQP engines,
 we only consider this issue of _trustworthiness_ further in this work,
 and omit the security vulnerabilities from a data publisher's perspective.
 
@@ -42,14 +45,16 @@ that internally send SPARQL queries to a SPARQL endpoint.
 So far, no research has been done on vulnerabilities specific to RDF federated querying or link traversal.
 As such, we list the relevant work on single-source SPARQL querying hereafter.
 
-The most significant type of security vulnerability in Web applications is _Injection through User Input_,
+The most significant type of security vulnerability in Web applications in general is _Injection through User Input_,
 of which [SQL injection attacks](cite:cites sqlinjection) are a primary example.
 [Orduna et al.](cite:cites sparqlinjectionattacks) investigate this type of attack in the context of SPARQL queries,
 and show that parameterized queries can help avoid this type of attacks.
+<span class="comment" data-author="RV">Can this citation be used in the intro as well, thee argue the necessity of our work?</span>
 The authors implemented parameterized queries in the [Jena framework](cite:cites jena) as a mitigation example.
+<span class="comment" data-author="RV">Explain? Or does this come later?</span>
 
 [SemGuard](cite:cites semguard) is a system that aims to detect injection attacks in both SPARQL and SQL queries for query engines that support both.
-A motivation of this work is that the use of parameterized queries is not always possible,
+A motivation of this work is that the use of parameterized queries is not always desirable,
 as systems may already have been implemented without them,
 and updating them would be too expensive.
 This approach is based on the automatic analysis of the incoming query's parse tree.
@@ -62,6 +67,7 @@ Furthermore, they provide _SemWebGoat_, a deliberately insecure RDF-based Web ap
 All of the discussed attacks involve some form of injection,
 leading to retrieval or modification of unwanted data,
 or denial-of-service by for example injecting the `?s ?p ?o` pattern.
+<span class="comment" data-author="RV">Why is that a DOS? (https://link.springer.com/chapter/10.1007/978-3-642-41338-4_18 has an answer, I believe)</span>
 
 ### Linked Data Access Control
 
@@ -72,7 +78,7 @@ They do however mention that non-Linked-Data-specific approaches could potential
 Hereafter, we briefly discuss the relevant aspects of access control research that applies to Linked Data.
 To the best of our knowledge, no security vulnerabilities have yet been identified for any of these.
 
-**Authentication:**
+#### Authentication
 
 Authentication involves verifying an agent's identity through certain credentials.
 A [WebID](https://www.w3.org/wiki/WebID){:.mandatory} (Web Identity and Discovery)
@@ -81,9 +87,9 @@ is a URL through which agents can be identified on the Web.
 However, due to the limited support of such certificates in Web browsers, its usage is hindered.
 [WebID-OIDC](cite:cites spec:webidoidc) is a more recent protocol is based
 on the [OpenID Connect](cite:cites spec:oidc) protocol for authenticating WebID agents.
-Due to its compability with modern Web browsers, WebID-OIDC is frequently used inside the Solid ecosystem.
+Due to its compatibility with modern Web browsers, WebID-OIDC is frequently used inside the Solid ecosystem.
 
-**Authorization:**
+#### Authorization
 
 Authorization involves determining who can read or write what kind of data.
 [Web Access Control](cite:cites spec:wac) is an RDF-based access control system that works in a decentralized fashion.
@@ -93,6 +99,7 @@ Due to its properties, it is being used as default access control mechanism in t
 but also on resource, statement and graph level.
 [Costabello et al.](cite:cites accesscontrolhttp) introduce the Shi3ld framework that enables access control for [Linked Data Platform](cite:cites spec:ldp).
 Both SPARQL-based and a SPARQL-less variants of the framework are proposed.
+<span class="comment" data-author="RV">What is SPARQL-less? How do they differ?</span>
 [Kirrane et al.](cite:cites securemanipulationlinkeddata) introduce a framework
 for enabling query-based access control via query rewriting of simple graph pattern queries.
 Finally, [Steyskal et al.](cite:cites accesscontrollinkeddataodrl) provide an approach that is based on the Open Digital Rights Language.
@@ -130,7 +137,7 @@ while Web browsers are user-driven.
 Considering this close resemblance between these two domains,
 we give an overview of the main security vulnerabilities in Web browsers.
 
-**Modern Web browser architecture:**
+#### Modern Web browser architecture
 
 [Silic et al.](cite:cites securitymodernwebbrowserarchitecture)
 analyzed the architectures of modern Web browsers,
@@ -141,7 +148,7 @@ Architecture-wise, browsers can be categorized into monolithic and modular brows
 The difference between the two is that the former does not provide isolation between concurrently executed Web programs, while the latter does.
 The authors argue that a modular architecture is important for security, fault-tolerance and memory management.
 They focused on the security aspects of the [Chrome browser architecture](cite:cites securitychromium),
-which consist of separate modules for the rendering engine, browser kernel, and plugins.
+which consists of separate modules for the rendering engine, browser kernel, and plugins.
 Each of these modules is isolated in its own operating system process.
 
 Silic et al. list the following main threats for Web browsers:
@@ -152,7 +159,7 @@ Silic et al. list the following main threats for Web browsers:
 4. **Session hijacking**: Session tokens are compromised through theft or session token prediction. For example, [cross-domain request forgery (CSRF)](cite:cites csrf) is a type of attack that involves an attacker forcing a user logged in on another Web site to perform an action without their consent. Web browsers do not protect against these, but are typically handled by Web frameworks via the [Synchronizer Token Pattern](cite:cites synchronizertokenpattern).
 5. **User interface compromise**: Manipulating the user interface to trick the user into performing an action without their knowledge. For example, placing an invisible button in front of another button. This category also includes CPU and memory hogging to block the user from taking any further actions. Web browser have limited protections for these types of attacks that involve placing limitations on user interface manipulations.
 
-**Lessons from Google Chrome:**
+#### Lessons from Google Chrome
 
 [Reis et al.](cite:cites securitychromelessons) discuss on the three problems Google Chrome developers focus on to mitigate attacks:
 
@@ -160,16 +167,18 @@ Silic et al. list the following main threats for Web browsers:
 2. **Reducing window of vulnerability**: If an exploit has been discovered, it should be patched as soon as possible. Google Chrome follows automated testing to ship security patches as soon as possible. All existing Chrome installations check for updates every five hours, and update in the background without disrupting the user experience.
 3. **Reducing frequency of exposure**: In order to avoid people from visiting malicious Web sites for which the browser has not been patched yet, Google Chrome makes use of a continuously updating database of such Web sites. This will show a warning to the user before visiting such a site.
 
-**SQL Injection**
+#### SQL Injection
+
+<span class="comment" data-author="RV">This is out of place?</span>
 
 [SQL injection attacks](cite:cites sqlinjection) are one of the most common vulnerabilities on Web sites
 where (direct or indirect) user input is not properly handled, and may lead to the attacker performing unintended SQL statements on databases.
 These types of attacks are typically mitigated through strong input validation, which are typically available in reusable libraries.
 
-**Techniques for mitigating browser vulnerabilities:**
+#### Techniques for mitigating browser vulnerabilities
 
 [Browser Hardening](cite:cites hardening) is based on the concept of reducing privileges of browsers to increase security.
 For example, browsers can be configured to disabled JavaScript and Adobe Flash, or whitelisted to trusted Web sites.
 
 [Fuzzing](cite:cites fuzzing) is a technique that involves generating random data as input to software.
-Major Web browsers such as Google Chrom and Microsoft Edge perform extensive fuzzed testing by generating random Web pages and running them through the browser to detect crashes and other vulnerabilities.
+Major Web browsers such as Google Chrome and Microsoft Edge perform extensive fuzzed testing by generating random Web pages and running them through the browser to detect crashes and other vulnerabilities.
