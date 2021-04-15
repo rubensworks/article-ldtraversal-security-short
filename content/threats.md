@@ -2,23 +2,32 @@
 {:#threats}
 
 We consider two main types of security threats to LTQP engines:
+<span class="comment" data-author="RV">Why, do we have any precedents for this? Is this what other query literature does? Are we being exhaustive (to the best of our knowledge), or did we just pick two. Is this driven from related work?</span>
 
 1. **Data-driven**: attacks are targeted at the data that is being processed during query execution.
 1. **Query-driven**: attacks are targeted at the query that will be used as input to the engine before query execution.
 
+<span class="comment" data-author="RV">The phrasing <q>targeted at</q> is incorrect, I think. The data is not the target of the attack, but the means of attacking (another target). So on the one hand, we want to change the phrasing; on the other hand, I wonder whether we also need to have a separate list of actual targets. Who are we attacking here?</span>
+
 We consider the query-driven threats to LTQP similar to existing RDF query processing as discussed in [](#related-work-rdf-query-processing),
+<span class="comment" data-author="RV">Can we make an argument here as to why? Perhaps we still want to enumerate each of those, and explain a) whether they apply b) how they apply differently.</span>
 and we therefore purely focus on data-driven threats for the remainder of this work.
 
 {:.todo}
 We could still have a separate section of query-driven threats,
 but I suspect it to be much shorter and less interesting than this one.
 
-Inspired by known security vulnerabilities of [Web browsers and crawlers](#related-work),
+<span class="rephrase" data-author="RV">Inspired by</span>
+<span class="comment" data-author="RV">Perhaps more something along <q>We follow the categorization of XXX to define/organize…</q></span>
+known security vulnerabilities of [Web browsers and crawlers](#related-work),
 we decompose data-driven security threats into the following axes:
 
-1. **Result Compromise**: attacks that lead to incorrect query results.
-2. **Malicious Linking**: attacks that cause links to be followed that cause unintended actions to be performed.
+1. **Result Compromise**: attacks that lead <ins class="comment" data-author="RV">the client to return</ins> to incorrect query results.
+<span class="comment" data-author="RV">So here the client, or the one using the client, seems to be the target.</span>
+2. **Malicious Linking**: attacks that cause links to be followed that cause <ins class="comment" data-author="RV">the client to perform</ins> unintended actions <del class="comment" data-author="RV">to be performed</del>.
+<span class="comment" data-author="RV">Interesting point here as to attacker/attacked/vehicle: it's an attacker taking control of a client, which then serves as an unwitting vehicle to attack a third party</span>
 3. **System Compromise**: attacks that cause the query engine to perform undesired operations.
+<span class="comment" data-author="RV">As currently written, 3 is a superset containing 1 and 2. What is the difference? Or is <q>other</q> missing?</span>
 
 [](#threats-overview) gives an overview of all threats that we consider in this article,
 and to what threat axes they apply.
@@ -49,18 +58,43 @@ For each threat, we first describe the _issue_,
 then we illustrate it with at least one _example_,
 after which we sketch possible solutions for _mitigation_.
 
-In these descriptions, we do not make any assumptions about specific forms or semantics of LTQP, unless otherwise mentioned.
+Unless mentioned otherwise, we do not make any assumptions about specific forms or semantics of LTQP,
+which can influence which links are considered.
 The only general assumption we make is that we have an LTQP query engine that follows links in any way,
 and executes queries over the union of the discovered documents.
 
 ### Unauthorized Statements
 {:#threat-unauthorized-statements}
 
-A consequence of the [open world assumption](cite:cites owa) where anyone can say anything about anything,
+<span class="comment" data-author="RV">I don't think we need the bolding here</span>
+
+<span class="comment" data-author="RV">I think the title is a misnomer; it makes me think about (client) authorization, so whether the client was allowed to see it. Whereas this is about the statements being <em>untrusted</em>—because they were not issued by an authority. I think you mean <q>Unauthoritative</q>.</span>
+
+<span class="comment" data-author="RV">So, reading the first case here, I think there are a couple of structured elements we might want to add to every case. I have added some examples.</span>
+
+A consequence of the [open-world assumption](cite:cites owa) where anyone can say anything about anything,
 is that **both valid and invalid (and possibly malicious) things can be said**.
-When a query engine is traversing over the Web,
+When a query engine is traversing the Web,
 it is therefore possible that it can encounter information that **impacts the query results in an undesired manner**.
 This information could be [_untrusted_](cite:cites guidedlinktraversal), _contradicting_, or _incorrect_.
+
+Attacker
+: Any data publisher
+
+Victim
+: Result processor
+
+Cause
+: Mistaken authority
+
+Consequence/impact
+: Untrusted query results
+
+Difficulty of attack
+: Easy
+
+Difficulty of mitigation
+: Currently hard
 
 **Example**
 
@@ -72,9 +106,11 @@ However, this means that if Alice would naively query for all her friend's names
 she would have two names for Bob appear in her results,
 namely "Bob" and "Dave", where this second result may be undesired.
 
+<span class="comment" data-author="RV">This made me think of another attack, where very long, possibly endless (!) data documents are served. Like 1GB literals or so. The victim there would be the query engine, which would run out of memory. Different mitigation as well. So I think this is a different attack.</span>
+
 **Mitigation**
 
-One solution to this threat [has already been proposed](cite:cites guidedlinktraversal),
+One solution to this threat [has been proposed](cite:cites guidedlinktraversal),
 whereby the concept of _Content Policies_ are introduced.
 These **policies can capture the notion of what one considers authoritative**,
 which can vary between different people or agents.
@@ -83,6 +119,10 @@ and exclude all other information they express during query processing.
 Such a policy would enable Alice's query for contact names to not produce Carol's false name for Bob.
 This concept of Content Policies does however only exist in theory,
 so no concrete mitigation to this threat exist yet.
+
+<span class="comment" data-author="RV">Perhaps reason about the consequences? As such, LTQP currenty cannot deliver trusted results?</span>
+
+<span class="comment" data-author="RV">Another mitigation is provenance: include the results, but track where they come from. I wonder whether Olaf has already written about this, given that he has worked on both LTQP and PROV. I think you can describe this as: one direction is limiting what information is incorporated from what sources, another is documenting thee sources information came from.</span>
 
 ### Intermediate Result and Query Leakage
 {:#threat-intermediate-leakage}
