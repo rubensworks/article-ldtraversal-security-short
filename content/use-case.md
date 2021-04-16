@@ -1,6 +1,9 @@
 ## Use Case
 {:#use-case}
 
+{:.todo}
+As suggested by RV: Interesting as to whom is the user here; might need to define roles (publisher, querier, …)
+
 In this section, we introduce a use case
 that will be used to illustrate the security threats discussed throughout this article.
 

@@ -3,7 +3,7 @@
 
 In this article, we have identified ten prospective security threats related to LTQP,
 inspired by known threats in related domains.
-For each threat, we proposed one or more theoretical mitigations.
+For each threat, we proposed one or more avenues for mitigations.
 
 Some of these threats can already be partially tackled through existing security threat mitigation techniques
 aimed at both *LTQP engine developers* and *data publishers*.
