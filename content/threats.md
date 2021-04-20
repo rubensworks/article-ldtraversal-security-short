@@ -269,7 +269,8 @@ then the _same-origin policy_ should also be employed to mitigate the risk of cr
 {:#threat-link-cycles}
 
 LTQP by nature depends on the ability of iteratively following links between documents.
-It is however possible that such **link structures form cycles**, either intentional or unintentional.
+It is however possible that such **link structures form cycles**, either intentional or unintentional,
+just like crawler traps.
 Given this reality, LTQP query engines must be able to detect such cycles.
 Otherwise, the query engine could keep following the same links,
 and **result in an infinite loop**.
@@ -300,6 +301,8 @@ This is the approach that is employed by the recommended [JSON-LD 1.1 processing
 for handling recursive `@context` references in JSON-LD documents.
 Different link path limit values could be applicable for different use cases,
 so query engines could consider making this value configurable for the user.
+Other more advanced techniques from the domain of crawler trap mitigation could be extended,
+such as [the one that measures similarities between documents to detect crawler traps](cite:cites crawlertrapsdetection).
 
 ### System hogging
 {:#threat-system-hogging}

@@ -138,6 +138,22 @@ that exploits a certain vulnerability, such as an SQL injection.
 Additionally, this work describes a type of attack that allows vulnerable Web sites to be used
 for improving the [PageRank](cite:cites pagerank) of an attacker-owned Web site via forged backlinks.
 
+Some other works focus on mitigation of so-called [_crawler traps_](cite:cites crawlertraps, mercatorcrawler) or _spider traps_.
+These are sets of URLs that cause an infinite crawling process,
+which can either be intentional or accidental.
+Such crawler traps can have multiple causes:
+
+* Links between dynamic pages that are based on URLs with query parameters;
+* Infinite redirection loops via using the HTTP 3xx range;
+* Links to search APIs;
+* Infinitely paged resources, such as calendars;
+* Incorrect relative URLs that continuously increase the URL length.
+
+Crawler traps are mostly discovered through human intervention when many documents in a single domain are discovered.
+Recently, [a new detection technique was introduced](cite:cites crawlertrapsdetection)
+that attempts to measure the _distance_ between documents,
+and rejects links to documents that are too similar.
+
 ### Web Browsers
 
 Web browsers enable users to visualize and interact with Web pages.
