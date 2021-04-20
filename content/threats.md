@@ -63,12 +63,10 @@ which can influence which links are considered.
 The only general assumption we make is that we have an LTQP query engine that follows links in any way,
 and executes queries over the union of the discovered documents.
 
-### Unauthorized Statements
+### Unauthoritative Statements
 {:#threat-unauthorized-statements}
 
 <span class="comment" data-author="RV">I don't think we need the bolding here</span>
-
-<span class="comment" data-author="RV">I think the title is a misnomer; it makes me think about (client) authorization, so whether the client was allowed to see it. Whereas this is about the statements being <em>untrusted</em>—because they were not issued by an authority. I think you mean <q>Unauthoritative</q>.</span>
 
 <span class="comment" data-author="RV">So, reading the first case here, I think there are a couple of structured elements we might want to add to every case. I have added some examples.</span>
 
