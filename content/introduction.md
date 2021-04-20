@@ -31,7 +31,11 @@ and _traverses_ links between them in a crawling-manner in order to resolve the 
 Since LTQP is still a relative young area of research,
 in which there are still a number of open problems that need to be tackled,
 notably [result completeness and query termination](cite:cites linktraversal).
-Aside from these known issues, **we investigate in this article security issues related to LTQP engines**,
+Aside from these known issues,
+we also state the importance of _security_.
+Security is [a highly important and well-investigated topic in the context of Web applications](cite:cites sqlinjection, sparqlinjectionattacks),
+but it has not yet been investigated in the context of LTQP.
+As such, **we investigate in this article security issues related to LTQP engines**,
 which may threaten the integrity of the user's data, machine, and user experience,
 but also lead to privacy issues if personal data is unintentionally leaked.
 Specifically, we focus on data-driven security issues that are inherent to LTQP

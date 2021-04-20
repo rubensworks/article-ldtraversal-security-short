@@ -3,14 +3,16 @@
 
 This section lists relevant related work in the topics of LTQP and security.
 
-<span class="comment" data-author="RV">General thought: to what extent applicable to KG in general or just RDF? Justification: RDF has global semantics and hence decentralizes better in non-controled environments, which are also a prime target for security analysis.</span>
-
 ### Link-Traversal-based Query Processing
 
 More than a decade ago, [Link-Traversal-based Query Processing (LTQP)](cite:cites sparqllinktraversal, linktraversal)
 has been introduced as an alternative query paradigm for enabling query execution over document-oriented interfaces.
-LTQP executes queries over live data, and discover links to other documents during query execution.
-This is in contrast to the typical query execution over database-oriented interfaces such as [SPARQL endpoints](cite:cites spec:sparqlprot),
+These documents are usually [Linked Data](cite:cites linkeddata) serialized using any [RDF](cite:cites spec:rdf) serialization.
+RDF is suitable to LTQP and decentralization because of its global semantics,
+which allows queries to be written independently of the schemas of specific documents.
+In order to execute these queries, LTQP processing occurs over live data,
+and discover links to other documents via the *follow-your-nose principle* during query execution.
+This is in contrast to the typical query execution over centralized database-oriented interfaces such as [SPARQL endpoints](cite:cites spec:sparqlprot),
 where data is assumed to be loaded into the endpoint beforehand,
 and no additional data is discovered during query execution.
 
@@ -18,10 +20,10 @@ Concretely, LTQP typically starts off with an input query and a set of seed docu
 The query engine then dereferences all seed documents via an HTTP `GET` request,
 discovers links to other documents inside those documents,
 and recursively dereferences those discovered documents.
-Based on all the RDF triples that it extracts from the discovered documents, <span class="rephrase" data-author="RV">query execution</span> can be performed.
-<span class="comment" data-author="RV">discovery is part of execution</span>
 Since document discovery can be a very long (or infinite) process,
-an [iterative approach](cite:cites Squin) was introduced that allows query execution during the discovery process.
+query execution happens during the discovery process
+based on all the RDF triples that are extracted from the discovered documents.
+This is typically done by implementing these processes in an [iterative pipeline](cite:cites Squin).
 Furthermore, since this discovery approach can lead to a large number of discovered documents,
 different [reachability criteria](cite:cites reachability_semantics) have been introduced
 as a way to restrict what links are to be followed for a given query.
@@ -48,10 +50,12 @@ As such, we list the relevant work on single-source SPARQL querying hereafter.
 The most significant type of security vulnerability in Web applications in general is _Injection through User Input_,
 of which [SQL injection attacks](cite:cites sqlinjection) are a primary example.
 [Orduna et al.](cite:cites sparqlinjectionattacks) investigate this type of attack in the context of SPARQL queries,
-and show that parameterized queries can help avoid this type of attacks.
-<span class="comment" data-author="RV">Can this citation be used in the intro as well, thee argue the necessity of our work?</span>
+and show that _parameterized queries_ can help avoid this type of attacks.
+A parameterized query is a query _template_ that can contain multiple _parameters_,
+which can be instantiated with different values.
+To avoid injection attacks, parameterized query libraries
+will perform the necessary validation and escaping on the inserted values.
 The authors implemented parameterized queries in the [Jena framework](cite:cites jena) as a mitigation example.
-<span class="comment" data-author="RV">Explain? Or does this come later?</span>
 
 [SemGuard](cite:cites semguard) is a system that aims to detect injection attacks in both SPARQL and SQL queries for query engines that support both.
 A motivation of this work is that the use of parameterized queries is not always desirable,
@@ -67,7 +71,10 @@ Furthermore, they provide _SemWebGoat_, a deliberately insecure RDF-based Web ap
 All of the discussed attacks involve some form of injection,
 leading to retrieval or modification of unwanted data,
 or denial-of-service by for example injecting the `?s ?p ?o` pattern.
-<span class="comment" data-author="RV">Why is that a DOS? (https://link.springer.com/chapter/10.1007/978-3-642-41338-4_18 has an answer, I believe)</span>
+Such `?s ?p ?o` patterns cause all data to be fetched,
+which for large datasets can require long execution times,
+which may lead to denials of service for following SPARQL queries,
+or even [crash the server and lead to availability issues](cite:cites sparqlreadyforaction).
 
 ### Linked Data Access Control
 
@@ -98,11 +105,14 @@ Due to its properties, it is being used as default access control mechanism in t
 [Sacco et al.](cite:cites accesscontrolwebofdata) extend Web Access Control to not only declare document-level access,
 but also on resource, statement and graph level.
 [Costabello et al.](cite:cites accesscontrolhttp) introduce the Shi3ld framework that enables access control for [Linked Data Platform](cite:cites spec:ldp).
-Both SPARQL-based and a SPARQL-less variants of the framework are proposed.
-<span class="comment" data-author="RV">What is SPARQL-less? How do they differ?</span>
+Two variants of this framework exist; one based on a SPARQL query engine,
+and one more limited variant that works without SPARQL queries.
 [Kirrane et al.](cite:cites securemanipulationlinkeddata) introduce a framework
 for enabling query-based access control via query rewriting of simple graph pattern queries.
-Finally, [Steyskal et al.](cite:cites accesscontrollinkeddataodrl) provide an approach that is based on the Open Digital Rights Language.
+Further, [Steyskal et al.](cite:cites accesscontrollinkeddataodrl) provide an approach that is based on the Open Digital Rights Language.
+Finally, [Taelman et al.](cite:cites privacypreserving) introduce a framework
+to optimize federated querying over documents that require access control,
+by incorporating authorizations into privacy-preserving data summaries.
 
 ### Web Crawlers
 
@@ -167,14 +177,6 @@ Silic et al. list the following main threats for Web browsers:
 2. **Reducing window of vulnerability**: If an exploit has been discovered, it should be patched as soon as possible. Google Chrome follows automated testing to ship security patches as soon as possible. All existing Chrome installations check for updates every five hours, and update in the background without disrupting the user experience.
 3. **Reducing frequency of exposure**: In order to avoid people from visiting malicious Web sites for which the browser has not been patched yet, Google Chrome makes use of a continuously updating database of such Web sites. This will show a warning to the user before visiting such a site.
 
-#### SQL Injection
-
-<span class="comment" data-author="RV">This is out of place?</span>
-
-[SQL injection attacks](cite:cites sqlinjection) are one of the most common vulnerabilities on Web sites
-where (direct or indirect) user input is not properly handled, and may lead to the attacker performing unintended SQL statements on databases.
-These types of attacks are typically mitigated through strong input validation, which are typically available in reusable libraries.
-
 #### Techniques for mitigating browser vulnerabilities
 
 [Browser Hardening](cite:cites hardening) is based on the concept of reducing privileges of browsers to increase security.
@@ -182,3 +184,9 @@ For example, browsers can be configured to disabled JavaScript and Adobe Flash, 
 
 [Fuzzing](cite:cites fuzzing) is a technique that involves generating random data as input to software.
 Major Web browsers such as Google Chrome and Microsoft Edge perform extensive fuzzed testing by generating random Web pages and running them through the browser to detect crashes and other vulnerabilities.
+
+### SQL Injection
+
+[SQL injection attacks](cite:cites sqlinjection) are one of the most common vulnerabilities on Web sites
+where (direct or indirect) user input is not properly handled, and may lead to the attacker performing unintended SQL statements on databases.
+These types of attacks are typically mitigated through strong input validation, which are typically available in reusable libraries.
