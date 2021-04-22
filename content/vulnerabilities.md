@@ -1,38 +1,48 @@
-## Data-driven Threats
-{:#threats}
+## Data-driven Vulnerabilities
+{:#vulnerabilities}
 
-We consider two main types of security threats to LTQP engines:
-<span class="comment" data-author="RV">Why, do we have any precedents for this? Is this what other query literature does? Are we being exhaustive (to the best of our knowledge), or did we just pick two. Is this driven from related work?</span>
+As shown before in [](#related-work-rdf-query-processing),
+most research on identifying security vulnerabilities within RDF query processing
+focuses on the query itself as a means of attacking, mostly through injection techniques.
+Most of these techniques may also apply to queries that are given as input to LTQP engines.
 
-1. **Data-driven**: attacks are targeted at the data that is being processed during query execution.
-1. **Query-driven**: attacks are targeted at the query that will be used as input to the engine before query execution.
+In this work, we acknowledge the importance of these vulnerabilities,
+but we instead place our attention to a new class of vulnerabilities
+that are specific to LTQP engines as a consequence of the open and uncontrolled nature of data on the Web.
+Concretely, we consider two main classes of security vulnerabilities to LTQP engines:
 
-<span class="comment" data-author="RV">The phrasing <q>targeted at</q> is incorrect, I think. The data is not the target of the attack, but the means of attacking (another target). So on the one hand, we want to change the phrasing; on the other hand, I wonder whether we also need to have a separate list of actual targets. Who are we attacking here?</span>
+1. **Data-driven**: vulnerabilities that are caused by the presence, structuring, or method of publishing data on the Web.
+2. **Query-driven**: vulnerabilities that are caused by modifying queries that are the input to certain query engines.
 
-We consider the query-driven threats to LTQP similar to existing RDF query processing as discussed in [](#related-work-rdf-query-processing),
-<span class="comment" data-author="RV">Can we make an argument here as to why? Perhaps we still want to enumerate each of those, and explain a) whether they apply b) how they apply differently.</span>
-and we therefore purely focus on data-driven threats for the remainder of this work.
+To the best of our knowledge, all existing work on security vulnerabilities within RDF query processing
+has focused on query-driven vulnerabilities.
+Given its importance for LTQP engines,
+we purely focus on data-driven vulnerabilities for the remainder of this work.
 
 {:.todo}
-We could still have a separate section of query-driven threats,
+We could still have a separate section of query-driven vulnerabilities,
 but I suspect it to be much shorter and less interesting than this one.
 
 <span class="rephrase" data-author="RV">Inspired by</span>
 <span class="comment" data-author="RV">Perhaps more something along <q>We follow the categorization of XXX to define/organize…</q></span>
 known security vulnerabilities of [Web browsers and crawlers](#related-work),
-we decompose data-driven security threats into the following axes:
+we decompose data-driven security vulnerabilities into the following axes:
 
-1. **Result Compromise**: attacks that lead <ins class="comment" data-author="RV">the client to return</ins> to incorrect query results.
+1. **Result Compromise**: attacks that lead the LTQP engine to return to incorrect query results.
 <span class="comment" data-author="RV">So here the client, or the one using the client, seems to be the target.</span>
-2. **Malicious Linking**: attacks that cause links to be followed that cause <ins class="comment" data-author="RV">the client to perform</ins> unintended actions <del class="comment" data-author="RV">to be performed</del>.
+2. **Malicious Linking**: attacks that cause links to be followed that cause the LTQP engine to perform unintended actions.
 <span class="comment" data-author="RV">Interesting point here as to attacker/attacked/vehicle: it's an attacker taking control of a client, which then serves as an unwitting vehicle to attack a third party</span>
 3. **System Compromise**: attacks that cause the query engine to perform undesired operations.
 <span class="comment" data-author="RV">As currently written, 3 is a superset containing 1 and 2. What is the difference? Or is <q>other</q> missing?</span>
 
-[](#threats-overview) gives an overview of all threats that we consider in this article,
-and to what threat axes they apply.
+{:.todo}
+Do we want to use a different categorization?
+Perhaps by target of the attack?
 
-<figure id="threats-overview" class="table" markdown="1">
+[](#vulnerabilities-overview) gives an overview of all vulnerabilities that we consider in this article,
+and to what vulnerability axes they apply.
+
+<figure id="vulnerabilities-overview" class="table" markdown="1">
 
 | Threat                                | Result Compromise | Malicious Linking | System Compromise |
 |---------------------------------------|-------------------|-------------------|-------------------|
@@ -43,20 +53,19 @@ and to what threat axes they apply.
 | Arbitrary Code Execution 				|                   |                   | ✓                 |
 | Link Cycles            				|                   | ✓                 | ✓                 |
 | System hogging        				|                   |                   | ✓                 |
-| Document Corruption.                  |                   |                   | ✓                 |
+| Document Corruption                   |                   |                   | ✓                 |
 | Cross-query Execution Interaction		|                   |                   | ✓                 |
 | Document Priority Modification.  		|                   |                   | ✓                 |
 
 <figcaption markdown="block">
-An overview of all threats related to LTQP that are considered in this article.
-They are decomposed into the different threat axes to which they apply.
+An overview of all vulnerabilities related to LTQP that are considered in this article.
+They are decomposed into the different vulnerability axes to which they apply.
 </figcaption>
 </figure>
 
-Hereafter, we explain each threat in more detail.
-For each threat, we first describe the _issue_,
-then we illustrate it with at least one _example_,
-after which we sketch possible solutions for _mitigation_.
+Hereafter, we explain and classify each vulnerability using the classification method from [](#classification).
+For each vulnerability, we provide at least one possible example of an _exploit_ based on our use case,
+and sketch at least one possible _mitigation_.
 
 Unless mentioned otherwise, we do not make any assumptions about specific forms or semantics of LTQP,
 which can influence which links are considered.
@@ -64,11 +73,9 @@ The only general assumption we make is that we have an LTQP query engine that fo
 and executes queries over the union of the discovered documents.
 
 ### Unauthoritative Statements
-{:#threat-unauthorized-statements}
+{:#vulnerability-unauthorized-statements}
 
 <span class="comment" data-author="RV">I don't think we need the bolding here</span>
-
-<span class="comment" data-author="RV">So, reading the first case here, I think there are a couple of structured elements we might want to add to every case. I have added some examples.</span>
 
 A consequence of the [open-world assumption](cite:cites owa) where anyone can say anything about anything,
 is that **both valid and invalid (and possibly malicious) things can be said**.
@@ -76,25 +83,7 @@ When a query engine is traversing the Web,
 it is therefore possible that it can encounter information that **impacts the query results in an undesired manner**.
 This information could be [_untrusted_](cite:cites guidedlinktraversal), _contradicting_, or _incorrect_.
 
-Attacker
-: Any data publisher
-
-Victim
-: Result processor
-
-Cause
-: Mistaken authority
-
-Consequence/impact
-: Untrusted query results
-
-Difficulty of attack
-: Easy
-
-Difficulty of mitigation
-: Currently hard
-
-**Example**
+**Exploit: producing untrusted query results**
 
 Given our use case, Carol could for instance decide to add one additional triple to her profile,
 such as: `<https://bob.pods.org/profile#me> :name "Dave"`.
@@ -104,11 +93,23 @@ However, this means that if Alice would naively query for all her friend's names
 she would have two names for Bob appear in her results,
 namely "Bob" and "Dave", where this second result may be undesired.
 
-<span class="comment" data-author="RV">This made me think of another attack, where very long, possibly endless (!) data documents are served. Like 1GB literals or so. The victim there would be the query engine, which would run out of memory. Different mitigation as well. So I think this is a different attack.</span>
+<figure id="table-vulnerability-unauthorized-statements-exploit-properties" markdown="1">
 
-**Mitigation**
+| Attribute                             | Value     |
+|---------------------------------------|------------|
+| Attacker 				                | Data publisher (Carol) |
+| Victim 				                | LTQP engine of Alice |
+| Impact 				                | Untrusted query results |
+| Difficulty 				            | Easy |
 
-One solution to this threat [has been proposed](cite:cites guidedlinktraversal),
+<figcaption markdown="block">
+Exploit properties for the Unauthoritative Statements vulnerability.
+</figcaption>
+</figure>
+
+**Mitigation: applying content policies**
+
+One solution to this vulnerability [has been proposed](cite:cites guidedlinktraversal),
 whereby the concept of _Content Policies_ are introduced.
 These **policies can capture the notion of what one considers authoritative**,
 which can vary between different people or agents.
@@ -116,16 +117,28 @@ In our example, Alice could for example decide to only trust her contacts to mak
 and exclude all other information they express during query processing.
 Such a policy would enable Alice's query for contact names to not produce Carol's false name for Bob.
 This concept of Content Policies does however only exist in theory,
-so no concrete mitigation to this threat exist yet.
+so no concrete mitigation to this vulnerability exist yet.
+
+<figure id="table-vulnerability-unauthorized-statements-mitigation-properties" markdown="1">
+
+| Attribute                             | Value      |
+|---------------------------------------|------------|
+| Location 				                | Data publishers and LTQP engines |
+| Difficulty 				            | Currently hard |
+
+<figcaption markdown="block">
+Mitigation properties for the Unauthoritative Statements vulnerability.
+</figcaption>
+</figure>
 
 <span class="comment" data-author="RV">Perhaps reason about the consequences? As such, LTQP currenty cannot deliver trusted results?</span>
 
 <span class="comment" data-author="RV">Another mitigation is provenance: include the results, but track where they come from. I wonder whether Olaf has already written about this, given that he has worked on both LTQP and PROV. I think you can describe this as: one direction is limiting what information is incorporated from what sources, another is documenting thee sources information came from.</span>
 
 ### Intermediate Result and Query Leakage
-{:#threat-intermediate-leakage}
+{:#vulnerability-intermediate-leakage}
 
-This threat assumes the existence of a **_hybrid_ LTQP query engine** that primarily traverses links,
+This vulnerability assumes the existence of a **_hybrid_ LTQP query engine** that primarily traverses links,
 but can exploit database-oriented interfaces such as SPARQL endpoints if they are detected in favour of a range of documents.
 Query engines typically decompose queries into smaller sub-queries,
 and join these intermediate results together afterwards.
@@ -146,12 +159,12 @@ Other query planning algorithms could even decide to send the full original SPAR
 Depending on the engine and its query plan,
 this could give the attacker knowledge of intermediate results,
 or even the full query.
-This threat enables attackers to do obtain insights to user behaviour, which is a privacy concern.
+This vulnerability enables attackers to do obtain insights to user behaviour, which is a privacy concern.
 A more critical problem is when private data is being leaked that normally exists behind access control, such as bank account numbers.
 
 **Mitigation**
 
-As this threat is similar to the _cross domain compromise_ and _data theft_ threats in Web browsers.
+As this vulnerability is similar to the _cross domain compromise_ and _data theft_ vulnerabilities in Web browsers.
 A possible solution to it would be in the form of the **_same-origin policy_** that is being employed in most of today's Web browsers.
 In essence, this would mean that intermediate results can not be used across different Fully Qualified Domain Names (FQDN).
 Such a solution would have to be carefully designed as to not lead to significant querying restrictions that would lead to fewer relevant query results.
@@ -166,11 +179,11 @@ unless explicitly enabled by the user.
 This approach is for example followed by the [Comunica query engine](cite:cites comunica).
 
 ### Session Hijacking
-{:#threat-session-hijacking}
+{:#vulnerability-session-hijacking}
 
-In this threat, we assume the pressence of some form of authentication,
+In this vulnerability, we assume the pressence of some form of authentication,
 –such as [WebID-OIDC](cite:cites spec:webidoidc)– that leads to an active authenticated session.
-This threat is similar to that of Web browsers,
+This vulnerability is similar to that of Web browsers,
 where the session token can be compromised through theft or session token prediction.
 Such a treat could lead to [cross-domain request forgery (CSRF)](cite:cites csrf) attacks,
 where an **attacker forces the user to perform an action while authenticated** without the user's consent.
@@ -185,12 +198,12 @@ While the [SPARQL protocol](cite:cites spec:sparqlprot) only allows update queri
 Alice's naive query engine could implement this incorrectly so that update queries are also accepted via HTTP GET.
 If Alice executes a query over her address book, the query engine could dereference this link
 with her session enabled, which would cause her endpoint to be cleared.
-This threat is however not specific to SPARQL endpoints,
+This vulnerability is however not specific to SPARQL endpoints,
 but may occur on any type of Web API that allows modifying data via HTTP GET requests.
 
 **Mitigation**
 
-This threat should be tackled on different fronts, and primarily requires secure and well-tested software implementations.
+This vulnerability should be tackled on different fronts, and primarily requires secure and well-tested software implementations.
 First, it is important that authentication-enabled **query engines do not leak sessions across different domains**.
 Second, **traversal should only be allowed using the HTTP GET method**.
 This may not always be straightforward,
@@ -202,9 +215,9 @@ which is [not always followed by many Web APIs](cite:cites restful),
 either intentional or due to software bugs.
 
 ### Cross-site Data Injection
-{:#threat-cross-site-injection}
+{:#vulnerability-cross-site-injection}
 
-This threat concerns ways by which **attackers can inject data or links into documents**.
+This vulnerability concerns ways by which **attackers can inject data or links into documents**.
 For instance, **HTTP GET parameters** are often used to **parameterize the contents of documents**.
 If such parameters are not properly validated or escaped,
 they can be used by attackers to include malicious data or links.
@@ -223,20 +236,20 @@ which would lead to unwanted data to be included in the query results.
 
 **Mitigation**
 
-No single technique can fully mitigate this threat.
+No single technique can fully mitigate this vulnerability.
 Just like [SQL injection attacks](cite:cites sqlinjection) on Web sites,
 **Web APIs should take care of input validation**, preferably via reusable and rigorously tested software libraries.
-On the side of query engines, this threat may partially mitigated by **carefully designing trust policies**.
+On the side of query engines, this vulnerability may partially mitigated by **carefully designing trust policies**.
 In the case of our example, defining a policy that enables the full range of (direct and indirect) links
 to be followed from a single domain can be considered unsafe.
 Instead, more restrictive policies may be enforced, at the cost of expressivity and flexibility.
 
 ### Arbitrary Code Execution
-{:#threat-arbitrary-code-exec}
+{:#vulnerability-arbitrary-code-exec}
 
 Advanced crawlers such as the [Googlebot](cite:cites googlebot) allow JavaScript logic to be executed for a limit duration,
 since certain HTML pages are built dynamically via JavaScript at the client-side.
-In this threat, we assume a similar situation for LTQP,
+In this vulnerability, we assume a similar situation for LTQP,
 where Linked Data pages may also be created client-side via an expressive programming language such as JavaScript.
 This would in fact already be applicable to **HTML pages that dynamically produce JSON-LD script tags or RDFa in HTML via JavaScript**.
 In order to query over such dynamic Linked Data pages,
@@ -264,7 +277,7 @@ If this sandbox would also support performing HTTP requests,
 then the _same-origin policy_ should also be employed to mitigate the risk of cross-site scripting (XSS) attacks.
 
 ### Link Cycles
-{:#threat-link-cycles}
+{:#vulnerability-link-cycles}
 
 LTQP by nature depends on the ability of iteratively following links between documents.
 It is however possible that such **link structures form cycles**, either intentional or unintentional,
@@ -303,11 +316,11 @@ Other more advanced techniques from the domain of crawler trap mitigation could 
 such as [the one that measures similarities between documents to detect crawler traps](cite:cites crawlertrapsdetection).
 
 ### System hogging
-{:#threat-system-hogging}
+{:#vulnerability-system-hogging}
 
 The _user interface compromise_ treat for Web browsers includes attacks involving **CPU and memory hogging**
 through (direct or indirect) **malicious code execution** or by **exploiting software flaws**.
-Such threats also exist for LTQP query engines,
+Such vulnerabilities also exist for LTQP query engines,
 especially regarding the use of different **RDF serializations**,
 and their particularities with respect to parsing.
 
@@ -332,7 +345,7 @@ If LTQP engines would allow arbitrary code execution, then more extensive system
 would be needed just like in [Web browsers](cite:cites securitymodernwebbrowserarchitecture).
 
 ### Document Corruption
-{:#threat-document-corruption}
+{:#vulnerability-document-corruption}
 
 Since the Web is not a centrally controlled system,
 it is possible that documents are **incorrectly formatted**,
@@ -365,18 +378,18 @@ similar as to how (non-XHTML) HTML parsers are created.
 The downside of this is that such parsers would not strictly adhere to their specifications.
 
 ### Cross-query Execution Interaction
-{:#threat-cross-query-interaction}
+{:#vulnerability-cross-query-interaction}
 
 Query engines of all forms typically make use of **caching techniques** to improve performance of query execution.
 LTQP query engines can leverage caching techniques for document retrieval.
 Within a single query execution, or across multiple query executions,
 the documents may be reused, which could reduce the overall number of HTTP requests.
-Such forms of caching can lead to threats based on **information leaking across different query executions**.
-We therefore make the assumption of caching-enabled LTQP engines in this threat.
+Such forms of caching can lead to vulnerabilities based on **information leaking across different query executions**.
+We therefore make the assumption of caching-enabled LTQP engines in this vulnerability.
 
 **Examples**
 
-A first example of this threat is an attack that enables Carol to gain knowledge about
+A first example of this vulnerability is an attack that enables Carol to gain knowledge about
 whether or not Bob's profile has been requested before by Alice.
 We assume that the Alice's engine issues a query over a document from Carol listing all her pictures.
 We also assume that Bob's profile contains a link to Carol's profile.
@@ -391,7 +404,7 @@ which could for example lead to privacy issues with respect to the user's intere
 
 A second example assumes the presence of a **software bug** inside Alice's LTQP query engine
 that makes document caches ignore authorization information.
-This example is also a form of the *Intermediate Result and Query Leakage* threat that was explained before,
+This example is also a form of the *Intermediate Result and Query Leakage* vulnerability that was explained before,
 for which we assume the existence of a *hybrid* LTQP query engine.
 If Alice queries a private file containing her passwords from a server using its authentication key,
 this can cause this passwords file to be cached.
@@ -404,7 +417,7 @@ which could cause parts of it to be leaked to Carol's query endpoint.
 
 **Mitigation**
 
-In order to mitigate this threat, the [**isolation model** that is used in Web browsers](cite:cites securitymodernwebbrowserarchitecture) could be reused.
+In order to mitigate this vulnerability, the [**isolation model** that is used in Web browsers](cite:cites securitymodernwebbrowserarchitecture) could be reused.
 When applied to LTQP query engines, this could mean that **each query would be executed in a separate sandbox**,
 so that information can not leak across different query executions.
 A downside of this approach is that this may cause a significant **performance impact**
@@ -412,12 +425,12 @@ when similar queries are executed in sequence, and would cause identical documen
 In order to mitigate this drawback, solutions may be possible to **allow "related queries" to be executed inside the same sandbox**.
 
 ### Document Priority Modification
-{:#threat-doc-priority-modification}
+{:#vulnerability-doc-priority-modification}
 
 Different techniques are possible to [determine the priority of documents](cite:cites WalkingWithoutMap) during query processing.
 If queries don't specify a custom ordering, this **prioritization will impact the ordering of query results**.
 Some of these techniques are purely graph-based, such as [PageRank](cite:cites pagerank), and can therefore suffer from purely data-driven attacks.
-This threat involves **attacks that can influence the priority of documents**,
+This vulnerability involves **attacks that can influence the priority of documents**,
 and thereby maliciously influence what query **results come in earlier or later**.
 
 **Example**
@@ -442,4 +455,4 @@ A first solution is to place **responsibility at the API**, and expecting it to 
 A second solution involves publishers to expose **policies that explicitly authorize what links should be considered legitimate**,
 and LTQP query engines inspecting these policies when determining document priorities.
 A third solution is to use **machine-learning to distinguishing non-legitimate from legitimate links**.
-A combination of the three approaches can be used to mitigate this threat.
+A combination of the three approaches can be used to mitigate this vulnerability.

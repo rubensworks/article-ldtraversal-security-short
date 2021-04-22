@@ -52,6 +52,7 @@ we draw inspiration from related domains that _are_ already well-established.
 Specifically, we draw inspiration from the domains of crawling and Web browsers in [](#related-work),
 and draw links to what impact these known security issues will have on LTQP query engines.
 In [](#use-case), we introduce a guiding use case that will be used to illustrate different threats with.
+After that, we discuss our method of categorizing vulnerabilities in [](#classification).
 Next, we list 10 data-driven security vulnerabilities related to LTQP in [](#threats),
 which are derived from known vulnerabilities in similar domains.
 For each vulnerability, we provide examples, and sketch possible high-level mitigations.
