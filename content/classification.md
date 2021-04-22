@@ -41,7 +41,7 @@ and the _Mitigations_ property refers to a number of _mitigations_ that may prev
 The different properties of each exploit are shown in [](#table-exploit-properties),
 and the properties for each mitigation are shown in [](#table-mitigation-properties).
 
-<figure id="table-vulnerability-properties" markdown="1">
+<figure id="table-vulnerability-properties" markdown="1" class="table">
 
 | Attribute                             | Values     |
 |---------------------------------------|------------|
@@ -54,7 +54,7 @@ Vulnerability properties specific to LTQP, with several possible values for each
 </figure>
 
 
-<figure id="table-exploit-properties" markdown="1">
+<figure id="table-exploit-properties" markdown="1" class="table">
 
 | Attribute                             | Values     |
 |---------------------------------------|------------|
@@ -68,7 +68,7 @@ Exploit properties specific to LTQP, with several possible values for each attri
 </figcaption>
 </figure>
 
-<figure id="table-mitigation-properties" markdown="1">
+<figure id="table-mitigation-properties" markdown="1" class="table">
 
 | Attribute                             | Values     |
 |---------------------------------------|------------|

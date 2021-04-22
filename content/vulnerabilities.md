@@ -81,7 +81,7 @@ A consequence of the [open-world assumption](cite:cites owa) where anyone can sa
 is that **both valid and invalid (and possibly malicious) things can be said**.
 When a query engine is traversing the Web,
 it is therefore possible that it can encounter information that **impacts the query results in an undesired manner**.
-This information could be [_untrusted_](cite:cites guidedlinktraversal), _contradicting_, or _incorrect_.
+This information could be [_untrusted_](cite:cites guidedlinktraversal, linktraversaldiverse), _contradicting_, or _incorrect_.
 
 **Exploit: producing untrusted query results**
 
@@ -93,7 +93,7 @@ However, this means that if Alice would naively query for all her friend's names
 she would have two names for Bob appear in her results,
 namely "Bob" and "Dave", where this second result may be undesired.
 
-<figure id="table-vulnerability-unauthorized-statements-exploit-properties" markdown="1">
+<figure id="table-vulnerability-unauthorized-statements-exploit-properties" markdown="1" class="table">
 
 | Attribute                             | Value     |
 |---------------------------------------|------------|
@@ -119,7 +119,7 @@ Such a policy would enable Alice's query for contact names to not produce Carol'
 This concept of Content Policies does however only exist in theory,
 so no concrete mitigation to this vulnerability exist yet.
 
-<figure id="table-vulnerability-unauthorized-statements-mitigation-properties" markdown="1">
+<figure id="table-vulnerability-unauthorized-statements-mitigation-properties-1" markdown="1" class="table">
 
 | Attribute                             | Value      |
 |---------------------------------------|------------|
@@ -127,13 +127,32 @@ so no concrete mitigation to this vulnerability exist yet.
 | Difficulty 				            | Currently hard |
 
 <figcaption markdown="block">
-Mitigation properties for the Unauthoritative Statements vulnerability.
+Properties of the "applying content policies" mitigation for the Unauthoritative Statements vulnerability.
 </figcaption>
 </figure>
 
 <span class="comment" data-author="RV">Perhaps reason about the consequences? As such, LTQP currenty cannot deliver trusted results?</span>
 
-<span class="comment" data-author="RV">Another mitigation is provenance: include the results, but track where they come from. I wonder whether Olaf has already written about this, given that he has worked on both LTQP and PROV. I think you can describe this as: one direction is limiting what information is incorporated from what sources, another is documenting thee sources information came from.</span>
+**Mitigation: tracking provenance**
+
+Another solution to this vulnerability [has been suggested](cite:cites linktraversaldiverse)
+to make use of [data provenance](cite:cites spec:provo).
+In contrast to the previous mitigation,
+this approach would not limit what is incorporated from what sources,
+but instead it would document the sources information came from.
+The end-user can then decide afterwards what provenance trails it seems trustworthy.
+
+<figure id="table-vulnerability-unauthorized-statements-mitigation-properties-2" markdown="1" class="table">
+
+| Attribute                             | Value      |
+|---------------------------------------|------------|
+| Location 				                | LTQP engines |
+| Difficulty 				            | Medium |
+
+<figcaption markdown="block">
+Properties of the "tracking provenance" mitigation for the Unauthoritative Statements vulnerability.
+</figcaption>
+</figure>
 
 ### Intermediate Result and Query Leakage
 {:#vulnerability-intermediate-leakage}
