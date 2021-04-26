@@ -4,15 +4,16 @@
 As shown before in [](#related-work-rdf-query-processing),
 most research on identifying security vulnerabilities within RDF query processing
 focuses on the query itself as a means of attacking, mostly through injection techniques.
-Most of these techniques may also apply to queries that are given as input to LTQP engines.
+Since LTQP engines also accepts queries as input,
+these existing techniques will therefore also apply to LTQP engines.
 
 In this work, we acknowledge the importance of these vulnerabilities,
-but we instead place our attention to a new class of vulnerabilities
+but we instead place our attention onto a new class of vulnerabilities
 that are specific to LTQP engines as a consequence of the open and uncontrolled nature of data on the Web.
 Concretely, we consider two main classes of security vulnerabilities to LTQP engines:
 
-1. **Data-driven**: vulnerabilities that are caused by the presence, structuring, or method of publishing data on the Web.
-2. **Query-driven**: vulnerabilities that are caused by modifying queries that are the input to certain query engines.
+1. **Query-driven**: vulnerabilities that are caused by modifying queries that are the input to certain query engines.
+2. **Data-driven**: vulnerabilities that are caused by the presence, structuring, or method of publishing data on the Web.
 
 To the best of our knowledge, all existing work on security vulnerabilities within RDF query processing
 has focused on query-driven vulnerabilities.
