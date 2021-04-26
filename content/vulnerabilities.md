@@ -24,39 +24,29 @@ we purely focus on data-driven vulnerabilities for the remainder of this work.
 We could still have a separate section of query-driven vulnerabilities,
 but I suspect it to be much shorter and less interesting than this one.
 
-<span class="rephrase" data-author="RV">Inspired by</span>
-<span class="comment" data-author="RV">Perhaps more something along <q>We follow the categorization of XXX to define/organize…</q></span>
-known security vulnerabilities of [Web browsers and crawlers](#related-work),
-we decompose data-driven security vulnerabilities into the following axes:
+We identify three main axes for security vulnerabilities, based on their exploit's potential impact area:
 
-1. **Result Compromise**: attacks that lead the LTQP engine to return to incorrect query results.
-<span class="comment" data-author="RV">So here the client, or the one using the client, seems to be the target.</span>
-2. **Malicious Linking**: attacks that cause links to be followed that cause the LTQP engine to perform unintended actions.
-<span class="comment" data-author="RV">Interesting point here as to attacker/attacked/vehicle: it's an attacker taking control of a client, which then serves as an unwitting vehicle to attack a third party</span>
-3. **System Compromise**: attacks that cause the query engine to perform undesired operations.
-<span class="comment" data-author="RV">As currently written, 3 is a superset containing 1 and 2. What is the difference? Or is <q>other</q> missing?</span>
-
-{:.todo}
-Do we want to use a different categorization?
-Perhaps by target of the attack?
+1. **Query Results**: vulnerabilities that lead to exploits regarding query results.
+1. **Data Integrity**: vulnerabilities that lead to exploits regarding one or more user's data.
+1. **Query Process**: vulnerabilities that lead to exploits regarding the stability of the query engine's process.
 
 [](#vulnerabilities-overview) gives an overview of all vulnerabilities that we consider in this article,
 and to what vulnerability axes they apply.
 
 <figure id="vulnerabilities-overview" class="table" markdown="1">
 
-| Threat                                | Result Compromise | Malicious Linking | System Compromise |
+| Threat                                | Query Results     | Data Integrity    | Query Process     |
 |---------------------------------------|-------------------|-------------------|-------------------|
 | Unauthorized Statements 				| ✓                 |                   |                   |
-| Intermediate Result and Query Leakage |                   | ✓                 |                   |
+| Intermediate Result and Query Leakage | ✓                 |                   |                   |
 | Session Hijacking 				    |                   | ✓                 |                   |
 | Cross-site Data Injection     	    | ✓                 | ✓                 |                   |
-| Arbitrary Code Execution 				|                   |                   | ✓                 |
-| Link Traversal Trap      				|                   | ✓                 | ✓                 |
+| Arbitrary Code Execution 				|                   | ✓                 | ✓                 |
+| Link Traversal Trap      				|                   |                   | ✓                 |
 | System hogging        				|                   |                   | ✓                 |
 | Document Corruption                   |                   |                   | ✓                 |
-| Cross-query Execution Interaction		|                   |                   | ✓                 |
-| Document Priority Modification.  		|                   |                   | ✓                 |
+| Cross-query Execution Interaction		|                   | ✓                 |                   |
+| Document Priority Modification.  		| ✓                 |                   |                   |
 
 <figcaption markdown="block">
 An overview of all vulnerabilities related to LTQP that are considered in this article.
