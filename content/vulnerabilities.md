@@ -83,6 +83,8 @@ is that **both valid and invalid (and possibly malicious) things can be said**.
 When a query engine is traversing the Web,
 it is therefore possible that it can encounter information that **impacts the query results in an undesired manner**.
 This information could be [_untrusted_](cite:cites guidedlinktraversal, linktraversaldiverse), _contradicting_, or _incorrect_.
+Without mitigations to this vulnerability, query results from an LTQP can therefore never be really trusted,
+which brings the practical broad use of LTQP into question.
 
 **Exploit: producing untrusted query results by adding unauthoritative triples**
 
@@ -123,8 +125,6 @@ Location
 
 Difficulty
 : Currently hard (content do not exist yet)
-
-<span class="comment" data-author="RV">Perhaps reason about the consequences? As such, LTQP currenty cannot deliver trusted results?</span>
 
 **Mitigation: tracking provenance**
 
