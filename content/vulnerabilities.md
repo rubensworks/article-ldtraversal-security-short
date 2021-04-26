@@ -52,7 +52,7 @@ and to what vulnerability axes they apply.
 | Session Hijacking 				    |                   | ✓                 |                   |
 | Cross-site Data Injection     	    | ✓                 | ✓                 |                   |
 | Arbitrary Code Execution 				|                   |                   | ✓                 |
-| Link Cycles            				|                   | ✓                 | ✓                 |
+| Link Traversal Trap      				|                   | ✓                 | ✓                 |
 | System hogging        				|                   |                   | ✓                 |
 | Document Corruption                   |                   |                   | ✓                 |
 | Cross-query Execution Interaction		|                   |                   | ✓                 |
@@ -84,7 +84,7 @@ When a query engine is traversing the Web,
 it is therefore possible that it can encounter information that **impacts the query results in an undesired manner**.
 This information could be [_untrusted_](cite:cites guidedlinktraversal, linktraversaldiverse), _contradicting_, or _incorrect_.
 
-**Exploit: producing untrusted query results**
+**Exploit: producing untrusted query results by adding unauthoritative triples**
 
 Given our use case, Carol could for instance decide to add one additional triple to her profile,
 such as: `<https://bob.pods.org/profile#me> :name "Dave"`.
@@ -94,19 +94,17 @@ However, this means that if Alice would naively query for all her friend's names
 she would have two names for Bob appear in her results,
 namely "Bob" and "Dave", where this second result may be undesired.
 
-<figure id="table-vulnerability-unauthorized-statements-exploit-properties" markdown="1" class="table">
+Attacker
+: Data publisher (Carol)
 
-| Attribute                             | Value     |
-|---------------------------------------|------------|
-| Attacker 				                | Data publisher (Carol) |
-| Victim 				                | LTQP engine of Alice |
-| Impact 				                | Untrusted query results |
-| Difficulty 				            | Easy |
+Victim
+: Query results from the LTQP engine of Alice
 
-<figcaption markdown="block">
-Exploit properties for the Unauthoritative Statements vulnerability.
-</figcaption>
-</figure>
+Impact
+: Untrusted query results
+
+Difficulty
+: Easy (adding triples to an RDF document)
 
 **Mitigation: applying content policies**
 
@@ -120,17 +118,11 @@ Such a policy would enable Alice's query for contact names to not produce Carol'
 This concept of Content Policies does however only exist in theory,
 so no concrete mitigation to this vulnerability exist yet.
 
-<figure id="table-vulnerability-unauthorized-statements-mitigation-properties-1" markdown="1" class="table">
+Location
+: Data publishers and LTQP engines
 
-| Attribute                             | Value      |
-|---------------------------------------|------------|
-| Location 				                | Data publishers and LTQP engines |
-| Difficulty 				            | Currently hard |
-
-<figcaption markdown="block">
-Properties of the "applying content policies" mitigation for the Unauthoritative Statements vulnerability.
-</figcaption>
-</figure>
+Difficulty
+: Currently hard (content do not exist yet)
 
 <span class="comment" data-author="RV">Perhaps reason about the consequences? As such, LTQP currenty cannot deliver trusted results?</span>
 
@@ -143,17 +135,11 @@ this approach would not limit what is incorporated from what sources,
 but instead it would document the sources information came from.
 The end-user can then decide afterwards what provenance trails it seems trustworthy.
 
-<figure id="table-vulnerability-unauthorized-statements-mitigation-properties-2" markdown="1" class="table">
+Location
+: LTQP engines
 
-| Attribute                             | Value      |
-|---------------------------------------|------------|
-| Location 				                | LTQP engines |
-| Difficulty 				            | Medium |
-
-<figcaption markdown="block">
-Properties of the "tracking provenance" mitigation for the Unauthoritative Statements vulnerability.
-</figcaption>
-</figure>
+Difficulty
+: Medium
 
 ### Intermediate Result and Query Leakage
 {:#vulnerability-intermediate-leakage}
@@ -168,10 +154,10 @@ could be joined with data from a discovered SPARQL endpoint.
 An attacker could therefore setup an interface that acts as a SPARQL endpoint,
 but is in fact a **malicious interface that intercepts intermediate results** from LTQP engines.
 
-**Example**
+**Exploit: capturing intermediary results via malicious SPARQL endpoint**
 
 Based on our use case, Carol could include a triple with a link to the SPARQL endpoint at `http://attacker.com/sparql`.
-If Alice makes use of a hybrid LTQP engine, the internal query planner could decide to make use of this malicious endpoint
+If Alice makes use of a hybrid LTQP engine with an adaptive query planner, this internal query planner could decide to make use of this malicious endpoint
 once it has been discovered.
 Depending on the query planner, this could mean that intermediate results from the traversal process such as Bob's telephone 
 are used as input to the malicious SPARQL endpoint.
@@ -182,7 +168,19 @@ or even the full query.
 This vulnerability enables attackers to do obtain insights to user behaviour, which is a privacy concern.
 A more critical problem is when private data is being leaked that normally exists behind access control, such as bank account numbers.
 
-**Mitigation**
+Attacker
+: SPARQL endpoint publisher (Carol)
+
+Victim
+: Intermediary results of the LTQP engine of Alice
+
+Impact
+: Leakage of (intermediary) query results
+
+Difficulty
+: Medium (setting up a malicious SPARQL endpoint)
+
+**Mitigation: Same-origin policy**
 
 As this vulnerability is similar to the _cross domain compromise_ and _data theft_ vulnerabilities in Web browsers.
 A possible solution to it would be in the form of the **_same-origin policy_** that is being employed in most of today's Web browsers.
@@ -198,6 +196,12 @@ Similarly, query engines may decide to also block requests to URLs using the `fi
 unless explicitly enabled by the user.
 This approach is for example followed by the [Comunica query engine](cite:cites comunica).
 
+Location
+: LTQP engines
+
+Difficulty
+: Easy (hard with COIRS workaround)
+
 ### Session Hijacking
 {:#vulnerability-session-hijacking}
 
@@ -205,34 +209,70 @@ In this vulnerability, we assume the pressence of some form of authentication,
 –such as [WebID-OIDC](cite:cites spec:webidoidc)– that leads to an active authenticated session.
 This vulnerability is similar to that of Web browsers,
 where the session token can be compromised through theft or session token prediction.
-Such a treat could lead to [cross-domain request forgery (CSRF)](cite:cites csrf) attacks,
+Such a vulnerability could lead to [cross-domain request forgery (CSRF)](cite:cites csrf) attacks,
 where an **attacker forces the user to perform an action while authenticated** without the user's consent.
 
-**Example**
+**Exploit: triggering unintended operations on SPARQL endpoint behind access control**
 
-For example, we assume that Alice has a naive SPARQL endpoint running at `http://my-endpoint.com/sparql`,
+For example, we assume that Alice has a flawed SPARQL endpoint running at `http://my-endpoint.com/sparql`,
 which requires Alice's session for accepting read and write queries.
 Alice's query engine may have Alice's session stored by default for when she wants to query against her own endpoint.
 If Carol knows this, she could a malicious triple with a link to `http://my-endpoint.com/sparql?query=DELETE * WHERE { ?s ?p ?o }` in her profile.
 While the [SPARQL protocol](cite:cites spec:sparqlprot) only allows update queries via HTTP POST,
-Alice's naive query engine could implement this incorrectly so that update queries are also accepted via HTTP GET.
+Alice's flawed query engine could implement this incorrectly so that update queries are also accepted via HTTP GET.
 If Alice executes a query over her address book, the query engine could dereference this link
 with her session enabled, which would cause her endpoint to be cleared.
 This vulnerability is however not specific to SPARQL endpoints,
 but may occur on any type of Web API that allows modifying data via HTTP GET requests.
 
-**Mitigation**
+Attacker
+: Data publisher (Carol)
+
+Victim
+: Alice's stored data
+
+Impact
+: Removal or modification of Alice's stored data
+
+Difficulty
+: Easy (adding a malicious link to flawed endpoint)
+
+**Mitigation: same-origin policy**
 
 This vulnerability should be tackled on different fronts, and primarily requires secure and well-tested software implementations.
-First, it is important that authentication-enabled **query engines do not leak sessions across different domains**.
-Second, **traversal should only be allowed using the HTTP GET method**.
+First, it is important that authentication-enabled **query engines do not leak sessions across different origins**.
+
+Location
+: LTQP engines
+
+Difficulty
+: Medium
+
+**Mitigation: only handle HTTP GET during traversal**
+
+A second mitigation is that **traversal should only be allowed using the HTTP GET method**.
 This may not always be straightforward,
 as hypermedia vocabularies such as [Hydra](cite:cites hydracore)
 allow specifying the HTTP method that is to be used when accessing a Web API (e.g. `hydra:method`).
 Given an unsecure query engine implementation, such HTTP method declarations could be exploited.
-Third, **Web APIs must strictly follow the read-only semantics of HTTP GET**,
+
+Location
+: LTQP engines
+
+Difficulty
+: Medium
+
+**Mitigation: adhere to read-only semantics of HTTP GET**
+
+A third mitigation is that **Web APIs must strictly follow the read-only semantics of HTTP GET**,
 which is [not always followed by many Web APIs](cite:cites restful),
 either intentional or due to software bugs.
+
+Location
+: Data publishers
+
+Difficulty
+: Medium
 
 ### Cross-site Data Injection
 {:#vulnerability-cross-site-injection}
@@ -242,7 +282,7 @@ For instance, **HTTP GET parameters** are often used to **parameterize the conte
 If such parameters are not properly validated or escaped,
 they can be used by attackers to include malicious data or links.
 
-**Example**
+**Exploit: injecting untrusted links via flawed trusted API**
 
 For example, assuming Alice executes a query over a page from Carol,
 and a compromised API `http://trusted.org/?name` that dynamically creates RDF responses based on the `?name` HTTP GET parameters.
@@ -250,19 +290,46 @@ In this case, the API simply has a Turtle document template into which the name 
 but it does not do any escaping.
 We assume Alice decides to fully trust all links from `http://trusted.org/` to other pages,
 but only trust information directly on Carol's page or links to other trusted domains.
-If Carol includes a link to `<http://trusted.org/?name=Bob". <> rdfs:seeAlso <http://hacker.com/invalid-data>. <> foaf:name "abc>`,
+If Carol includes a link to `<http://trusted.org/?name=Bob". <> rdfs:seeAlso <http://hacker.com/invalid-data>. <> foaf:name "abc""`,
 then this would cause the API to produce a Turtle document that contains a link to `http://hacker.com/invalid-data`,
 which would lead to unwanted data to be included in the query results.
 
-**Mitigation**
+Attacker
+: Data publisher (Carol)
+
+Victim
+: Query results from the LTQP engine of Alice
+
+Impact
+: Untrusted query results
+
+Difficulty
+: Easy (adding triples to an RDF document)
+
+**Mitigation: validate API parameters**
 
 No single technique can fully mitigate this vulnerability.
 Just like [SQL injection attacks](cite:cites sqlinjection) on Web sites,
 **Web APIs should take care of input validation**, preferably via reusable and rigorously tested software libraries.
-On the side of query engines, this vulnerability may partially mitigated by **carefully designing trust policies**.
+
+Location
+: Data publishers
+
+Difficulty
+: Medium
+
+**Mitigation: expressive content policies**
+
+On the side of query engines, this vulnerability may partially mitigated by **carefully designing content policies**.
 In the case of our example, defining a policy that enables the full range of (direct and indirect) links
 to be followed from a single domain can be considered unsafe.
 Instead, more restrictive policies may be enforced, at the cost of expressivity and flexibility.
+
+Location
+: LTQP engines
+
+Difficulty
+: Currently hard (content policies do not exist yet)
 
 ### Arbitrary Code Execution
 {:#vulnerability-arbitrary-code-exec}
@@ -277,14 +344,26 @@ a query engine must initiate a process similar to Googlebot's JavaScript executi
 Such a process does however open the door to potentially major security vulnerabilities
 if **malicious code** is being read and **executed by the query engine** during traversal.
 
-**Example**
+**Exploit: manipulate local files via overprivileged JavaScript execution**
 
 For example, we assume that Alice's LTQP query engine executes JavaScript on HTML pages before extracting its RDFa and JSON-LD.
 Furthermore, this LTQP engine has a security flaw that allows executed JavaScript code to access and manipulate the local file system.
 Carol could include a malicious piece of JavaScript code in her profile that makes use of this flaw to upload all files on the local file system
 to the attacker, and deletes all files afterwards so that she can hold Alice's data for ransom.
 
-**Mitigation**
+Attacker
+: Data publisher (Carol)
+
+Victim
+: Files on machine in which Alice's query engine runs
+
+Impact
+: Removal or modification of files on Alice's machine
+
+Difficulty
+: Easy (adding JavaScript code to a document)
+
+**Mitigation: sandbox code execution**
 
 One of the problems Google Chrome developers focus on is *reducing vulnerability severity*,
 which involves running logic inside one or more sandboxes to reduce the chance of software bugs
@@ -296,21 +375,25 @@ which would not include access to the local file system.
 If this sandbox would also support performing HTTP requests,
 then the _same-origin policy_ should also be employed to mitigate the risk of cross-site scripting (XSS) attacks.
 
-### Link Cycles
-{:#vulnerability-link-cycles}
+Location
+: LTQP engines
+
+Difficulty
+: Medium
+
+### Link Traversal Trap
+{:#vulnerability-link-traversal-trap}
 
 LTQP by nature depends on the ability of iteratively following links between documents.
-It is however possible that such **link structures form cycles**, either intentional or unintentional,
-just like crawler traps.
-Given this reality, LTQP query engines must be able to detect such cycles.
-Otherwise, the query engine could keep following the same links,
-and **result in an infinite loop**.
-This could cause the query engine to never terminate,
+It is however possible that such **link structures cause infinite traversal paths** and make the traversal engine get trapped,
+either intentional or unintentional, just like crawler traps.
+Given this reality, LTQP query engines must be able to detect such traps.
+Otherwise, query engines could never terminate,
 and possibly even produce infinite results.
 
-**Example**
+**Exploit: forming a link cycle**
 
-Link cycles could be formed in different ways.
+A link cycle is a simple form of link traversal trap that could be formed in different ways.
 First, at **application-level**, Carol's profile could contain a link path to document X,
 and document X could contain a link path back to Carol's profile.
 Second, at **HTTP protocol-level,** Carol's server could return for her profile's URL an (HTTP 3xx) redirect chain to URL X,
@@ -319,12 +402,33 @@ Third, at application level, a cycle structure could be **simulated via virtual 
 For example, the [Linked Open Numbers](cite:cites linkedopennumbers) project generates an infinite virtual sequence of natural numbers,
 which could produce in an infinite loop when traversed by an LTQP query engine.
 
-**Mitigation**
+Attacker
+: Data publisher (Carol)
+
+Victim
+: Query process of Alice's query engine
+
+Impact
+: Unresponsiveness of Alice's query engine
+
+Difficulty
+: Easy
+
+**Mitigation: tracking history of links**
 
 Problems with first and second form of link cycles could be mitigated by letting the query engine **keep a history of all followed URLs**,
 and not dereference a URL that has already been passed before.
 The third form of link cycle makes use of distinct URLs,
 so this first mitigation would not be effective.
+
+Location
+: LTQP engines
+
+Difficulty
+: Easy
+
+**Mitigation: limit link path length**
+
 An alternative approach that would mitigate this third form –and also the first two forms at a reduced level of efficiency–,
 is to **place a limit on the link path length from a given seed document**.
 For example, querying from page 0 in the Linked Open Number project with a link path limit of 100 would cause the query engine not to go past page 100.
@@ -332,19 +436,34 @@ This is the approach that is employed by the recommended [JSON-LD 1.1 processing
 for handling recursive `@context` references in JSON-LD documents.
 Different link path limit values could be applicable for different use cases,
 so query engines could consider making this value configurable for the user.
-Other more advanced techniques from the domain of crawler trap mitigation could be extended,
+
+Location
+: LTQP engines
+
+Difficulty
+: Easy
+
+**Mitigation: measuring document similarity**
+
+Other more advanced mitigation techniques from the domain of crawler trap mitigation could be extended,
 such as [the one that measures similarities between documents to detect crawler traps](cite:cites crawlertrapsdetection).
+
+Location
+: LTQP engines
+
+Difficulty
+: Hard
 
 ### System hogging
 {:#vulnerability-system-hogging}
 
-The _user interface compromise_ treat for Web browsers includes attacks involving **CPU and memory hogging**
+The _user interface compromise_ vulnerability for Web browsers includes attacks involving **CPU and memory hogging**
 through (direct or indirect) **malicious code execution** or by **exploiting software flaws**.
 Such vulnerabilities also exist for LTQP query engines,
 especially regarding the use of different **RDF serializations**,
 and their particularities with respect to parsing.
 
-**Example**
+**Exploit: producing infinite RDF documents**
 
 For example, RDF serializations such as [Turtle](cite:cites spec:turtle) and [JSON-LD](cite:cites spec:jsonld) place **no limits on their document sizes**.
 JSON-LD even explicitly allows this through its [Streaming JSON-LD note](cite:cites spec:jsonldstreaming).
@@ -353,16 +472,43 @@ and can lead to CPU and memory issues.
 Furthermore, similar issues can occur due to very long or **infinite IRIs or literals** inside documents.
 Other attacks could exist that specifically target known **flaws in RDF parsers** that cause CPU or memory issues.
 
-**Mitigation**
+Attacker
+: Data publisher (Carol)
+
+Victim
+: Machine in which Alice's query engine runs
+
+Impact
+: Unresponsiveness or crashing of Alice's query engine or machine
+
+Difficulty
+: Easy
+
+**Mitigation: placing limits for RDF syntaxes**
 
 Even though it is typically omitted from RDF format specifications,
 implementations often **place certain limits** on maximum document, IRI and literal lengths.
 For instance, [SAX parsers](cite:cites sax) typically put a limit of 1 megabyte on IRIs and literals,
 and provide the option to increase this limit when certain documents would exceed this threshold.
+
+Location
+: LTQP engines
+
+Difficulty
+: Medium (identifying all possible limits may not be trivial)
+
+**Mitigation: sandbox RDF parsing**
+
 Applying the approach of **sandboxing** on RDF parsers would also help mitigating such attacks,
 but for example placing a time and memory limit on the parsing of a document.
 If LTQP engines would allow arbitrary code execution, then more extensive system hogging mitigations
 would be needed just like in [Web browsers](cite:cites securitymodernwebbrowserarchitecture).
+
+Location
+: LTQP engines
+
+Difficulty
+: Medium
 
 ### Document Corruption
 {:#vulnerability-document-corruption}
@@ -379,13 +525,25 @@ the whole **query process to terminate with an error**.
 Furthermore, **links may go dead** (HTTP 404) at any point in time,
 while finding a link to a URL that produces a 404 response should also not cause the query engine to terminate.
 
-**Example**
+**Exploit: publishing an invalid RDF document**
 
 For example, Carol could decide to introduce a syntax error in her profile document,
 or she could simply remove it to produce a 404 response.
 This would could cause Alice's queries over her friends from that point on to fail.
 
-**Mitigation**
+Attacker
+: Data publisher (Carol)
+
+Victim
+: Alice's query engine
+
+Impact
+: Crashing of Alice's query engine
+
+Difficulty
+: Easy
+
+**Mitigation: sandbox RDF parsing**
 
 The **sandbox** approach is well-suited for handling these types of attacks.
 RDF parsing for each document can run in a sandbox,
@@ -393,9 +551,24 @@ where errors in this document would simply cause parsing of this document to end
 Optionally, a **warning** could be emitted to the user.
 The same approach could be followed for HTTP errors on the protocol level, such as HTTP 404's.
 This approach is followed by the [Comunica query engine](cite:cites comunica) via its [lenient execution mode](https://comunica.dev/docs/query/advanced/context/#4--lenient-execution).
-An alternative would be to create more **lenient RDF parsers** that accept syntax errors and attempts to derive the intended meaning,
+
+Location
+: LTQP engines
+
+Difficulty
+: Medium
+
+**Mitigation: lenient RDF parsing**
+
+An alternative mitigation would be to create more **lenient RDF parsers** that accept syntax errors and attempts to derive the intended meaning,
 similar as to how (non-XHTML) HTML parsers are created.
 The downside of this is that such parsers would not strictly adhere to their specifications.
+
+Location
+: LTQP engines
+
+Difficulty
+: Hard
 
 ### Cross-query Execution Interaction
 {:#vulnerability-cross-query-interaction}
@@ -407,9 +580,9 @@ the documents may be reused, which could reduce the overall number of HTTP reque
 Such forms of caching can lead to vulnerabilities based on **information leaking across different query executions**.
 We therefore make the assumption of caching-enabled LTQP engines in this vulnerability.
 
-**Examples**
+**Exploit: timing attack to determine prior knowledge**
 
-A first example of this vulnerability is an attack that enables Carol to gain knowledge about
+A first exploit of this vulnerability is an attack that enables Carol to gain knowledge about
 whether or not Bob's profile has been requested before by Alice.
 We assume that the Alice's engine issues a query over a document from Carol listing all her pictures.
 We also assume that Bob's profile contains a link to Carol's profile.
@@ -422,7 +595,21 @@ Carol could thereby derive if Bob's profile was fetched from a cache or not.
 This would enable Carol to gain knowledge about prior document lookups,
 which could for example lead to privacy issues with respect to the user's interests.
 
-A second example assumes the presence of a **software bug** inside Alice's LTQP query engine
+Attacker
+: Data publisher (Carol)
+
+Victim
+: Privacy about Alice's document usage
+
+Impact
+: Alice's document usage becomes known to Carol
+
+Difficulty
+: Hard
+
+**Exploit: unauthenticated cache reuse**
+
+A second exploit assumes the presence of a **software flaw** inside Alice's LTQP query engine
 that makes document caches ignore authorization information.
 This example is also a form of the *Intermediate Result and Query Leakage* vulnerability that was explained before,
 for which we assume the existence of a *hybrid* LTQP query engine.
@@ -435,7 +622,19 @@ Even if the query was not executed with Alice's authentication key,
 the bug in Alice's query engine would cause the passwords file to be fetched in full from the cache,
 which could cause parts of it to be leaked to Carol's query endpoint.
 
-**Mitigation**
+Attacker
+: Data publisher (Carol)
+
+Victim
+: Alice's private data
+
+Impact
+: Alice's private data is leaked
+
+Difficulty
+: Easy (if cache is flawed)
+
+**Mitigation: sandboxing query execution**
 
 In order to mitigate this vulnerability, the [**isolation model** that is used in Web browsers](cite:cites securitymodernwebbrowserarchitecture) could be reused.
 When applied to LTQP query engines, this could mean that **each query would be executed in a separate sandbox**,
@@ -443,6 +642,12 @@ so that information can not leak across different query executions.
 A downside of this approach is that this may cause a significant **performance impact**
 when similar queries are executed in sequence, and would cause identical documents to not be reused from the cache anymore.
 In order to mitigate this drawback, solutions may be possible to **allow "related queries" to be executed inside the same sandbox**.
+
+Location
+: LTQP engines
+
+Difficulty
+: Medium
 
 ### Document Priority Modification
 {:#vulnerability-doc-priority-modification}
@@ -453,9 +658,9 @@ Some of these techniques are purely graph-based, such as [PageRank](cite:cites p
 This vulnerability involves **attacks that can influence the priority of documents**,
 and thereby maliciously influence what query **results come in earlier or later**.
 
-**Example**
+**Exploit: malicious PageRank prioritization of documents**
 
-One example of such an attack is similar to [the attack to modify priorities within crawlers](cite:cites crawlerattacks).
+One possible exploit is similar to [the attack to modify priorities within crawlers](cite:cites crawlerattacks).
 We assume that Alice issues a query that returns grocery stores in the local area,
 which is executed via a LTQP query engine that makes use of PageRank to prioritize documents.
 Furthermore, we assume a highly-scoring, but vulnerable API that accepts HTTP GET parameters
@@ -468,11 +673,47 @@ Such an attack would lead to a higher PageRank for Carol's grocery store,
 and therefore an earlier handling and result representation
 of Carol's grocery store.
 
-**Mitigation**
+Attacker
+: Data publisher (Carol)
+
+Victim
+: Ranking of documents
+
+Impact
+: Carol's grocery store page is ranked higher
+
+Difficulty
+: Medium
+
+**Mitigation: validate API parameters**
 
 Several mitigations have been [proposed for these types of attacks](cite:cites crawlerattacks).
 A first solution is to place **responsibility at the API**, and expecting it to patch the exploit.
-A second solution involves publishers to expose **policies that explicitly authorize what links should be considered legitimate**,
+
+Location
+: Data publishers
+
+Difficulty
+: Medium
+
+**Mitigation: content policies**
+
+A second mitigation involves publishers to expose **policies that explicitly authorize what links should be considered legitimate**,
 and LTQP query engines inspecting these policies when determining document priorities.
-A third solution is to use **machine-learning to distinguishing non-legitimate from legitimate links**.
+
+Location
+: Data publishers and LTQP engines
+
+Difficulty
+: Currently hard (content policies do not exist yet)
+
+**Mitigation: automated learning of legitimate links**
+
+A third mitigation is to use **machine-learning to distinguishing non-legitimate from legitimate links**.
 A combination of the three approaches can be used to mitigate this vulnerability.
+
+Location
+: LTQP engines
+
+Difficulty
+: Hard

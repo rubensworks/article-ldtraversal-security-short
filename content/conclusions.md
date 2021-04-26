@@ -11,7 +11,7 @@ As such, we **recommend LTQP engine developers to**:
 
 * apply the **same-origin policy** for authentication sessions ([](#vulnerability-session-hijacking));
 * only allow traversal using the **HTTP GET** method ([](#vulnerability-session-hijacking));
-* **restrict link path lengths** to avoid explicit and implicit link cycles ([](#vulnerability-link-cycles));
+* **restrict link path lengths** to avoid link traversal traps ([](#vulnerability-link-traversal-trap));
 * run untrusted code and RDF parsing over untrusted data in a **sandbox** ([](#vulnerability-arbitrary-code-exec), [](#vulnerability-system-hogging));
 * make errors in the sandbox **not crash the query process** ([](#vulnerability-document-corruption)).
 
