@@ -66,7 +66,7 @@ and executes queries over the union of the discovered documents.
 ### Unauthoritative Statements
 {:#vulnerability-unauthorized-statements}
 
-<span class="comment" data-author="RV">I don't think we need the bolding here</span>
+<span class="comment" data-author="RV">I don't think we need the bolding on sentence fragments as applied below</span>
 
 A consequence of the [open-world assumption](cite:cites owa) where anyone can say anything about anything,
 is that **both valid and invalid (and possibly malicious) things can be said**.
@@ -98,7 +98,7 @@ Impact
 Difficulty
 : Easy (adding triples to an RDF document)
 
-**Mitigation: applying content policies**
+**Mitigation 1: applying content policies**
 
 One solution to this vulnerability [has been proposed](cite:cites guidedlinktraversal),
 whereby the concept of _Content Policies_ are introduced.
@@ -114,9 +114,9 @@ Location
 : Data publishers and LTQP engines
 
 Difficulty
-: Currently hard (content do not exist yet)
+: Currently hard (content policy implementations do not exist yet)
 
-**Mitigation: tracking provenance**
+**Mitigation 2: tracking provenance**
 
 Another solution to this vulnerability [has been suggested](cite:cites linktraversaldiverse)
 to make use of [data provenance](cite:cites spec:provo).
@@ -136,12 +136,13 @@ Difficulty
 
 This vulnerability assumes the existence of a **_hybrid_ LTQP query engine** that primarily traverses links,
 but can exploit database-oriented interfaces such as SPARQL endpoints if they are detected in favour of a range of documents.
+<span class="comment" data-author="RV">I'm missing a possible pre-requisite here of being authenticated; it is referred to later but not mentioned here. Would also make the comparison to the next easier (which has a session as a prerequisite).</span>
 Query engines typically decompose queries into smaller sub-queries,
 and join these intermediate results together afterwards.
 In the case of a hybrid LTQP engine,
 intermediate results that are obtained from the traversal process
 could be joined with data from a discovered SPARQL endpoint.
-An attacker could therefore setup an interface that acts as a SPARQL endpoint,
+An attacker could therefore set up an interface that acts as a SPARQL endpoint,
 but is in fact a **malicious interface that intercepts intermediate results** from LTQP engines.
 
 **Exploit: capturing intermediary results via malicious SPARQL endpoint**
@@ -172,13 +173,16 @@ Difficulty
 
 **Mitigation: Same-origin policy**
 
-As this vulnerability is similar to the _cross domain compromise_ and _data theft_ vulnerabilities in Web browsers.
+As this vulnerability is similar to the _cross-domain compromise_ and _data theft_ vulnerabilities in Web browsers.
+<span class="comment" data-author="RV">Refs?</span>
 A possible solution to it would be in the form of the **_same-origin policy_** that is being employed in most of today's Web browsers.
 In essence, this would mean that intermediate results can not be used across different Fully Qualified Domain Names (FQDN).
 Such a solution would have to be carefully designed as to not lead to significant querying restrictions that would lead to fewer relevant query results.
+<span class="comment" data-author="RV">Or performance issues?</span>
 A mechanism in the form of [Cross-Origin Resource Sharing (CORS)](https://fetch.spec.whatwg.org/#http-cors-protocol){:.mandatory}
 could be used as a workaround to explicitly allow intermediate result sharing from one a domain to another,
 which could be called **Cross-Origin Intermediate Result Sharing (COIRS)**.
+<span class="comment" data-author="RV">I wouldn't mint an acronym yet for a hypothetical solution</span>
 Such a workaround should be designed carefully, as not to suffer from the same [issues as CORS](cite:cites studyofcors).
 Related to this, just like Web browsers, query engines may provide queryable access to local files using the `file://` scheme.
 Web browsers typically block requests to these from remote locations due to their sensitive nature.
@@ -195,8 +199,8 @@ Difficulty
 ### Session Hijacking
 {:#vulnerability-session-hijacking}
 
-In this vulnerability, we assume the pressence of some form of authentication,
-–such as [WebID-OIDC](cite:cites spec:webidoidc)– that leads to an active authenticated session.
+In this vulnerability, we assume the presence of some form of authentication
+(such as [WebID-OIDC](cite:cites spec:webidoidc)) that leads to an active authenticated session.
 This vulnerability is similar to that of Web browsers,
 where the session token can be compromised through theft or session token prediction.
 Such a vulnerability could lead to [cross-domain request forgery (CSRF)](cite:cites csrf) attacks,
@@ -231,6 +235,7 @@ Difficulty
 
 This vulnerability should be tackled on different fronts, and primarily requires secure and well-tested software implementations.
 First, it is important that authentication-enabled **query engines do not leak sessions across different origins**.
+<span class="comment" data-author="RV">Can you be more concrete here? How do I specifically implement this?</span>
 
 Location
 : LTQP engines
@@ -256,7 +261,7 @@ Difficulty
 
 A third mitigation is that **Web APIs must strictly follow the read-only semantics of HTTP GET**,
 which is [not always followed by many Web APIs](cite:cites restful),
-either intentional or due to software bugs.
+either intentionally or due to software bugs.
 
 Location
 : Data publishers
@@ -376,7 +381,7 @@ Difficulty
 
 LTQP by nature depends on the ability of iteratively following links between documents.
 It is however possible that such **link structures cause infinite traversal paths** and make the traversal engine get trapped,
-either intentional or unintentional, just like crawler traps.
+either intentionally or unintentionally, just like crawler traps.
 Given this reality, LTQP query engines must be able to detect such traps.
 Otherwise, query engines could never terminate,
 and possibly even produce infinite results.
@@ -389,8 +394,9 @@ and document X could contain a link path back to Carol's profile.
 Second, at **HTTP protocol-level,** Carol's server could return for her profile's URL an (HTTP 3xx) redirect chain to URL X,
 and URL X could contain a redirect chain back to the URL of her profile.
 Third, at application level, a cycle structure could be **simulated via virtual pages** that always link back to similar pages, but with a different URL.
-For example, the [Linked Open Numbers](cite:cites linkedopennumbers) project generates an infinite virtual sequence of natural numbers,
-which could produce in an infinite loop when traversed by an LTQP query engine.
+For example, the [Linked Open Numbers](cite:cites linkedopennumbers) project generates a near-infinite virtual sequence of natural numbers,
+which could produce a bottleneck when traversed by an LTQP query engine.
+<span class="comment" data-author="RV">LON is actually finite.</span>
 
 Attacker
 : Data publisher (Carol)
@@ -419,6 +425,8 @@ Difficulty
 
 **Mitigation: limit link path length**
 
+<span class="comment" data-author="RV">Note also that HTTP libraries typically limit the number of redirects (the protocol case above)</span>
+
 An alternative approach that would mitigate this third form –and also the first two forms at a reduced level of efficiency–,
 is to **place a limit on the link path length from a given seed document**.
 For example, querying from page 0 in the Linked Open Number project with a link path limit of 100 would cause the query engine not to go past page 100.
@@ -437,6 +445,7 @@ Difficulty
 
 Other more advanced mitigation techniques from the domain of crawler trap mitigation could be extended,
 such as [the one that measures similarities between documents to detect crawler traps](cite:cites crawlertrapsdetection).
+<span class="comment" data-author="RV">Although I can just fill my document with crap (perhaps make links to next)?</span>
 
 Location
 : LTQP engines
@@ -456,8 +465,11 @@ and their particularities with respect to parsing.
 **Exploit: producing infinite RDF documents**
 
 For example, RDF serializations such as [Turtle](cite:cites spec:turtle) and [JSON-LD](cite:cites spec:jsonld) place **no limits on their document sizes**.
+<span class="comment" data-author="RV">No serialization does? I don't understand.</span>
+<span class="comment" data-author="RV">I think the point is rather that several formats were designed for streaming parsing (JSON-LD being indeed explicit, but the others have it in their DNA; notably the line-based N-Triples).</span>
 JSON-LD even explicitly allows this through its [Streaming JSON-LD note](cite:cites spec:jsonldstreaming).
-This allows malicious publishers to create infinitely long documents that are streamed to query engines,
+<span class="rephrase" data-author="RV">This allows malicious publishers to create infinitely long documents</span> that are streamed to query engines,
+<span class="comment" data-author="RV">More precisely, publishers can always generated infinite documents! It's whether or not a client would be tempted to start working on them that matters</span>
 and can lead to CPU and memory issues.
 Furthermore, similar issues can occur due to very long or **infinite IRIs or literals** inside documents.
 Other attacks could exist that specifically target known **flaws in RDF parsers** that cause CPU or memory issues.
@@ -476,7 +488,7 @@ Difficulty
 
 **Mitigation: placing limits for RDF syntaxes**
 
-Even though it is typically omitted from RDF format specifications,
+Even though typically omitted from RDF format specifications,
 implementations often **place certain limits** on maximum document, IRI and literal lengths.
 For instance, [SAX parsers](cite:cites sax) typically put a limit of 1 megabyte on IRIs and literals,
 and provide the option to increase this limit when certain documents would exceed this threshold.
@@ -489,8 +501,8 @@ Difficulty
 
 **Mitigation: sandbox RDF parsing**
 
-Applying the approach of **sandboxing** on RDF parsers would also help mitigating such attacks,
-but for example placing a time and memory limit on the parsing of a document.
+Applying the approach of **sandboxing** on RDF parsers would also help mitigate such attacks,
+by for example placing a time and memory limit on the parsing of a document.
 If LTQP engines would allow arbitrary code execution, then more extensive system hogging mitigations
 would be needed just like in [Web browsers](cite:cites securitymodernwebbrowserarchitecture).
 
@@ -513,7 +525,9 @@ possibly in an uncontrolled manner,
 it is undesired that a syntax error in just a single RDF document can cause
 the whole **query process to terminate with an error**.
 Furthermore, **links may go dead** (HTTP 404) at any point in time,
+<span class="comment" data-author="RV">Reference Link Rot here, which not only shows content drift but also regular 404</span>
 while finding a link to a URL that produces a 404 response should also not cause the query engine to terminate.
+<span class="comment" data-author="RV">Or at least not in all cases; it might be desired behavior sometimes</span>
 
 **Exploit: publishing an invalid RDF document**
 
@@ -643,7 +657,7 @@ Difficulty
 {:#vulnerability-doc-priority-modification}
 
 Different techniques are possible to [determine the priority of documents](cite:cites WalkingWithoutMap) during query processing.
-If queries don't specify a custom ordering, this **prioritization will impact the ordering of query results**.
+If queries do not specify a custom ordering, this **prioritization will impact the ordering of query results**.
 Some of these techniques are purely graph-based, such as [PageRank](cite:cites pagerank), and can therefore suffer from purely data-driven attacks.
 This vulnerability involves **attacks that can influence the priority of documents**,
 and thereby maliciously influence what query **results come in earlier or later**.
@@ -667,10 +681,10 @@ Attacker
 : Data publisher (Carol)
 
 Victim
-: Ranking of documents
+: Ranking of documents <span class="comment" data-author="RV">This should be a party though</span>
 
 Impact
-: Carol's grocery store page is ranked higher
+: Carol's page is ranked higher
 
 Difficulty
 : Medium
