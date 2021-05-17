@@ -28,7 +28,8 @@ For the following security vulnerabilities, **no concrete mitigation techniques 
 * Document Priority Modification [](#vulnerability-doc-priority-modification)
 
 With this prospective analysis, we have illustrated the importance of more security-oriented research
-in the domain on LTQP and the general handling of decentralized environments such as [Solid](cite:cites solid).
+in the domain on LTQP and the general handling of decentralized environments such as [Solid](cite:cites solid),
+especially in presence of data behind authentication.
 While some of these vulnerabilities can be mitigated using existing techniques in related domains,
 further research on them is needed to test their impact on implementation,
 analyze their performance impact,
@@ -36,6 +37,6 @@ introduce more performant techniques and algorithms,
 and introduce and apply attack models to test their effectiveness.
 Furthermore, for the security vulnerabilities for which no concrete mitigations exist yet,
 research is perhaps even more critical.
-Since our analysis of security vulnerabilities is by no means complete,
-additional research effort is needed to uncover and predict potential security vulnerabilities in LTQP.
-Such future research --with our work as a first step-- is crucial for enabling a decentralized Web over which we can query securely.
+Since our analysis of security vulnerabilities is by no means exhaustive,
+additional research efforts are needed to uncover and predict potential security vulnerabilities in LTQP.
+Such future research---with our work as a first step---is crucial for enabling a decentralized Web which we can query securely.
