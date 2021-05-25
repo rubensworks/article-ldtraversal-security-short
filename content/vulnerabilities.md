@@ -423,13 +423,14 @@ Difficulty
 
 **Mitigation: limit link path length**
 
-<span class="comment" data-author="RV">Note also that HTTP libraries typically limit the number of redirects (the protocol case above)</span>
-
 An alternative approach that would mitigate this third form –and also the first two forms at a reduced level of efficiency–,
 is to **place a limit on the link path length from a given seed document**.
 For example, querying from page 0 in the Linked Open Number project with a link path limit of 100 would cause the query engine not to go past page 100.
 This is the approach that is employed by the recommended [JSON-LD 1.1 processing algorithm](cite:cites spec:jsonldapi)
 for handling recursive `@context` references in JSON-LD documents.
+HTTP libraries typically also limit the number of redirects at protocol-level,
+e.g. the `maxRedirects` option in the [`follow-redirects`](https://github.com/follow-redirects/follow-redirects){:.mandatory}
+library that is set to a default value of 21.
 Different link path limit values could be applicable for different use cases,
 so query engines could consider making this value configurable for the user.
 
