@@ -443,8 +443,9 @@ Difficulty
 **Mitigation: measuring document similarity**
 
 Other more advanced mitigation techniques from the domain of crawler trap mitigation could be extended,
-such as [the one that measures similarities between documents to detect crawler traps](cite:cites crawlertrapsdetection).
-<span class="comment" data-author="RV">Although I can just fill my document with crap (perhaps make links to next)?</span>
+such as [the one that measures similarities between documents to detect crawler traps with common structures](cite:cites crawlertrapsdetection).
+For crawler traps that do not share commonalities across documents,
+mitigation techniques do not exist yet to the best of our knowledge.
 
 Location
 : LTQP engines
