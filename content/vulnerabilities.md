@@ -233,7 +233,8 @@ Difficulty
 
 This vulnerability should be tackled on different fronts, and primarily requires secure and well-tested software implementations.
 First, it is important that authentication-enabled **query engines do not leak sessions across different origins**.
-<span class="comment" data-author="RV">Can you be more concrete here? How do I specifically implement this?</span>
+This could be achieved by scoping authentication sessions to the origin URL in which they were created,
+and for each document only allow sessions to be used that are contained within the scope of the document's origin.
 
 Location
 : LTQP engines
