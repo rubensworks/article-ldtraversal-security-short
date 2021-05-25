@@ -23,6 +23,8 @@ If Alice for instance would like to obtain the names <span class="comment" data-
 she could initiate a query starting from her address book as seed document,
 and the query engine would follow the links to her contacts,
 and obtain the names from their respective profiles.
+Some documents may require authentication before they can be accessed,
+for which Alice's query engine makes use of Alice's identity.
 In all threats throughout this article,
 we assume that Carol has malicious intentions that Alice is unaware of.
 

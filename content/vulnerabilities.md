@@ -136,11 +136,12 @@ Difficulty
 
 This vulnerability assumes the existence of a **_hybrid_ LTQP query engine** that primarily traverses links,
 but can exploit database-oriented interfaces such as SPARQL endpoints if they are detected in favour of a range of documents.
-<span class="comment" data-author="RV">I'm missing a possible pre-requisite here of being authenticated; it is referred to later but not mentioned here. Would also make the comparison to the next easier (which has a session as a prerequisite).</span>
+Furthermore, we assume a range of documents that require authentication,
+as their contents are not accessible to everyone.
 Query engines typically decompose queries into smaller sub-queries,
 and join these intermediate results together afterwards.
 In the case of a hybrid LTQP engine,
-intermediate results that are obtained from the traversal process
+intermediate results that are obtained from the traversal process from non-public documents
 could be joined with data from a discovered SPARQL endpoint.
 An attacker could therefore set up an interface that acts as a SPARQL endpoint,
 but is in fact a **malicious interface that intercepts intermediate results** from LTQP engines.
@@ -150,7 +151,7 @@ but is in fact a **malicious interface that intercepts intermediate results** fr
 Based on our use case, Carol could include a triple with a link to the SPARQL endpoint at `http://attacker.com/sparql`.
 If Alice makes use of a hybrid LTQP engine with an adaptive query planner, this internal query planner could decide to make use of this malicious endpoint
 once it has been discovered.
-Depending on the query planner, this could mean that intermediate results from the traversal process such as Bob's telephone 
+Depending on the query planner, this could mean that non-public intermediate results from the traversal process such as Bob's telephone 
 are used as input to the malicious SPARQL endpoint.
 Other query planning algorithms could even decide to send the full original SPARQL query into the malicious endpoint.
 Depending on the engine and its query plan,
