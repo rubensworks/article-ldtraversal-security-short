@@ -679,7 +679,7 @@ Attacker
 : Data publisher (Carol)
 
 Victim
-: Ranking of documents <span class="comment" data-author="RV">This should be a party though</span>
+: Order of Alice's query results
 
 Impact
 : Carol's page is ranked higher
