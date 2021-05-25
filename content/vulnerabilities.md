@@ -464,13 +464,13 @@ and their particularities with respect to parsing.
 
 **Exploit: producing infinite RDF documents**
 
-For example, RDF serializations such as [Turtle](cite:cites spec:turtle) and [JSON-LD](cite:cites spec:jsonld) place **no limits on their document sizes**.
-<span class="comment" data-author="RV">No serialization does? I don't understand.</span>
-<span class="comment" data-author="RV">I think the point is rather that several formats were designed for streaming parsing (JSON-LD being indeed explicit, but the others have it in their DNA; notably the line-based N-Triples).</span>
+For example, RDF serializations such as [Turtle](cite:cites spec:turtle) are implicitly designed as to allow streaming serialization and deserialization.
 JSON-LD even explicitly allows this through its [Streaming JSON-LD note](cite:cites spec:jsonldstreaming).
-<span class="rephrase" data-author="RV">This allows malicious publishers to create infinitely long documents</span> that are streamed to query engines,
-<span class="comment" data-author="RV">More precisely, publishers can always generated infinite documents! It's whether or not a client would be tempted to start working on them that matters</span>
-and can lead to CPU and memory issues.
+Due to this streaming property, RDF documents of infinite size can be generated,
+since serializations place **no limits on their document sizes**.
+Valid use cases exist for publishers to generate infinite RDF documents,
+which can be streamed to query engines.
+Query engines with non-streaming or flawed streaming parsers, can lead to CPU and memory issues.
 Furthermore, similar issues can occur due to very long or **infinite IRIs or literals** inside documents.
 Other attacks could exist that specifically target known **flaws in RDF parsers** that cause CPU or memory issues.
 
