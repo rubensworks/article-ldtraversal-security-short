@@ -393,9 +393,8 @@ and document X could contain a link path back to Carol's profile.
 Second, at **HTTP protocol-level,** Carol's server could return for her profile's URL an (HTTP 3xx) redirect chain to URL X,
 and URL X could contain a redirect chain back to the URL of her profile.
 Third, at application level, a cycle structure could be **simulated via virtual pages** that always link back to similar pages, but with a different URL.
-For example, the [Linked Open Numbers](cite:cites linkedopennumbers) project generates a near-infinite virtual sequence of natural numbers,
+For example, the [Linked Open Numbers](cite:cites linkedopennumbers) project generates a long virtual sequence of natural numbers,
 which could produce a bottleneck when traversed by an LTQP query engine.
-<span class="comment" data-author="RV">LON is actually finite.</span>
 
 Attacker
 : Data publisher (Carol)
