@@ -181,9 +181,7 @@ In essence, this would mean that intermediate results can not be used across dif
 Such a solution would have to be carefully designed as to not lead to significant querying restrictions that would lead to fewer relevant query results.
 <span class="comment" data-author="RV">Or performance issues?</span>
 A mechanism in the form of [Cross-Origin Resource Sharing (CORS)](https://fetch.spec.whatwg.org/#http-cors-protocol){:.mandatory}
-could be used as a workaround to explicitly allow intermediate result sharing from one a domain to another,
-which could be called **Cross-Origin Intermediate Result Sharing (COIRS)**.
-<span class="comment" data-author="RV">I wouldn't mint an acronym yet for a hypothetical solution</span>
+could be used as a workaround to explicitly allow intermediate result sharing from one a domain to another.
 Such a workaround should be designed carefully, as not to suffer from the same [issues as CORS](cite:cites studyofcors).
 Related to this, just like Web browsers, query engines may provide queryable access to local files using the `file://` scheme.
 Web browsers typically block requests to these from remote locations due to their sensitive nature.
@@ -195,7 +193,7 @@ Location
 : LTQP engines
 
 Difficulty
-: Easy (hard with COIRS workaround)
+: Easy (hard with CORS-like workaround)
 
 ### Session Hijacking
 {:#vulnerability-session-hijacking}
