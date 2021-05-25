@@ -174,12 +174,11 @@ Difficulty
 
 **Mitigation: Same-origin policy**
 
-As this vulnerability is similar to the _cross-domain compromise_ and _data theft_ vulnerabilities in Web browsers.
-<span class="comment" data-author="RV">Refs?</span>
+As this vulnerability is similar to the _cross-domain compromise_ and _data theft_ vulnerabilities in [Web browsers](cite:cites securitymodernwebbrowserarchitecture).
 A possible solution to it would be in the form of the **_same-origin policy_** that is being employed in most of today's Web browsers.
 In essence, this would mean that intermediate results can not be used across different Fully Qualified Domain Names (FQDN).
-Such a solution would have to be carefully designed as to not lead to significant querying restrictions that would lead to fewer relevant query results.
-<span class="comment" data-author="RV">Or performance issues?</span>
+Such a solution would have to be carefully designed as to not lead to performance issues,
+or lead to significant querying restrictions that would lead to fewer relevant query results.
 A mechanism in the form of [Cross-Origin Resource Sharing (CORS)](https://fetch.spec.whatwg.org/#http-cors-protocol){:.mandatory}
 could be used as a workaround to explicitly allow intermediate result sharing from one a domain to another.
 Such a workaround should be designed carefully, as not to suffer from the same [issues as CORS](cite:cites studyofcors).
