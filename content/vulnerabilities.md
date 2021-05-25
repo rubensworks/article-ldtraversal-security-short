@@ -524,10 +524,8 @@ When an LTQP engine discovers and parses a large number of RDF documents,
 possibly in an uncontrolled manner,
 it is undesired that a syntax error in just a single RDF document can cause
 the whole **query process to terminate with an error**.
-Furthermore, **links may go dead** (HTTP 404) at any point in time,
-<span class="comment" data-author="RV">Reference Link Rot here, which not only shows content drift but also regular 404</span>
-while finding a link to a URL that produces a 404 response should also not cause the query engine to terminate.
-<span class="comment" data-author="RV">Or at least not in all cases; it might be desired behavior sometimes</span>
+Furthermore, the phenomenon of [_Link Rot_](cite:cites linkrot) can lead to **links going dead** (HTTP 404) at any point in time,
+while finding a link to a URL that produces a 404 response should not always cause the query engine to terminate.
 
 **Exploit: publishing an invalid RDF document**
 
