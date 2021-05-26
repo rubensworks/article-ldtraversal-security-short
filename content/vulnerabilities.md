@@ -20,11 +20,7 @@ has focused on query-driven vulnerabilities.
 Given its importance for LTQP engines,
 we purely focus on data-driven vulnerabilities for the remainder of this work.
 
-{:.todo}
-We could still have a separate section of query-driven vulnerabilities,
-but I suspect it to be much shorter and less interesting than this one.
-
-We identify three main axes for security vulnerabilities, based on their exploit's potential impact area:
+We identify three main orthogonal axes for security vulnerabilities, based on their exploit's potential impact area:
 
 1. **Query Results**: vulnerabilities that lead to exploits regarding query results.
 1. **Data Integrity**: vulnerabilities that lead to exploits regarding one or more user's data.
@@ -66,12 +62,10 @@ and executes queries over the union of the discovered documents.
 ### Unauthoritative Statements
 {:#vulnerability-unauthorized-statements}
 
-<span class="comment" data-author="RV">I don't think we need the bolding on sentence fragments as applied below</span>
-
 A consequence of the [open-world assumption](cite:cites owa) where anyone can say anything about anything,
-is that **both valid and invalid (and possibly malicious) things can be said**.
+is that both valid and invalid (and possibly malicious) things can be said.
 When a query engine is traversing the Web,
-it is therefore possible that it can encounter information that **impacts the query results in an undesired manner**.
+it is therefore possible that it can encounter information that impacts the query results in an undesired manner.
 This information could be [_untrusted_](cite:cites guidedlinktraversal, linktraversaldiverse), _contradicting_, or _incorrect_.
 Without mitigations to this vulnerability, query results from an LTQP can therefore never be really trusted,
 which brings the practical broad use of LTQP into question.
@@ -102,7 +96,7 @@ Difficulty
 
 One solution to this vulnerability [has been proposed](cite:cites guidedlinktraversal),
 whereby the concept of _Content Policies_ are introduced.
-These **policies can capture the notion of what one considers authoritative**,
+These policies can capture the notion of what one considers authoritative,
 which can vary between different people or agents.
 In our example, Alice could for example decide to only trust her contacts to make statements about themselves,
 and exclude all other information they express during query processing.
@@ -134,7 +128,7 @@ Difficulty
 ### Intermediate Result and Query Leakage
 {:#vulnerability-intermediate-leakage}
 
-This vulnerability assumes the existence of a **_hybrid_ LTQP query engine** that primarily traverses links,
+This vulnerability assumes the existence of a _hybrid_ LTQP query engine that primarily traverses links,
 but can exploit database-oriented interfaces such as SPARQL endpoints if they are detected in favour of a range of documents.
 Furthermore, we assume a range of documents that require authentication,
 as their contents are not accessible to everyone.
@@ -175,7 +169,7 @@ Difficulty
 **Mitigation: Same-origin policy**
 
 As this vulnerability is similar to the _cross-domain compromise_ and _data theft_ vulnerabilities in [Web browsers](cite:cites securitymodernwebbrowserarchitecture).
-A possible solution to it would be in the form of the **_same-origin policy_** that is being employed in most of today's Web browsers.
+A possible solution to it would be in the form of the _same-origin policy_ that is being employed in most of today's Web browsers.
 In essence, this would mean that intermediate results can not be used across different Fully Qualified Domain Names (FQDN).
 Such a solution would have to be carefully designed as to not lead to performance issues,
 or lead to significant querying restrictions that would lead to fewer relevant query results.
@@ -202,7 +196,7 @@ In this vulnerability, we assume the presence of some form of authentication
 This vulnerability is similar to that of Web browsers,
 where the session token can be compromised through theft or session token prediction.
 Such a vulnerability could lead to [cross-domain request forgery (CSRF)](cite:cites csrf) attacks,
-where an **attacker forces the user to perform an action while authenticated** without the user's consent.
+where an attacker forces the user to perform an action while authenticated without the user's consent.
 
 **Exploit: triggering unintended operations on SPARQL endpoint behind access control**
 
@@ -232,7 +226,7 @@ Difficulty
 **Mitigation: same-origin policy**
 
 This vulnerability should be tackled on different fronts, and primarily requires secure and well-tested software implementations.
-First, it is important that authentication-enabled **query engines do not leak sessions across different origins**.
+First, it is important that authentication-enabled query engines do not leak sessions across different origins.
 This could be achieved by scoping authentication sessions to the origin URL in which they were created,
 and for each document only allow sessions to be used that are contained within the scope of the document's origin.
 
@@ -244,7 +238,7 @@ Difficulty
 
 **Mitigation: only handle HTTP GET during traversal**
 
-A second mitigation is that **traversal should only be allowed using the HTTP GET method**.
+A second mitigation is that traversal should only be allowed using the HTTP GET method.
 This may not always be straightforward,
 as hypermedia vocabularies such as [Hydra](cite:cites hydracore)
 allow specifying the HTTP method that is to be used when accessing a Web API (e.g. `hydra:method`).
@@ -258,7 +252,7 @@ Difficulty
 
 **Mitigation: adhere to read-only semantics of HTTP GET**
 
-A third mitigation is that **Web APIs must strictly follow the read-only semantics of HTTP GET**,
+A third mitigation is that Web APIs must strictly follow the read-only semantics of HTTP GET,
 which is [not always followed by many Web APIs](cite:cites restful),
 either intentionally or due to software bugs.
 
@@ -271,8 +265,8 @@ Difficulty
 ### Cross-site Data Injection
 {:#vulnerability-cross-site-injection}
 
-This vulnerability concerns ways by which **attackers can inject data or links into documents**.
-For instance, **HTTP GET parameters** are often used to **parameterize the contents of documents**.
+This vulnerability concerns ways by which attackers can inject data or links into documents.
+For instance, HTTP GET parameters are often used to parameterize the contents of documents.
 If such parameters are not properly validated or escaped,
 they can be used by attackers to include malicious data or links.
 
@@ -304,7 +298,7 @@ Difficulty
 
 No single technique can fully mitigate this vulnerability.
 Just like [SQL injection attacks](cite:cites sqlinjection) on Web sites,
-**Web APIs should take care of input validation**, preferably via reusable and rigorously tested software libraries.
+Web APIs should take care of input validation, preferably via reusable and rigorously tested software libraries.
 
 Location
 : Data publishers
@@ -314,7 +308,7 @@ Difficulty
 
 **Mitigation: expressive content policies**
 
-On the side of query engines, this vulnerability may partially mitigated by **carefully designing content policies**.
+On the side of query engines, this vulnerability may partially mitigated by carefully designing content policies.
 In the case of our example, defining a policy that enables the full range of (direct and indirect) links
 to be followed from a single domain can be considered unsafe.
 Instead, more restrictive policies may be enforced, at the cost of expressivity and flexibility.
@@ -332,11 +326,11 @@ Advanced crawlers such as the [Googlebot](cite:cites googlebot) allow JavaScript
 since certain HTML pages are built dynamically via JavaScript at the client-side.
 In this vulnerability, we assume a similar situation for LTQP,
 where Linked Data pages may also be created client-side via an expressive programming language such as JavaScript.
-This would in fact already be applicable to **HTML pages that dynamically produce JSON-LD script tags or RDFa in HTML via JavaScript**.
+This would in fact already be applicable to HTML pages that dynamically produce JSON-LD script tags or RDFa in HTML via JavaScript.
 In order to query over such dynamic Linked Data pages,
 a query engine must initiate a process similar to Googlebot's JavaScript execution phase.
 Such a process does however open the door to potentially major security vulnerabilities
-if **malicious code** is being read and **executed by the query engine** during traversal.
+if malicious code is being read and executed by the query engine during traversal.
 
 **Exploit: manipulate local files via overprivileged JavaScript execution**
 
@@ -364,7 +358,7 @@ which involves running logic inside one or more sandboxes to reduce the chance o
 to lead to access to more critical higher-level software APIs.
 While software bugs are nearly impossible to avoid in real-world software,
 a similar sandboxing approach helps reducing the severity of attacks involving arbitrary code execution.
-Such a **sandbox would only allow certain operations to be performed**,
+Such a sandbox would only allow certain operations to be performed,
 which would not include access to the local file system.
 If this sandbox would also support performing HTTP requests,
 then the _same-origin policy_ should also be employed to mitigate the risk of cross-site scripting (XSS) attacks.
@@ -388,11 +382,11 @@ and possibly even produce infinite results.
 **Exploit: forming a link cycle**
 
 A link cycle is a simple form of link traversal trap that could be formed in different ways.
-First, at **application-level**, Carol's profile could contain a link path to document X,
+First, at application-level, Carol's profile could contain a link path to document X,
 and document X could contain a link path back to Carol's profile.
-Second, at **HTTP protocol-level,** Carol's server could return for her profile's URL an (HTTP 3xx) redirect chain to URL X,
+Second, at HTTP protocol-level, Carol's server could return for her profile's URL an (HTTP 3xx) redirect chain to URL X,
 and URL X could contain a redirect chain back to the URL of her profile.
-Third, at application level, a cycle structure could be **simulated via virtual pages** that always link back to similar pages, but with a different URL.
+Third, at application level, a cycle structure could be simulated via virtual pages that always link back to similar pages, but with a different URL.
 For example, the [Linked Open Numbers](cite:cites linkedopennumbers) project generates a long virtual sequence of natural numbers,
 which could produce a bottleneck when traversed by an LTQP query engine.
 
@@ -410,7 +404,7 @@ Difficulty
 
 **Mitigation: tracking history of links**
 
-Problems with first and second form of link cycles could be mitigated by letting the query engine **keep a history of all followed URLs**,
+Problems with first and second form of link cycles could be mitigated by letting the query engine keep a history of all followed URLs,
 and not dereference a URL that has already been passed before.
 The third form of link cycle makes use of distinct URLs,
 so this first mitigation would not be effective.
@@ -424,7 +418,7 @@ Difficulty
 **Mitigation: limit link path length**
 
 An alternative approach that would mitigate this third form –and also the first two forms at a reduced level of efficiency–,
-is to **place a limit on the link path length from a given seed document**.
+is to place a limit on the link path length from a given seed document.
 For example, querying from page 0 in the Linked Open Number project with a link path limit of 100 would cause the query engine not to go past page 100.
 This is the approach that is employed by the recommended [JSON-LD 1.1 processing algorithm](cite:cites spec:jsonldapi)
 for handling recursive `@context` references in JSON-LD documents.
@@ -456,10 +450,10 @@ Difficulty
 ### System hogging
 {:#vulnerability-system-hogging}
 
-The _user interface compromise_ vulnerability for Web browsers includes attacks involving **CPU and memory hogging**
-through (direct or indirect) **malicious code execution** or by **exploiting software flaws**.
+The _user interface compromise_ vulnerability for Web browsers includes attacks involving CPU and memory hogging
+through (direct or indirect) malicious code execution or by exploiting software flaws.
 Such vulnerabilities also exist for LTQP query engines,
-especially regarding the use of different **RDF serializations**,
+especially regarding the use of different RDF serializations,
 and their particularities with respect to parsing.
 
 **Exploit: producing infinite RDF documents**
@@ -467,12 +461,12 @@ and their particularities with respect to parsing.
 For example, RDF serializations such as [Turtle](cite:cites spec:turtle) are implicitly designed as to allow streaming serialization and deserialization.
 JSON-LD even explicitly allows this through its [Streaming JSON-LD note](cite:cites spec:jsonldstreaming).
 Due to this streaming property, RDF documents of infinite size can be generated,
-since serializations place **no limits on their document sizes**.
+since serializations place no limits on their document sizes.
 Valid use cases exist for publishers to generate infinite RDF documents,
 which can be streamed to query engines.
 Query engines with non-streaming or flawed streaming parsers, can lead to CPU and memory issues.
-Furthermore, similar issues can occur due to very long or **infinite IRIs or literals** inside documents.
-Other attacks could exist that specifically target known **flaws in RDF parsers** that cause CPU or memory issues.
+Furthermore, similar issues can occur due to very long or infinite IRIs or literals inside documents.
+Other attacks could exist that specifically target known flaws in RDF parsers that cause CPU or memory issues.
 
 Attacker
 : Data publisher (Carol)
@@ -489,7 +483,7 @@ Difficulty
 **Mitigation: placing limits for RDF syntaxes**
 
 Even though typically omitted from RDF format specifications,
-implementations often **place certain limits** on maximum document, IRI and literal lengths.
+implementations often place certain limits on maximum document, IRI and literal lengths.
 For instance, [SAX parsers](cite:cites sax) typically put a limit of 1 megabyte on IRIs and literals,
 and provide the option to increase this limit when certain documents would exceed this threshold.
 
@@ -501,7 +495,7 @@ Difficulty
 
 **Mitigation: sandbox RDF parsing**
 
-Applying the approach of **sandboxing** on RDF parsers would also help mitigate such attacks,
+Applying the approach of sandboxing on RDF parsers would also help mitigate such attacks,
 by for example placing a time and memory limit on the parsing of a document.
 If LTQP engines would allow arbitrary code execution, then more extensive system hogging mitigations
 would be needed just like in [Web browsers](cite:cites securitymodernwebbrowserarchitecture).
@@ -516,15 +510,15 @@ Difficulty
 {:#vulnerability-document-corruption}
 
 Since the Web is not a centrally controlled system,
-it is possible that documents are **incorrectly formatted**,
+it is possible that documents are incorrectly formatted,
 either intentional or unintentional.
 RDF formats typically prescribe a restrictive syntax,
 which require parsers to emit an error when it encounters illegal syntax.
 When an LTQP engine discovers and parses a large number of RDF documents,
 possibly in an uncontrolled manner,
 it is undesired that a syntax error in just a single RDF document can cause
-the whole **query process to terminate with an error**.
-Furthermore, the phenomenon of [_Link Rot_](cite:cites linkrot) can lead to **links going dead** (HTTP 404) at any point in time,
+the whole query process to terminate with an error.
+Furthermore, the phenomenon of [_Link Rot_](cite:cites linkrot) can lead to links going dead (HTTP 404) at any point in time,
 while finding a link to a URL that produces a 404 response should not always cause the query engine to terminate.
 
 **Exploit: publishing an invalid RDF document**
@@ -547,10 +541,10 @@ Difficulty
 
 **Mitigation: sandbox RDF parsing**
 
-The **sandbox** approach is well-suited for handling these types of attacks.
+The sandbox approach is well-suited for handling these types of attacks.
 RDF parsing for each document can run in a sandbox,
 where errors in this document would simply cause parsing of this document to end without crashing the query engine.
-Optionally, a **warning** could be emitted to the user.
+Optionally, a warning could be emitted to the user.
 The same approach could be followed for HTTP errors on the protocol level, such as HTTP 404's.
 This approach is followed by the [Comunica query engine](cite:cites comunica) via its [lenient execution mode](https://comunica.dev/docs/query/advanced/context/#4--lenient-execution).
 
@@ -562,7 +556,7 @@ Difficulty
 
 **Mitigation: lenient RDF parsing**
 
-An alternative mitigation would be to create more **lenient RDF parsers** that accept syntax errors and attempts to derive the intended meaning,
+An alternative mitigation would be to create more lenient RDF parsers that accept syntax errors and attempts to derive the intended meaning,
 similar as to how (non-XHTML) HTML parsers are created.
 The downside of this is that such parsers would not strictly adhere to their specifications.
 
@@ -575,11 +569,11 @@ Difficulty
 ### Cross-query Execution Interaction
 {:#vulnerability-cross-query-interaction}
 
-Query engines of all forms typically make use of **caching techniques** to improve performance of query execution.
+Query engines of all forms typically make use of caching techniques to improve performance of query execution.
 LTQP query engines can leverage caching techniques for document retrieval.
 Within a single query execution, or across multiple query executions,
 the documents may be reused, which could reduce the overall number of HTTP requests.
-Such forms of caching can lead to vulnerabilities based on **information leaking across different query executions**.
+Such forms of caching can lead to vulnerabilities based on information leaking across different query executions.
 We therefore make the assumption of caching-enabled LTQP engines in this vulnerability.
 
 **Exploit: timing attack to determine prior knowledge**
@@ -591,7 +585,7 @@ We also assume that Bob's profile contains a link to Carol's profile.
 If Carol includes a link from her pictures document to Bob's profile, and Bob's profile already links to Carol's profile,
 then the query engine could fetch these three documents in sequence (Carol's pictures, Bob's profile, Carol's profile).
 Since Carol's pictures and profile are in control of Carol,
-she could perform a [**timing attack**](cite:cites timingattack) to derive how long the Alice's query engine took to process Bob's profile.
+she could perform a [timing attack](cite:cites timingattack) to derive how long the Alice's query engine took to process Bob's profile.
 Since HTTP delays typically form the bottleneck in LTQP,
 Carol could thereby derive if Bob's profile was fetched from a cache or not.
 This would enable Carol to gain knowledge about prior document lookups,
@@ -611,7 +605,7 @@ Difficulty
 
 **Exploit: unauthenticated cache reuse**
 
-A second exploit assumes the presence of a **software flaw** inside Alice's LTQP query engine
+A second exploit assumes the presence of a software flaw inside Alice's LTQP query engine
 that makes document caches ignore authorization information.
 This example is also a form of the *Intermediate Result and Query Leakage* vulnerability that was explained before,
 for which we assume the existence of a *hybrid* LTQP query engine.
@@ -638,12 +632,12 @@ Difficulty
 
 **Mitigation: sandboxing query execution**
 
-In order to mitigate this vulnerability, the [**isolation model** that is used in Web browsers](cite:cites securitymodernwebbrowserarchitecture) could be reused.
-When applied to LTQP query engines, this could mean that **each query would be executed in a separate sandbox**,
+In order to mitigate this vulnerability, the [isolation model that is used in Web browsers](cite:cites securitymodernwebbrowserarchitecture) could be reused.
+When applied to LTQP query engines, this could mean that each query would be executed in a separate sandbox,
 so that information can not leak across different query executions.
-A downside of this approach is that this may cause a significant **performance impact**
+A downside of this approach is that this may cause a significant performance impact
 when similar queries are executed in sequence, and would cause identical documents to not be reused from the cache anymore.
-In order to mitigate this drawback, solutions may be possible to **allow "related queries" to be executed inside the same sandbox**.
+In order to mitigate this drawback, solutions may be possible to allow "related queries" to be executed inside the same sandbox.
 
 Location
 : LTQP engines
@@ -655,10 +649,10 @@ Difficulty
 {:#vulnerability-doc-priority-modification}
 
 Different techniques are possible to [determine the priority of documents](cite:cites WalkingWithoutMap) during query processing.
-If queries do not specify a custom ordering, this **prioritization will impact the ordering of query results**.
+If queries do not specify a custom ordering, this prioritization will impact the ordering of query results.
 Some of these techniques are purely graph-based, such as [PageRank](cite:cites pagerank), and can therefore suffer from purely data-driven attacks.
-This vulnerability involves **attacks that can influence the priority of documents**,
-and thereby maliciously influence what query **results come in earlier or later**.
+This vulnerability involves attacks that can influence the priority of documents,
+and thereby maliciously influence what query results come in earlier or later.
 
 **Exploit: malicious PageRank prioritization of documents**
 
@@ -690,7 +684,7 @@ Difficulty
 **Mitigation: validate API parameters**
 
 Several mitigations have been [proposed for these types of attacks](cite:cites crawlerattacks).
-A first solution is to place **responsibility at the API**, and expecting it to patch the exploit.
+A first solution is to place responsibility at the API, and expecting it to patch the exploit.
 
 Location
 : Data publishers
@@ -700,7 +694,7 @@ Difficulty
 
 **Mitigation: content policies**
 
-A second mitigation involves publishers to expose **policies that explicitly authorize what links should be considered legitimate**,
+A second mitigation involves publishers to expose policies that explicitly authorize what links should be considered legitimate,
 and LTQP query engines inspecting these policies when determining document priorities.
 
 Location
@@ -711,7 +705,7 @@ Difficulty
 
 **Mitigation: automated learning of legitimate links**
 
-A third mitigation is to use **machine-learning to distinguishing non-legitimate from legitimate links**.
+A third mitigation is to use machine-learning to distinguishing non-legitimate from legitimate links.
 A combination of the three approaches can be used to mitigate this vulnerability.
 
 Location

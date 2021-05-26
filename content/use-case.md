@@ -19,7 +19,7 @@ Bob and Carol can then self-define their own contact details.
 [](#figure-use-case) shows an illustration of this setup.
 
 The LTQP paradigm is well-suited to handle query execution over such setups.
-If Alice for instance would like to obtain the names <span class="comment" data-author="RV">Current e-mail / postal addresses (a little more interesting and potential non-constant)?</span> of all her contacts,
+If Alice for instance would like to obtain the names of all her contacts,
 she could initiate a query starting from her address book as seed document,
 and the query engine would follow the links to her contacts,
 and obtain the names from their respective profiles.
