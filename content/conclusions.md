@@ -18,7 +18,7 @@ As such, we **recommend LTQP engine developers to**:
 At the same time, **recommend data publishers to**:
 
 * **validate input** to avoid data injection ([](#vulnerability-cross-site-injection));
-* ensure **HTTP GET** requests are be **read-only** ([](#vulnerability-session-hijacking)).
+* ensure **HTTP GET** requests are **read-only** ([](#vulnerability-session-hijacking)).
 
 For the following security vulnerabilities, **no concrete mitigation techniques exist yet**:
 
