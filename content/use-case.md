@@ -10,6 +10,15 @@ following the principles of the [Solid ecosystem](cite:cites solid).
 This data vault is in full control of the owner,
 and they can host any kind of file in here, such as Linked Data files.
 
+<figure id="figure-use-case">
+<img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
+<figcaption markdown="block">
+Overview of the address book use case
+in which Alice has an address book with links to the profiles of Carol and Bob,
+which contain further details.
+</figcaption>
+</figure>
+
 For this use case, we assume the existence of three people (Alice, Bob, and Carol),
 each having their own personal data vault.
 Alice uses her vault to store an address book containing the people she knows.
@@ -33,13 +42,3 @@ The first is the role of data publisher,
 which is taken up by Alice, Bob, and Carol though their person data vaults.
 The second is the role of the query initiator,
 which here applies to Alice, as she issues a query over her contacts.
-
-<figure id="figure-use-case">
-<img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
-<figcaption markdown="block">
-Overview of the address book use case
-in which Alice has an address book with links to the profiles of Carol and Bob,
-which contain further details.
-</figcaption>
-</figure>
-

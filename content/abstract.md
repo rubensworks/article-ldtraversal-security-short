@@ -17,11 +17,10 @@ As such, we have performed an analysis of potential security vulnerabilities of 
 <!-- Object       -->
 This article provides an overview of security threats in related domains,
 which are used as inspiration for the identification of 10 LTQP security threats.
-Each threat is explained, together with an example, and one or more avenues for mitigations are proposed.
 <!-- Findings     -->
 <!-- Conclusion   -->
 We conclude with several concrete recommendations for LTQP query engine developers and data publishers
 as a first step to mitigate some of these issues.
 <!-- Perspectives -->
-With this work, we start filling the unknowns for enabling querying over decentralized environments.
-Aside from future work on security, wider research is needed to uncover missing building blocks for enabling true decentralization.
+With this work, we start filling the unknowns for enabling query execution over decentralized environments.
+Aside from future work on security, wider research will be needed to uncover missing building blocks for enabling true data decentralization.

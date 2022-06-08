@@ -37,24 +37,8 @@ as recommended by [Seacord et al.](cite:cites classifyingsecurityvulnerabilities
 ### Classification Method
 
 Our classification method considers the listing of several security _vulnerabilities_.
-Each vulnerability has two properties, as shown in [](#table-vulnerability-properties).
-The _Possible exploits_ property refers to a number of _exploits_ that may take advantage of this vulnerability,
-and the _Mitigations_ property refers to a number of _mitigations_ that may prevent or limit this vulnerability.
-The different properties of each exploit are shown in [](#table-exploit-properties),
-and the properties for each mitigation are shown in [](#table-mitigation-properties).
-
-<figure id="table-vulnerability-properties" markdown="1" class="table">
-
-| Attribute                             | Values     |
-|---------------------------------------|------------|
-| Possible exploits		                | Intercepting private data, crashing a system, ... |
-| Mitigations			                | Sandboxing, same-origin policy, ... |
-
-<figcaption markdown="block">
-Vulnerability properties specific to LTQP, with several possible values for each attribute.
-</figcaption>
-</figure>
-
+Each vulnerability has one or more possible _exploits_, which may take advantage of this vulnerability.
+The different properties of each exploit are shown in [](#table-exploit-properties).
 
 <figure id="table-exploit-properties" markdown="1" class="table">
 
@@ -67,17 +51,5 @@ Vulnerability properties specific to LTQP, with several possible values for each
 
 <figcaption markdown="block">
 Exploit properties specific to LTQP, with several possible values for each attribute.
-</figcaption>
-</figure>
-
-<figure id="table-mitigation-properties" markdown="1" class="table">
-
-| Attribute                             | Values     |
-|---------------------------------------|------------|
-| Location 				                | LTQP engine, query initiator, data publisher, ... |
-| Difficulty 				            | Easy, medium, hard |
-
-<figcaption markdown="block">
-Mitigation properties specific to LTQP, with several possible values for each attribute.
 </figcaption>
 </figure>
