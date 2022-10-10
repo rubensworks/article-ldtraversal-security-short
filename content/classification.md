@@ -9,7 +9,7 @@ to assess the validity of our work.
 
 Security vulnerabilities in software [can be classified using many different methods](cite:cites classifyingsecurityvulnerabilities, formalmodelingvulnerability).
 Generic classification methods often result in very large taxonomies,
-which are shown to [result in practical problems](cite:cites classifyingsecurityvulnerabilities) because of their size and complexity.
+which are shown to [result in practical problems](cite:cites classifyingsecurityvulnerabilities) due to their size and complexity.
 
 [Seacord et al.](cite:cites classifyingsecurityvulnerabilities)
 claim that classification methods must be based on engineering analysis of the problem domain,

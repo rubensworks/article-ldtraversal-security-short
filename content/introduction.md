@@ -23,10 +23,10 @@ However, if decentralization efforts such as Solid will become a reality,
 we need to be prepared for the need to query over a huge number of data sources.
 For example, decentralized social networking applications will need to be able to query over networks of friends containing hundreds or thousands of data documents.
 As such, we need new query techniques that are specifically designed for such levels of decentralization.
-One of the most promising techniques that could achieve this is called [Link-Traversal-based Query Processing (LTQP)](cite:cites linktraversal, sparqllinktraversal).
+A promising technique to achieve this is [Link-Traversal-based Query Processing (LTQP)](cite:cites linktraversal, sparqllinktraversal).
 LTQP is able to query over a set of documents that are connected to each other via _links_.
-An LTQP query engine typically starts from one or more documents,
-and _traverses_ links between them in a crawling-manner in order to resolve the given query.
+An LTQP engine typically starts from one or more documents,
+and _traverses_ links between them in a crawling-manner to resolve the given query.
 
 Since LTQP is still a relative young area of research,
 there are still a number of open problems that need to be tackled,

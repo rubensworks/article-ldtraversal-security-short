@@ -24,9 +24,9 @@ Since document discovery can be a very long (or infinite) process,
 query execution happens during the discovery process
 based on all the RDF triples that are extracted from the discovered documents.
 This is typically done by implementing these processes in an [iterative pipeline](cite:cites Squin).
-Furthermore, since this discovery approach can lead to a large number of discovered documents,
+Furthermore, since this approach can lead to a large number of discovered documents,
 different [reachability criteria](cite:cites reachability_semantics) have been introduced
-as a way to restrict what links are to be followed for a given query.
+to restrict what links to follow for a given query.
 
 So far, LTQP research in the area of security has been limited.
 [One work has indicated the importance of _trustworthiness_](cite:cites guidedlinktraversal)
@@ -34,7 +34,7 @@ during link traversal, as people may publish false or contradicting information,
 which would need to be avoided or filtered out during query execution.
 [Another work mentioned the need for LTQP engines to adhere to `robots.txt` files](cite:cites datasummaries)
 in order to not lead to unintentional denial of service attacks of data publishers.
-Given the focus of our work on data-driven security vulnerabilities related to LTQP engines,
+Given the focus of our work on data-driven security vulnerabilities in LTQP engines,
 we only consider this issue of _trustworthiness_ further in this work,
 and omit the security vulnerabilities from a data publisher's perspective.
 
