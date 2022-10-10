@@ -11,7 +11,7 @@
   <meta name="citation_author" content="Ruben Taelman" />
   <meta name="citation_author" content="Ruben Verborgh" />
   
-  <meta name="citation_publication_date" content="2022/06/21" />
+  <meta name="citation_publication_date" content="2022/10/10" />
 </head>
 
 <body prefix="dctypes: http://purl.org/dc/dcmitype/ pimspace: http://www.w3.org/ns/pim/space# rsa: http://www.w3.org/ns/auth/rsa# cert: http://www.w3.org/ns/auth/cert# wgs: http://www.w3.org/2003/01/geo/wgs84_pos# biblio: http://purl.org/net/biblio# bibo: http://purl.org/ontology/bibo/ book: http://purl.org/NET/book/vocab# ov: http://open.vocab.org/terms/ doap: http://usefulinc.com/ns/doap# dbr: http://dbpedia.org/resource/ dbp: http://dbpedia.org/property/ sio: http://semanticscience.org/resource/ opmw: http://www.opmw.org/ontology/ deo: http://purl.org/spar/deo/ doco: http://purl.org/spar/doco/ cito: http://purl.org/spar/cito/ fabio: http://purl.org/spar/fabio/ solid: http://www.w3.org/ns/solid/terms# acl: http://www.w3.org/ns/auth/acl# dio: https://w3id.org/dio# lsc: http://linkedscience.org/lsc/ns#" typeof="schema:CreativeWork sioc:Post prov:Entity lsc:Research">
@@ -37,7 +37,7 @@
 <div datatype="rdf:HTML" property="schema:description">
       <h2 property="schema:name">Abstract</h2>
       <!-- Context      -->
-      <p>The societal and economical consequences surrounding Big Data-driven platforms
+      <p>The societal and economic consequences surrounding Big Data-driven platforms
 have increased the call for decentralized solutions.
 However, retrieving and querying data in more decentralized environments
 requires fundamentally different approaches,
@@ -75,8 +75,8 @@ Aside from future work on security, wider research will be needed to uncover mis
 
           <p>Contrary to the Web’s initial design as a <em>decentralized</em> ecosystem,
 the Web has grown to be a very centralized place,
-as large parts of the Web are currently made up of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://ruben.verborgh.org/articles/redecentralizing-the-web/">a few large Bid Data-driven centralized platforms</a> <span class="references">[<a href="#ref-1">1</a>]</span>.
-This large-scale centralization has lead to a number of problems related to <a href="https://www.theguardian.com/technology/live/2018/apr/10/mark-zuckerberg-testimony-live-congress-facebook-cambridge-analytica">personal information abuse</a>,
+as large parts of the Web are currently made up of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://ruben.verborgh.org/articles/redecentralizing-the-web/">a few large Big Data-driven centralized platforms</a> <span class="references">[<a href="#ref-1">1</a>]</span>.
+This large-scale centralization has led to a number of problems related to <a href="https://www.theguardian.com/technology/live/2018/apr/10/mark-zuckerberg-testimony-live-congress-facebook-cambridge-analytica">personal information abuse</a>,
 and other <a href="https://fs.blog/2017/07/filter-bubbles/">economic and societal problems</a>.
 In order to solve these problems, there are calls to go back to the original vision of a decentralized Web.
 The leading effort to achieve this decentralization is <a property="schema:citation http://purl.org/spar/cito/cites" href="https://ruben.verborgh.org/articles/redecentralizing-the-web/">Solid</a> <span class="references">[<a href="#ref-1">1</a>]</span>.
@@ -101,7 +101,7 @@ An LTQP query engine typically starts from one or more documents,
 and <em>traverses</em> links between them in a crawling-manner in order to resolve the given query.</p>
 
           <p>Since LTQP is still a relative young area of research,
-in which there are still a number of open problems that need to be tackled,
+there are still a number of open problems that need to be tackled,
 notably <span property="schema:citation http://purl.org/spar/cito/cites" resource="https://dx.doi.org/10.1007/s13222-013-0122-1"><a href="https://link.springer.com/10.1007/s13222-013-0122-1">result completeness and query termination</a></span> <span class="references">[<a href="#ref-2">2</a>]</span>.
 Aside from these known issues,
 we also state the importance of <em>security</em>.
@@ -142,12 +142,12 @@ Finally, we discuss the future of LTQP security and conclude in <a href="#conclu
           <h3 id="link-traversal-based-query-processing">Link-Traversal-based Query Processing</h3>
 
           <p>More than a decade ago, <span property="schema:citation http://purl.org/spar/cito/cites" resource="https://dx.doi.org/10.1007/978-3-642-04930-9_19"><a href="https://link.springer.com/10.1007/978-3-642-04930-9_19">Link-Traversal-based Query Processing (LTQP)</a></span> <span class="references">[<a href="#ref-3">3</a>, <a href="#ref-2">2</a>]</span>
-has been introduced as an alternative query paradigm for enabling query execution over document-oriented interfaces.
+was been introduced as an alternative query paradigm for enabling query execution over document-oriented interfaces.
 These documents are usually <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data</a> <span class="references">[<a href="#ref-7">7</a>]</span> serialized using any RDF serialization.
-RDF is suitable to LTQP and decentralization because of its global semantics,
+RDF is suitable for LTQP and decentralization because of its global semantics,
 which allows queries to be written independently of the schemas of specific documents.
 In order to execute these queries, LTQP processing occurs over live data,
-and discover links to other documents via the <em>follow-your-nose principle</em> during query execution.
+and discovers links to other documents via the <em>follow-your-nose principle</em> during query execution.
 This is in contrast to the typical query execution over centralized database-oriented interfaces such as SPARQL endpoints,
 where data is assumed to be loaded into the endpoint beforehand,
 and no additional data is discovered during query execution.</p>
@@ -194,7 +194,7 @@ To the best of our knowledge, no security vulnerabilities have yet been identifi
 Web crawlers are typically used for Web indexing to aid search engines.
 Focused crawling <span class="references">[<a href="#ref-16">16</a>]</span> is a special form of Web crawling that prioritizes certain Web pages,
 such as Web pages about a certain topic, or domains for a certain country.
-LTQP can therefore be considered as an area of focused crawling that where the priority lies in achieving query results.</p>
+LTQP can therefore be considered as an area of focused crawling where the priority lies in achieving query results.</p>
 
           <p>One related work in this area involves abusing crawlers to initiate attacks on other Web sites <span class="references">[<a href="#ref-17">17</a>]</span>.
 This may cause performance degradation on the attacked Web site,
@@ -231,15 +231,15 @@ while Web browsers are user-driven.
 Silic et al. <span class="references">[<a href="#ref-22">22</a>]</span>
 analyzed the architectures of modern Web browsers,
 determined the main vulnerabilities,
-and discuss how these issues are coped with.
+and discuss how these issues are handled.
 They list the following main threats for Web browsers:</p>
 
           <ol>
             <li><strong>System compromise</strong>: Malicious arbitrary code execution with full privileges on behalf of the user. For example, exploits in the browser or third-party plugins caused by bugs. These types of attacks are mitigated through automatic updates once exploits become known.</li>
-            <li><strong>Data theft</strong>: Ability to steal local network or system data. For example, a Web page includes a subresource to URLs using the file scheme (<code>file://</code>). which are usually blocked.</li>
+            <li><strong>Data theft</strong>: Ability to steal local network or system data. For example, a Web page includes a subresource to URLs using the file scheme (<code>file://</code>), which are usually blocked.</li>
             <li><strong>Cross domain compromise</strong>: Code from a Fully Qualified Domain Name (FQDN) executes code (or reads data) from another FQDN. For example, a malicious domain could extract authentication cookies from your bank’s website you are logged into. This is usually blocked through the same-origin policy, but can be explicitly allowed through <a href="https://fetch.spec.whatwg.org/#http-cors-protocol" class="mandatory" data-link-text="https:/​/​fetch.spec.whatwg.org/​#http-​cors-​protocol">Cross-Origin Resource Sharing (CORS)</a>.</li>
-            <li><strong>Session hijacking</strong>: Session tokens are compromised through theft or session token prediction. For example, cross-domain request forgery (CSRF) <span class="references">[<a href="#ref-23">23</a>]</span> is a type of attack that involves an attacker forcing a user logged in on another Web site to perform an action without their consent. Web browsers do not protect against these, but are typically handled by Web frameworks via the Synchronizer Token Pattern <span class="references">[<a href="#ref-24">24</a>]</span>.</li>
-            <li><strong>User interface compromise</strong>: Manipulating the user interface to trick the user into performing an action without their knowledge. For example, placing an invisible button in front of another button. This category also includes CPU and memory hogging to block the user from taking any further actions. Web browser have limited protections for these types of attacks that involve placing limitations on user interface manipulations.</li>
+            <li><strong>Session hijacking</strong>: Session tokens are compromised through theft or session token prediction. For example, cross-domain request forgery (CSRF) <span class="references">[<a href="#ref-23">23</a>]</span> is a type of attack that involves an attacker forcing a user logged in on another Web site to perform an action without their consent. Web browsers do not protect against these attacks, but they are typically handled by Web frameworks via the Synchronizer Token Pattern <span class="references">[<a href="#ref-24">24</a>]</span>.</li>
+            <li><strong>User interface compromise</strong>: Manipulating the user interface to trick the user into performing an action without their knowledge. For example, placing an invisible button in front of another button. This category also includes CPU and memory hogging to block the user from taking any further actions. Web browsers have limited protections for these types of attacks that involve placing limitations on user interface manipulations.</li>
           </ol>
 
         </div>
@@ -287,7 +287,7 @@ we assume that Carol has malicious intentions that Alice is unaware of.</p>
 
           <p>In this use case, two main roles can be identified.
 The first is the role of data publisher,
-which is taken up by Alice, Bob, and Carol though their person data vaults.
+which is taken up by Alice, Bob, and Carol though their personal data vaults.
 The second is the role of the query initiator,
 which here applies to Alice, as she issues a query over her contacts.</p>
 
@@ -380,7 +380,7 @@ The different properties of each exploit are shown in <a href="#table-exploit-pr
           <p>As shown before in <a href="#related-work-rdf-query-processing">Subsection 2.2</a>,
 most research on identifying security vulnerabilities within RDF query processing
 focuses on the query itself as a means of attacking, mostly through injection techniques.
-Since LTQP engines also accepts queries as input,
+Since LTQP engines also accept queries as input,
 these existing techniques will therefore also apply to LTQP engines.</p>
 
           <p>In this work, we acknowledge the importance of these vulnerabilities,
@@ -458,11 +458,11 @@ If Alice makes use of a hybrid LTQP engine with an adaptive query planner, this 
 once it has been discovered.
 Depending on the query planner, this could mean that non-public intermediate results from the traversal process such as Bob’s telephone 
 are used as input to the malicious SPARQL endpoint.
-Other query planning algorithms could even decide to send the full original SPARQL query into the malicious endpoint.
+Other query planning algorithms could even decide to send the full original SPARQL query to the malicious endpoint.
 Depending on the engine and its query plan,
 this could give the attacker knowledge of intermediate results,
 or even the full query.
-This vulnerability enables attackers to do obtain insights to user behaviour, which is a privacy concern.
+This vulnerability enables attackers to obtain insights into user behaviour, which is a privacy concern.
 A more critical problem is when private data is being leaked that normally exists behind access control, such as bank account numbers.</p>
 
           <dl>
@@ -490,7 +490,7 @@ where an attacker forces the user to perform an action while authenticated witho
           <p>For example, we assume that Alice has a flawed SPARQL endpoint running at <code>http:/​/​my-endpoint.com/sparql</code>,
 which requires Alice’s session for accepting read and write queries.
 Alice’s query engine may have Alice’s session stored by default for when she wants to query against her own endpoint.
-If Carol knows this, she could a malicious triple with a link to <code>http:/​/​my-endpoint.com/sparql?query=DELETE * WHERE { ?s ?p ?o }</code> in her profile.
+If Carol knows this, she could add a malicious triple with a link to <code>http:/​/​my-endpoint.com/sparql?query=DELETE * WHERE { ?s ?p ?o }</code> in her profile.
 While the SPARQL protocol only allows update queries via HTTP POST,
 Alice’s flawed query engine could implement this incorrectly so that update queries are also accepted via HTTP GET.
 If Alice executes a query over her address book, the query engine could dereference this link
@@ -523,7 +523,7 @@ and a compromised API <code>http:/​/​trusted.org/?name</code> that dynamical
 In this case, the API simply has a Turtle document template into which the name is filled in as a literal value,
 but it does not do any escaping.
 We assume Alice decides to fully trust all links from <code>http:/​/​trusted.org/</code> to other pages,
-but only trust information directly on Carol’s page or links to other trusted domains.
+but only trusts information directly on Carol’s page or links to other trusted domains.
 If Carol includes a link to <code>&lt;http://trusted.org/?name=Bob". &lt;&gt; rdfs:seeAlso &lt;http://hacker.com/invalid-data&gt;. &lt;&gt; foaf:name "abc""</code>,
 then this would cause the API to produce a Turtle document that contains a link to <code>http:/​/​hacker.com/invalid-data</code>,
 which would lead to unwanted data to be included in the query results.</p>
@@ -573,7 +573,7 @@ to the attacker, and deletes all files afterwards so that she can hold Alice’s
 
           <p>LTQP by nature depends on the ability of iteratively following links between documents.
 It is however possible that such <strong>link structures cause infinite traversal paths</strong> and make the traversal engine get trapped,
-either intentionally or unintentionally, just like crawler traps.
+either intentional or unintentional, just like crawler traps.
 Given this reality, LTQP query engines must be able to detect such traps.
 Otherwise, query engines could never terminate,
 and possibly even produce infinite results.</p>
@@ -581,11 +581,11 @@ and possibly even produce infinite results.</p>
           <p><strong>Exploit: forming a link cycle</strong></p>
 
           <p>A link cycle is a simple form of link traversal trap that could be formed in different ways.
-First, at application-level, Carol’s profile could contain a link path to document X,
+First, at the application-level, Carol’s profile could contain a link path to document X,
 and document X could contain a link path back to Carol’s profile.
-Second, at HTTP protocol-level, Carol’s server could return for her profile’s URL an (HTTP 3xx) redirect chain to URL X,
+Second, at the HTTP protocol-level, Carol’s server could return for her profile’s URL an (HTTP 3xx) redirect chain to URL X,
 and URL X could contain a redirect chain back to the URL of her profile.
-Third, at application level, a cycle structure could be simulated via virtual pages that always link back to similar pages, but with a different URL.
+Third, at the application level, a cycle structure could be simulated via virtual pages that always link back to similar pages, but with a different URL.
 For example, the Linked Open Numbers <span class="references">[<a href="#ref-31">31</a>]</span> project generates a long virtual sequence of natural numbers,
 which could produce a bottleneck when traversed by an LTQP query engine.</p>
 
@@ -675,7 +675,7 @@ We therefore make the assumption of caching-enabled LTQP engines in this vulnera
 
           <p>A first exploit of this vulnerability is an attack that enables Carol to gain knowledge about
 whether or not Bob’s profile has been requested before by Alice.
-We assume that the Alice’s engine issues a query over a document from Carol listing all her pictures.
+We assume that Alice’s engine issues a query over a document from Carol listing all her pictures.
 We also assume that Bob’s profile contains a link to Carol’s profile.
 If Carol includes a link from her pictures document to Bob’s profile, and Bob’s profile already links to Carol’s profile,
 then the query engine could fetch these three documents in sequence (Carol’s pictures, Bob’s profile, Carol’s profile).
@@ -766,10 +766,10 @@ of Carol’s grocery store.</p>
 
           <p>With this prospective analysis, we have illustrated the importance of more security-oriented research
 in the domain on LTQP and the general handling of decentralized environments such as <a property="schema:citation http://purl.org/spar/cito/cites" href="https://ruben.verborgh.org/articles/redecentralizing-the-web/">Solid</a> <span class="references">[<a href="#ref-1">1</a>]</span>,
-especially in presence of data behind authentication.
+especially in the presence of data behind authentication.
 In future work, work is needed to determine mitigation strategies for them,
 which may be inspired by existing techniques in related domains.
-Furthermore, research will be needed to test the impact of these mitigations on implementation,
+Furthermore, research will be needed to test the impact of these mitigations on implementations,
 analyze their performance impact,
 introduce more performant techniques and algorithms,
 and introduce and apply attack models to test their effectiveness.
