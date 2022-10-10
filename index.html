@@ -95,10 +95,10 @@ However, if decentralization efforts such as Solid will become a reality,
 we need to be prepared for the need to query over a huge number of data sources.
 For example, decentralized social networking applications will need to be able to query over networks of friends containing hundreds or thousands of data documents.
 As such, we need new query techniques that are specifically designed for such levels of decentralization.
-One of the most promising techniques that could achieve this is called <span property="schema:citation http://purl.org/spar/cito/cites" resource="https://dx.doi.org/10.1007/s13222-013-0122-1"><a href="https://link.springer.com/10.1007/s13222-013-0122-1">Link-Traversal-based Query Processing (LTQP)</a></span> <span class="references">[<a href="#ref-2">2</a>, <a href="#ref-3">3</a>]</span>.
+A promising technique to achieve this is <span property="schema:citation http://purl.org/spar/cito/cites" resource="https://dx.doi.org/10.1007/s13222-013-0122-1"><a href="https://link.springer.com/10.1007/s13222-013-0122-1">Link-Traversal-based Query Processing (LTQP)</a></span> <span class="references">[<a href="#ref-2">2</a>, <a href="#ref-3">3</a>]</span>.
 LTQP is able to query over a set of documents that are connected to each other via <em>links</em>.
-An LTQP query engine typically starts from one or more documents,
-and <em>traverses</em> links between them in a crawling-manner in order to resolve the given query.</p>
+An LTQP engine typically starts from one or more documents,
+and <em>traverses</em> links between them in a crawling-manner to resolve the given query.</p>
 
           <p>Since LTQP is still a relative young area of research,
 there are still a number of open problems that need to be tackled,
@@ -160,9 +160,9 @@ Since document discovery can be a very long (or infinite) process,
 query execution happens during the discovery process
 based on all the RDF triples that are extracted from the discovered documents.
 This is typically done by implementing these processes in an iterative pipeline <span class="references">[<a href="#ref-8">8</a>]</span>.
-Furthermore, since this discovery approach can lead to a large number of discovered documents,
+Furthermore, since this approach can lead to a large number of discovered documents,
 different <span property="schema:citation http://purl.org/spar/cito/cites" resource="https://dx.doi.org/10.1007/978-3-642-30284-8_8"><a href="https://link.springer.com/10.1007/978-3-642-30284-8_8">reachability criteria</a></span> <span class="references">[<a href="#ref-9">9</a>]</span> have been introduced
-as a way to restrict what links are to be followed for a given query.</p>
+to restrict what links to follow for a given query.</p>
 
           <p>So far, LTQP research in the area of security has been limited.
 <a property="schema:citation http://purl.org/spar/cito/cites" href="https://arxiv.org/abs/2005.02239">One work has indicated the importance of <em>trustworthiness</em></a> <span class="references">[<a href="#ref-10">10</a>]</span>
@@ -170,7 +170,7 @@ during link traversal, as people may publish false or contradicting information,
 which would need to be avoided or filtered out during query execution.
 Another work mentioned the need for LTQP engines to adhere to <code>robots.txt</code> files <span class="references">[<a href="#ref-11">11</a>]</span>
 in order to not lead to unintentional denial of service attacks of data publishers.
-Given the focus of our work on data-driven security vulnerabilities related to LTQP engines,
+Given the focus of our work on data-driven security vulnerabilities in LTQP engines,
 we only consider this issue of <em>trustworthiness</em> further in this work,
 and omit the security vulnerabilities from a data publisher’s perspective.</p>
 
@@ -306,7 +306,7 @@ to assess the validity of our work.</p>
 
           <p>Security vulnerabilities in software can be classified using many different methods <span class="references">[<a href="#ref-25">25</a>, <a href="#ref-26">26</a>]</span>.
 Generic classification methods often result in very large taxonomies,
-which are shown to result in practical problems <span class="references">[<a href="#ref-25">25</a>]</span> because of their size and complexity.</p>
+which are shown to result in practical problems <span class="references">[<a href="#ref-25">25</a>]</span> due to their size and complexity.</p>
 
           <p>Seacord et al. <span class="references">[<a href="#ref-25">25</a>]</span>
 claim that classification methods must be based on engineering analysis of the problem domain,
@@ -782,7 +782,17 @@ Such future research—with our work as a first step—is crucial for enabling a
 
 </main>
 
-<footer><section>
+<footer>
+  <section id="acknowledgements" inlist="" rel="schema:hasPart" resource="#acknowledgements">
+<div datatype="rdf:HTML" property="schema:description">
+          <h2 property="schema:name">Acknowledgements</h2>
+
+          <p>Ruben Taelman is a postdoctoral fellow of the Research Foundation – Flanders (FWO) (1274521N).</p>
+
+        </div>
+</section>
+
+<section>
 <h2 id="references">References</h2>
 <dl class="references">
   <dt id="ref-1">[1]</dt>
@@ -856,7 +866,7 @@ Such future research—with our work as a first step—is crucial for enabling a
   <dt id="ref-35">[35]</dt>
   <dd resource="#timingattack" typeof="schema:Article">Dhem, J.-F., Koeune, F., Leroux, P.-A., Mestre, P., Quisquater, J.-J., Willems, J.-L.: A practical implementation of the timing attack. In: International Conference on Smart Card Research and Advanced Applications. pp. 167–182 (1998).</dd>
   <dt id="ref-36">[36]</dt>
-  <dd resource="https://dx.doi.org/10.1007/978-3-319-46523-4_19" typeof="schema:Article">Hartig, O., Özsu, M.T.: Walking Without a Map: Ranking-Based Traversal for Querying Linked Data. In: Groth, P., Simperl, E., Gray, A., Sabou, M., Krötzsch, M., Lecue, F., Flöck, F., and Gil, Y. (eds.) Proceedings of the 13th International Semantic Web Conference. pp. 305–324 (2016).</dd>
+  <dd resource="https://dx.doi.org/10.1007/978-3-319-46523-4_19" typeof="schema:Article">Hartig, O., Özsu, M.T.: Walking Without a Map: Ranking-Based Traversal for Querying Linked Data. In: Proceedings of the 13th International Semantic Web Conference. pp. 305–324 (2016).</dd>
 </dl>
 </section>
 </footer>
