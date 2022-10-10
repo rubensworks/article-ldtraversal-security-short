@@ -39,6 +39,6 @@ we assume that Carol has malicious intentions that Alice is unaware of.
 
 In this use case, two main roles can be identified.
 The first is the role of data publisher,
-which is taken up by Alice, Bob, and Carol though their person data vaults.
+which is taken up by Alice, Bob, and Carol though their personal data vaults.
 The second is the role of the query initiator,
 which here applies to Alice, as she issues a query over her contacts.

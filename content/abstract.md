@@ -1,6 +1,6 @@
 ## Abstract
 <!-- Context      -->
-The societal and economical consequences surrounding Big Data-driven platforms
+The societal and economic consequences surrounding Big Data-driven platforms
 have increased the call for decentralized solutions.
 However, retrieving and querying data in more decentralized environments
 requires fundamentally different approaches,

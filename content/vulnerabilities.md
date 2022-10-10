@@ -4,7 +4,7 @@
 As shown before in [](#related-work-rdf-query-processing),
 most research on identifying security vulnerabilities within RDF query processing
 focuses on the query itself as a means of attacking, mostly through injection techniques.
-Since LTQP engines also accepts queries as input,
+Since LTQP engines also accept queries as input,
 these existing techniques will therefore also apply to LTQP engines.
 
 In this work, we acknowledge the importance of these vulnerabilities,
@@ -83,11 +83,11 @@ If Alice makes use of a hybrid LTQP engine with an adaptive query planner, this 
 once it has been discovered.
 Depending on the query planner, this could mean that non-public intermediate results from the traversal process such as Bob's telephone 
 are used as input to the malicious SPARQL endpoint.
-Other query planning algorithms could even decide to send the full original SPARQL query into the malicious endpoint.
+Other query planning algorithms could even decide to send the full original SPARQL query to the malicious endpoint.
 Depending on the engine and its query plan,
 this could give the attacker knowledge of intermediate results,
 or even the full query.
-This vulnerability enables attackers to do obtain insights to user behaviour, which is a privacy concern.
+This vulnerability enables attackers to obtain insights into user behaviour, which is a privacy concern.
 A more critical problem is when private data is being leaked that normally exists behind access control, such as bank account numbers.
 
 Attacker
@@ -117,7 +117,7 @@ where an attacker forces the user to perform an action while authenticated witho
 For example, we assume that Alice has a flawed SPARQL endpoint running at `http://my-endpoint.com/sparql`,
 which requires Alice's session for accepting read and write queries.
 Alice's query engine may have Alice's session stored by default for when she wants to query against her own endpoint.
-If Carol knows this, she could a malicious triple with a link to `http://my-endpoint.com/sparql?query=DELETE * WHERE { ?s ?p ?o }` in her profile.
+If Carol knows this, she could add a malicious triple with a link to `http://my-endpoint.com/sparql?query=DELETE * WHERE { ?s ?p ?o }` in her profile.
 While the SPARQL protocol only allows update queries via HTTP POST,
 Alice's flawed query engine could implement this incorrectly so that update queries are also accepted via HTTP GET.
 If Alice executes a query over her address book, the query engine could dereference this link
@@ -152,7 +152,7 @@ and a compromised API `http://trusted.org/?name` that dynamically creates RDF re
 In this case, the API simply has a Turtle document template into which the name is filled in as a literal value,
 but it does not do any escaping.
 We assume Alice decides to fully trust all links from `http://trusted.org/` to other pages,
-but only trust information directly on Carol's page or links to other trusted domains.
+but only trusts information directly on Carol's page or links to other trusted domains.
 If Carol includes a link to `<http://trusted.org/?name=Bob". <> rdfs:seeAlso <http://hacker.com/invalid-data>. <> foaf:name "abc""`,
 then this would cause the API to produce a Turtle document that contains a link to `http://hacker.com/invalid-data`,
 which would lead to unwanted data to be included in the query results.
@@ -206,7 +206,7 @@ Difficulty
 
 LTQP by nature depends on the ability of iteratively following links between documents.
 It is however possible that such **link structures cause infinite traversal paths** and make the traversal engine get trapped,
-either intentionally or unintentionally, just like crawler traps.
+either intentional or unintentional, just like crawler traps.
 Given this reality, LTQP query engines must be able to detect such traps.
 Otherwise, query engines could never terminate,
 and possibly even produce infinite results.
@@ -214,11 +214,11 @@ and possibly even produce infinite results.
 **Exploit: forming a link cycle**
 
 A link cycle is a simple form of link traversal trap that could be formed in different ways.
-First, at application-level, Carol's profile could contain a link path to document X,
+First, at the application-level, Carol's profile could contain a link path to document X,
 and document X could contain a link path back to Carol's profile.
-Second, at HTTP protocol-level, Carol's server could return for her profile's URL an (HTTP 3xx) redirect chain to URL X,
+Second, at the HTTP protocol-level, Carol's server could return for her profile's URL an (HTTP 3xx) redirect chain to URL X,
 and URL X could contain a redirect chain back to the URL of her profile.
-Third, at application level, a cycle structure could be simulated via virtual pages that always link back to similar pages, but with a different URL.
+Third, at the application level, a cycle structure could be simulated via virtual pages that always link back to similar pages, but with a different URL.
 For example, the [Linked Open Numbers](cite:cites linkedopennumbers) project generates a long virtual sequence of natural numbers,
 which could produce a bottleneck when traversed by an LTQP query engine.
 
@@ -314,7 +314,7 @@ We therefore make the assumption of caching-enabled LTQP engines in this vulnera
 
 A first exploit of this vulnerability is an attack that enables Carol to gain knowledge about
 whether or not Bob's profile has been requested before by Alice.
-We assume that the Alice's engine issues a query over a document from Carol listing all her pictures.
+We assume that Alice's engine issues a query over a document from Carol listing all her pictures.
 We also assume that Bob's profile contains a link to Carol's profile.
 If Carol includes a link from her pictures document to Bob's profile, and Bob's profile already links to Carol's profile,
 then the query engine could fetch these three documents in sequence (Carol's pictures, Bob's profile, Carol's profile).

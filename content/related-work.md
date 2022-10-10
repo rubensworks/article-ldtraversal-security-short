@@ -6,12 +6,12 @@ This section lists relevant related work in the topics of LTQP and security.
 ### Link-Traversal-based Query Processing
 
 More than a decade ago, [Link-Traversal-based Query Processing (LTQP)](cite:cites sparqllinktraversal, linktraversal)
-has been introduced as an alternative query paradigm for enabling query execution over document-oriented interfaces.
+was been introduced as an alternative query paradigm for enabling query execution over document-oriented interfaces.
 These documents are usually [Linked Data](cite:cites linkeddata) serialized using any RDF serialization.
-RDF is suitable to LTQP and decentralization because of its global semantics,
+RDF is suitable for LTQP and decentralization because of its global semantics,
 which allows queries to be written independently of the schemas of specific documents.
 In order to execute these queries, LTQP processing occurs over live data,
-and discover links to other documents via the *follow-your-nose principle* during query execution.
+and discovers links to other documents via the *follow-your-nose principle* during query execution.
 This is in contrast to the typical query execution over centralized database-oriented interfaces such as SPARQL endpoints,
 where data is assumed to be loaded into the endpoint beforehand,
 and no additional data is discovered during query execution.
@@ -59,7 +59,7 @@ To the best of our knowledge, no security vulnerabilities have yet been identifi
 Web crawlers are typically used for Web indexing to aid search engines.
 [Focused crawling](cite:cites focusedcrawling) is a special form of Web crawling that prioritizes certain Web pages,
 such as Web pages about a certain topic, or domains for a certain country.
-LTQP can therefore be considered as an area of focused crawling that where the priority lies in achieving query results.
+LTQP can therefore be considered as an area of focused crawling where the priority lies in achieving query results.
 
 One related work in this area involves [abusing crawlers to initiate attacks on other Web sites](cite:cites crawlerattacks).
 This may cause performance degradation on the attacked Web site,
@@ -94,11 +94,11 @@ while Web browsers are user-driven.
 [Silic et al.](cite:cites securitymodernwebbrowserarchitecture)
 analyzed the architectures of modern Web browsers,
 determined the main vulnerabilities,
-and discuss how these issues are coped with.
+and discuss how these issues are handled.
 They list the following main threats for Web browsers:
 
 1. **System compromise**: Malicious arbitrary code execution with full privileges on behalf of the user. For example, exploits in the browser or third-party plugins caused by bugs. These types of attacks are mitigated through automatic updates once exploits become known.
-2. **Data theft**: Ability to steal local network or system data. For example, a Web page includes a subresource to URLs using the file scheme (`file://`). which are usually blocked.
+2. **Data theft**: Ability to steal local network or system data. For example, a Web page includes a subresource to URLs using the file scheme (`file://`), which are usually blocked.
 3. **Cross domain compromise**: Code from a Fully Qualified Domain Name (FQDN) executes code (or reads data) from another FQDN. For example, a malicious domain could extract authentication cookies from your bank's website you are logged into. This is usually blocked through the same-origin policy, but can be explicitly allowed through [Cross-Origin Resource Sharing (CORS)](https://fetch.spec.whatwg.org/#http-cors-protocol){:.mandatory}.
-4. **Session hijacking**: Session tokens are compromised through theft or session token prediction. For example, [cross-domain request forgery (CSRF)](cite:cites csrf) is a type of attack that involves an attacker forcing a user logged in on another Web site to perform an action without their consent. Web browsers do not protect against these, but are typically handled by Web frameworks via the [Synchronizer Token Pattern](cite:cites synchronizertokenpattern).
-5. **User interface compromise**: Manipulating the user interface to trick the user into performing an action without their knowledge. For example, placing an invisible button in front of another button. This category also includes CPU and memory hogging to block the user from taking any further actions. Web browser have limited protections for these types of attacks that involve placing limitations on user interface manipulations.
+4. **Session hijacking**: Session tokens are compromised through theft or session token prediction. For example, [cross-domain request forgery (CSRF)](cite:cites csrf) is a type of attack that involves an attacker forcing a user logged in on another Web site to perform an action without their consent. Web browsers do not protect against these attacks, but they are typically handled by Web frameworks via the [Synchronizer Token Pattern](cite:cites synchronizertokenpattern).
+5. **User interface compromise**: Manipulating the user interface to trick the user into performing an action without their knowledge. For example, placing an invisible button in front of another button. This category also includes CPU and memory hogging to block the user from taking any further actions. Web browsers have limited protections for these types of attacks that involve placing limitations on user interface manipulations.

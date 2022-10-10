@@ -3,8 +3,8 @@
 
 Contrary to the Web's initial design as a _decentralized_ ecosystem,
 the Web has grown to be a very centralized place,
-as large parts of the Web are currently made up of [a few large Bid Data-driven centralized platforms](cite:cites solid).
-This large-scale centralization has lead to a number of problems related to [personal information abuse](https://www.theguardian.com/technology/live/2018/apr/10/mark-zuckerberg-testimony-live-congress-facebook-cambridge-analytica),
+as large parts of the Web are currently made up of [a few large Big Data-driven centralized platforms](cite:cites solid).
+This large-scale centralization has led to a number of problems related to [personal information abuse](https://www.theguardian.com/technology/live/2018/apr/10/mark-zuckerberg-testimony-live-congress-facebook-cambridge-analytica),
 and other [economic and societal problems](https://fs.blog/2017/07/filter-bubbles/).
 In order to solve these problems, there are calls to go back to the original vision of a decentralized Web.
 The leading effort to achieve this decentralization is [Solid](cite:cites solid).
@@ -29,7 +29,7 @@ An LTQP query engine typically starts from one or more documents,
 and _traverses_ links between them in a crawling-manner in order to resolve the given query.
 
 Since LTQP is still a relative young area of research,
-in which there are still a number of open problems that need to be tackled,
+there are still a number of open problems that need to be tackled,
 notably [result completeness and query termination](cite:cites linktraversal).
 Aside from these known issues,
 we also state the importance of _security_.
