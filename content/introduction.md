@@ -18,7 +18,12 @@ Solid leads to a a Web where data is spread over a huge number of data sources.
 Our focus in this article is not on decentralizing data,
 but on finding data after it has been decentralized,
 which can be done via _query processing_.
-The issue of query processing over data has been primarily tackled from a Big Data standpoint so far.
+The issue of query processing over data has been
+<span class="placeholder printonly">
+<span style="display: block; height: 12em;"></span>
+<!-- This is a dummy placeholder -->
+</span>
+primarily tackled from a Big Data standpoint so far.
 However, if decentralization efforts such as Solid will become a reality,
 we need to be prepared for the need to query over a huge number of data sources.
 For example, decentralized social networking applications will need to be able to query over networks of friends containing hundreds or thousands of data documents.

@@ -145,10 +145,9 @@ hyphens:none;
   margin-bottom: 0.5em;
   text-transform:capitalize;
   .title {
-    text-transform: uppercase;
     display: block;
     font-weight: bold;
-    font-size:1.333em;
+    font-size:1em;
     margin: 0.75em 0 0.25em;
   }
 }
@@ -158,13 +157,16 @@ hyphens:none;
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+.firstpagefootertop {
+  line-height: 0.1em;
+  display: block;
   width: 48%;
+  border-top: 1px solid black;
 }
 
 .footnotecopyright {
-  border-top: 1px solid black;
-  padding-top: 3px;
-  display: block;
   line-height:1.1em;
   font-size:0.8em;
 }

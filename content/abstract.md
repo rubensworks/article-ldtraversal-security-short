@@ -24,3 +24,23 @@ and tested for their effectiveness.
 <!-- Perspectives -->
 With this work, we start filling the unknowns for enabling query execution over decentralized environments.
 Aside from future work on security, wider research will be needed to uncover missing building blocks for enabling true data decentralization.
+
+<span id="keywords" rel="schema:about"><span class="title">Keywords</span>
+<a href="https://en.wikipedia.org/wiki/Linked_Data" resource="http://dbpedia.org/resource/Linked_Data">Linked Data</a>,
+<a href="https://en.wikipedia.org/wiki/Resource_Description_Framework" resource="http://dbpedia.org/resource/Resource_Description_Framework">RDF</a>,
+Link Traversal,
+SPARQL,
+Security,
+Solid
+</span>
+
+<span class="printonly firstpagefooter">
+<span class="firstpagefootertop">&nbsp;</span>
+<span class="footnotecopyright">
+<span style="font-style:italic">6th Workshop on Storing, Querying and Benchmarking Knowledge Graphs (QuWeDa) at ISWC 2022, virtual</span><br />
+* Corresponding author.<br />
+<img src="img/mail.png" width="12px" /> ruben.taelman@ugent.be (R. Taelman); <img src="img/mail.png" width="12px" /> ruben.verborgh@ugent.be (R. Verborgh)<br />
+<img src="img/cc-by.png" width="50px" /><span style="font-size: 0.75em">© 2021 Copyright for this paper by its authors. Use permitted under Creative Commons License Attribution 4.0 International (CC BY 4.0).</span><br />
+<img src="img/ceur-ws-logo.png" width="50px" />CEUR Workshop Proceedings (<a href="https://CEUR-WS.org">CEUR-WS.org</a>)<br />
+</span>
+</span>
